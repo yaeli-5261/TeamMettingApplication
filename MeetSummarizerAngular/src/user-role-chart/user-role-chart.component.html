@@ -1,0 +1,117 @@
+<!-- 
+@if(loading) {
+  <div class="loading-spinner">
+    <mat-spinner></mat-spinner>
+  </div>
+}
+@if (!loading) {
+<div >
+  <h2>התפלגות משתמשים לפי תפקיד</h2>
+  <canvas baseChart
+    [data]="pieChartData"
+    [type]="pieChartType"
+    [legend]="true">
+  </canvas>
+</div>
+} -->
+
+
+
+
+
+
+<div class="chart-card">
+    <div class="chart-header">
+      <h2>User Role Distribution</h2>
+      <button class="refresh-button" (click)="refreshData()" [disabled]="loading">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="refresh-icon">
+          <path d="M23 4v6h-6"></path>
+          <path d="M1 20v-6h6"></path>
+          <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+        </svg>
+        <span>Refresh</span>
+      </button>
+    </div>
+  
+    @if(loading) {
+      <div class="loading-container">
+        <mat-spinner diameter="40"></mat-spinner>
+        <p>Loading role distribution data...</p>
+      </div>
+    } @else if(error) {
+      <div class="error-container">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12" y2="12"></line>
+          <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+        <p>{{ error }}</p>
+        <button class="retry-button" (click)="refreshData()">Try Again</button>
+      </div>
+    } @else if(totalUsers === 0) {
+      <div class="empty-container">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="8" y1="12" x2="16" y2="12"></line>
+        </svg>
+        <p>No user data available</p>
+      </div>
+    } @else {
+      <div class="chart-content">
+        <div class="chart-container">
+          <canvas #canvas baseChart
+            [data]="pieChartData"
+            [type]="pieChartType"
+            [options]="{
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: {
+                  position: 'right',
+                  labels: {
+                    padding: 20,
+                    usePointStyle: true,
+                    pointStyle: 'circle'
+                  }
+                },
+                tooltip: {
+                  backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                  padding: 12,
+                  titleFont: {
+                    size: 14
+                  },
+                  bodyFont: {
+                    size: 14
+                  },
+                  displayColors: true,
+                  boxPadding: 6
+                }
+              }
+            }">
+          </canvas>
+        </div>
+        
+        <div class="stats-container">
+          <div class="total-users">
+            <span class="total-count">{{ totalUsers }}</span>
+            <span class="total-label">Total Users</span>
+          </div>
+          
+          <div class="role-stats">
+            @for(item of roleDistribution; track item.role) {
+              <div class="role-stat-item">
+                <div class="role-info">
+                  <span class="role-name">{{ item.role }}</span>
+                  <div class="role-details">
+                    <span class="role-count">{{ item.count }} users</span>
+                    <span class="role-percentage">{{ item.percentage }}%</span>
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+  

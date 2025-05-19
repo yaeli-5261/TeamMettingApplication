@@ -1,0 +1,106 @@
+<!-- <div class="calendar">
+    <div class="calendar-header">
+        {{ currentMonth | date: 'MMMM yyyy' }}
+    </div>
+
+    <div class="calendar-grid">
+        @for (day of days; track days) {
+        <div class="day" [style.backgroundColor]="getHeatColor(day.meetingCount)">
+            <div class="date">{{ day.date.getDate() }}</div>
+            <div class="meetings">{{ day.meetingCount }} פגישות</div>
+        </div>
+        }
+
+    </div>
+</div> -->
+
+
+
+
+<div class="calendar-container">
+    <div class="calendar-header">
+        <h1>Meeting Calendar</h1>
+        <p class="calendar-subtitle">Heatmap visualization of meeting frequency</p>
+    </div>
+
+    <div class="calendar-card">
+        <div class="calendar-controls">
+            <h2>{{ formatMonthYear(currentMonth) }}</h2>
+            <div class="calendar-nav">
+                <button class="calendar-nav-button" (click)="previousMonth()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>
+                </button>
+                <button class="calendar-nav-button" (click)="nextMonth()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        @if(isLoading) {
+        <div class="loading-container">
+            <div class="loading-spinner"></div>
+            <p>Loading calendar...</p>
+        </div>
+        } @else {
+        <div class="calendar">
+            <div class="calendar-weekdays">
+                @for(day of weekdays; track $index) {
+                <div class="weekday">{{ day }}</div>
+               
+
+            <div  class="weekday">{{ day }}</div>
+        }
+    </div>
+        </div>
+
+        <div class="calendar-grid">
+            @for(day of days; track $index) {
+            <div class="calendar-day" [class.current-month]="isCurrentMonth(day.date)" [class.today]="isToday(day.date)"
+                [style.backgroundColor]="isCurrentMonth(day.date) ? getHeatColor(day.meetingCount) : '#f9fafb'">
+                <div class="day-number">{{ day.date.getDate() }}</div>
+                @if(isCurrentMonth(day.date) && day.meetingCount > 0) {
+                <div class="meeting-count">{{ day.meetingCount }} meetings</div>
+                }
+            </div>
+            }
+        </div>
+    
+
+    <div class="calendar-legend">
+        <h3>Meeting Frequency</h3>
+        <div class="legend-items">
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #e0f7fa;"></div>
+                <div class="legend-label">0 meetings</div>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #b2ebf2;"></div>
+                <div class="legend-label">1 meeting</div>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #4dd0e1;"></div>
+                <div class="legend-label">2 meetings</div>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #26c6da;"></div>
+                <div class="legend-label">3 meetings</div>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #00acc1;"></div>
+                <div class="legend-label">4 meetings</div>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #00838f;"></div>
+                <div class="legend-label">5+ meetings</div>
+            </div>
+        </div>
+    </div>
+    }
+</div>
+</div>

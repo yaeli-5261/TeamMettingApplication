@@ -1,0 +1,230 @@
+   <div class="users-container">
+    <div class="users-header">
+      <h1>Users</h1>
+      <p class="users-subtitle">Manage and view all users in the system</p>
+    </div>
+  
+    <div class="users-card">
+      <div class="users-toolbar">
+        <div class="search-container">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <input 
+            type="text" 
+            placeholder="Search users..." 
+            [(ngModel)]="searchQuery" 
+            (input)="filterUsers()"
+          >
+        </div>
+      </div>
+  
+      @if(isLoading) {
+        <div class="loading-container">
+          <div class="loading-spinner"></div>
+          <p>Loading users...</p>
+        </div>
+      } @else if(error) {
+        <div class="error-container">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 9V11M12 15H12.01M5.07183 19H18.9282C20.4678 19 21.4301 17.3333 20.6603 16L13.7321 4C12.9623 2.66667 11.0377 2.66667 10.2679 4L3.33975 16C2.56998 17.3333 3.53223 19 5.07183 19Z" stroke="#b91c1c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <p>{{ error }}</p>
+        </div>
+      } @else if(filteredUsers.length === 0) {
+        <div class="empty-container">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17 21V19C17 17.9391 16.5786 16.9217 15.8284 16.1716C15.0783 15.4214 14.0609 15 13 15H5C3.93913 15 2.92172 15.4214 2.17157 16.1716C1.42143 16.9217 1 17.9391 1 19V21M13 7C13 9.20914 11.2091 11 9 11C6.79086 11 5 9.20914 5 7C5 4.79086 6.79086 3 9 3C11.2091 3 13 4.79086 13 7ZM23 21V19C22.9993 18.1137 22.7044 17.2528 22.1614 16.5523C21.6184 15.8519 20.8581 15.3516 20 15.13M16 3.13C16.8604 3.35031 17.623 3.85071 18.1676 4.55232C18.7122 5.25392 19.0078 6.11683 19.0078 7.005C19.0078 7.89318 18.7122 8.75608 18.1676 9.45769C17.623 10.1593 16.8604 10.6597 16 10.88" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <p>{{ searchQuery ? 'No users match your search' : 'No users found' }}</p>
+        </div>
+      } @else {
+        <div class="users-table-container">
+          <table class="users-table">
+            <thead>
+              <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Team</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for(user of filteredUsers; track user.id) {
+                @if(user?.userName) {
+                  <tr>
+                    <td class="username-cell">
+                      <div class="user-avatar">{{ user.userName.charAt(0).toUpperCase() }}</div>
+                      <span>{{ user.userName }}</span>
+                    </td>
+                    <td>{{ user.email }}</td>
+                    <td>
+                      @if(user.role?.roleName) {
+                        <span class="role-badge {{ user.role ? getRoleBadgeClass('${user.role.roleName}') : '' }}">
+                            {{ user.role?.roleName }}
+                          </span>
+                      } @else {
+                        <span class="na-text">N/A</span>
+                      }
+                    </td>
+                    <td>{{ user.team?.name || 'N/A' }}</td>
+                    <td class="actions-cell">
+                      <button class="action-button email-button" (click)="openEmailModal(user)" title="Email User">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M4 4H20C21.1 4 22 4.9 22 6V18C22 19.1 21.1 20 20 20H4C2.9 20 2 19.1 2 18V6C2 4.9 2.9 4 4 4Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                          <path d="M22 6L12 13L2 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                      </button>
+                      <button class="action-button delete-button" (click)="openDeleteConfirm(user)" title="Delete User">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M3 6H5H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                          <path d="M8 6V4C8 3.46957 8.21071 2.96086 8.58579 2.58579C8.96086 2.21071 9.46957 2 10 2H14C14.5304 2 15.0391 2.21071 15.4142 2.58579C15.7893 2.96086 16 3.46957 16 4V6M19 6V20C19 20.5304 18.7893 21.0391 18.4142 21.4142C18.0391 21.7893 17.5304 22 17 22H7C6.46957 22 5.96086 21.7893 5.58579 21.4142C5.21071 21.0391 5 20.5304 5 20V6H19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                          <path d="M10 11V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                          <path d="M14 11V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                      </button>
+                    </td>
+                  </tr>
+                }
+              }
+            </tbody>
+          </table>
+        </div>
+        
+        <div class="users-count">
+          Showing {{ filteredUsers.length }} of {{ users.length }} users
+        </div>
+      }
+    </div>
+  </div>
+  
+  @if(showDeleteConfirm) {
+    <div class="modal-overlay">
+      <div class="modal-container">
+        <div class="modal-header">
+          <h2>Delete User</h2>
+          <button class="modal-close" (click)="closeDeleteConfirm()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+        <div class="modal-content">
+          @if(deleteError) {
+            <div class="modal-error">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 9V11M12 15H12.01M5.07183 19H18.9282C20.4678 19 21.4301 17.3333 20.6603 16L13.7321 4C12.9623 2.66667 11.0377 2.66667 10.2679 4L3.33975 16C2.56998 17.3333 3.53223 19 5.07183 19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span>{{ deleteError }}</span>
+            </div>
+          }
+          @if(deleteSuccess) {
+            <div class="modal-success">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M22 11.0857V12.0057C21.9988 14.1621 21.3005 16.2604 20.0093 17.9875C18.7182 19.7147 16.9033 20.9782 14.8354 21.5896C12.7674 22.201 10.5573 22.1276 8.53447 21.3803C6.51168 20.633 4.78465 19.2518 3.61096 17.4428C2.43727 15.6338 1.87979 13.4938 2.02168 11.342C2.16356 9.19029 2.99721 7.14205 4.39828 5.5028C5.79935 3.86354 7.69279 2.72111 9.79619 2.24587C11.8996 1.77063 14.1003 1.98806 16.07 2.86572M22 4L12 14.01L9 11.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span>{{ deleteSuccess }}</span>
+            </div>
+          }
+          <p class="confirm-message">
+            Are you sure you want to delete the user <strong>{{ userToDelete?.userName }}</strong>?
+            <br>This action cannot be undone.
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button class="modal-button cancel-button" (click)="closeDeleteConfirm()" [disabled]="deleteLoading">Cancel</button>
+          <button class="modal-button delete-confirm-button" (click)="deleteUser()" [disabled]="deleteLoading">
+            @if(deleteLoading) {
+              <div class="button-spinner"></div>
+              <span>Deleting...</span>
+            } @else {
+              <span>Delete User</span>
+            }
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+      
+  @if(showEmailModal) {
+    <div class="modal-overlay">
+      <div class="modal-container email-modal">
+        <div class="modal-header">
+          <h2>Send Email</h2>
+          <button class="modal-close" (click)="closeEmailModal()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+        <div class="modal-content">
+          @if(emailError) {
+            <div class="modal-error">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 9V11M12 15H12.01M5.07183 19H18.9282C20.4678 19 21.4301 17.3333 20.6603 16L13.7321 4C12.9623 2.66667 11.0377 2.66667 10.2679 4L3.33975 16C2.56998 17.3333 3.53223 19 5.07183 19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span>{{ emailError }}</span>
+            </div>
+          }
+          @if(emailSuccess) {
+            <div class="modal-success">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M22 11.0857V12.0057C21.9988 14.1621 21.3005 16.2604 20.0093 17.9875C18.7182 19.7147 16.9033 20.9782 14.8354 21.5896C12.7674 22.201 10.5573 22.1276 8.53447 21.3803C6.51168 20.633 4.78465 19.2518 3.61096 17.4428C2.43727 15.6338 1.87979 13.4938 2.02168 11.342C2.16356 9.19029 2.99721 7.14205 4.39828 5.5028C5.79935 3.86354 7.69279 2.72111 9.79619 2.24587C11.8996 1.77063 14.1003 1.98806 16.07 2.86572M22 4L12 14.01L9 11.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span>{{ emailSuccess }}</span>
+            </div>
+          }
+          
+          <div class="email-recipient">
+            <strong>To:</strong> {{ userToEmail?.email }}
+          </div>
+          
+          <form [formGroup]="emailForm" (ngSubmit)="sendEmail()" class="email-form">
+            <div class="form-group">
+              <label for="subject">Subject</label>
+              <div class="input-container">
+                <input 
+                  id="subject" 
+                  type="text" 
+                  formControlName="subject" 
+                  placeholder="Enter email subject"
+                  [class.error]="emailForm.get('subject')?.invalid && emailForm.get('subject')?.touched"
+                >
+              </div>
+              @if(emailForm.get('subject')?.invalid && emailForm.get('subject')?.touched) {
+                <div class="error-message">Subject is required</div>
+              }
+            </div>
+  
+            <div class="form-group">
+              <label for="message">Message</label>
+              <div class="textarea-container">
+                <textarea 
+                  id="message" 
+                  formControlName="message" 
+                  placeholder="Enter your message"
+                  rows="6"
+                  [class.error]="emailForm.get('message')?.invalid && emailForm.get('message')?.touched"
+                ></textarea>
+              </div>
+              @if(emailForm.get('message')?.invalid && emailForm.get('message')?.touched) {
+                <div class="error-message">Message is required</div>
+              }
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="modal-button cancel-button" (click)="closeEmailModal()" [disabled]="emailLoading">Cancel</button>
+          <button class="modal-button send-button" (click)="sendEmail()" [disabled]="emailForm.invalid || emailLoading">
+            @if(emailLoading) {
+              <div class="button-spinner"></div>
+              <span>Sending...</span>
+            } @else {
+              <span>Send Email</span>
+            }
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+  

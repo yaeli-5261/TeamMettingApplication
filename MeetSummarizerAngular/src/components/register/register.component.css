@@ -1,0 +1,563 @@
+/* .register-container {
+    padding: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .register-header {
+    margin-bottom: 2rem;
+  }
+  
+  .register-header h1 {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #111827;
+  }
+  
+  .register-subtitle {
+    color: #6b7280;
+    font-size: 1rem;
+  }
+  
+  .register-card {
+    background-color: white;
+    border-radius: 0.75rem;
+    padding: 2rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  .register-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  
+  .form-group label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #111827;
+  }
+  
+  .input-container,
+  .select-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  
+  .input-container svg,
+  .select-container svg:not(.select-arrow) {
+    position: absolute;
+    left: 0.75rem;
+    color: #6b7280;
+  }
+  
+  .input-container input,
+  .select-container select {
+    width: 100%;
+    padding: 0.625rem 0.75rem 0.625rem 2.25rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    background-color: white;
+  }
+  
+  .input-container input:focus,
+  .select-container select:focus {
+    outline: none;
+    border-color: #10a37f;
+    box-shadow: 0 0 0 2px rgba(16, 163, 127, 0.2);
+  }
+  
+  .input-container input.error,
+  .select-container select.error {
+    border-color: #ef4444;
+  }
+  
+  .select-arrow {
+    position: absolute;
+    right: 0.75rem;
+    color: #6b7280;
+    pointer-events: none;
+  }
+  
+  .password-toggle {
+    position: absolute;
+    right: 0.75rem;
+    background: none;
+    border: none;
+    color: #6b7280;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+  }
+  
+  .password-toggle:hover {
+    color: #111827;
+  }
+  
+  .error-message {
+    font-size: 0.75rem;
+    color: #ef4444;
+  }
+  
+  .error-alert {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    background-color: #fee2e2;
+    color: #b91c1c;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+  }
+  
+  .error-alert svg {
+    flex-shrink: 0;
+    color: #b91c1c;
+  }
+  
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1rem;
+  }
+  
+  .submit-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1.25rem;
+    background-color: #10a37f;
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .submit-button:hover {
+    background-color: #0d8c6d;
+  }
+  
+  .submit-button:disabled {
+    background-color: #d1d5db;
+    cursor: not-allowed;
+  }
+  
+  .loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1rem;
+    color: #6b7280;
+  }
+  
+  .loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(16, 163, 127, 0.1);
+    border-radius: 50%;
+    border-top-color: #10a37f;
+    animation: spin 1s ease-in-out infinite;
+    margin-bottom: 1rem;
+  }
+  
+  .loading-spinner-small {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 1s ease-in-out infinite;
+  }
+  
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .register-container {
+      padding: 1rem;
+    }
+  
+    .register-card {
+      padding: 1.5rem;
+    }
+  
+    .form-row {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .register-header h1 {
+      font-size: 1.5rem;
+    }
+  
+    .register-subtitle {
+      font-size: 0.875rem;
+    }
+  
+    .register-card {
+      padding: 1rem;
+    }
+  
+    .form-actions {
+      justify-content: center;
+    }
+  
+    .submit-button {
+      width: 100%;
+    }
+  }
+   */
+
+
+
+
+
+
+
+
+
+
+   .register-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #f9fafb;
+    padding: 1rem;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .register-card {
+    width: 100%;
+    max-width: 600px;
+    background-color: white;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    position: relative;
+    z-index: 10;
+  }
+  
+  .register-header {
+    padding: 2.5rem 2.5rem 1.5rem;
+    text-align: center;
+  }
+  
+  .login-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+    cursor: pointer;
+  }
+  
+  .login-logo span {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #111827;
+  }
+  
+  .register-header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 0.5rem;
+  }
+  
+  .register-subtitle {
+    color: #6b7280;
+    font-size: 1rem;
+  }
+  
+  .register-form {
+    padding: 0 2.5rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  
+  .form-group label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #111827;
+  }
+  
+  .input-container,
+  .select-container {
+    position: relative;
+  }
+  
+  .input-container svg,
+  .select-container svg:not(.select-arrow) {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6b7280;
+  }
+  
+  .input-container input,
+  .select-container select {
+    width: 100%;
+    padding: 0.75rem 1rem 0.75rem 2.75rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    transition: all 0.2s;
+  }
+  
+  .input-container input:focus,
+  .select-container select:focus {
+    outline: none;
+    border-color: #10a37f;
+    box-shadow: 0 0 0 3px rgba(16, 163, 127, 0.1);
+  }
+  
+  .input-container input.error,
+  .select-container select.error {
+    border-color: #ef4444;
+  }
+  
+  .select-arrow {
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6b7280;
+    pointer-events: none;
+  }
+  
+  .password-toggle {
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #6b7280;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+  }
+  
+  .password-toggle:hover {
+    color: #111827;
+  }
+  
+  .error-message {
+    font-size: 0.75rem;
+    color: #ef4444;
+  }
+  
+  .error-alert {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    background-color: #fee2e2;
+    color: #b91c1c;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .error-alert svg {
+    flex-shrink: 0;
+    color: #b91c1c;
+  }
+  
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1rem;
+  }
+  
+  .submit-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background-color: #10a37f;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    width: 100%;
+  }
+  
+  .submit-button:hover {
+    background-color: #0d8c6d;
+  }
+  
+  .submit-button:disabled {
+    background-color: #d1d5db;
+    cursor: not-allowed;
+  }
+  
+  .loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1rem;
+    color: #6b7280;
+  }
+  
+  .loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(16, 163, 127, 0.1);
+    border-radius: 50%;
+    border-top-color: #10a37f;
+    animation: spin 1s ease-in-out infinite;
+    margin-bottom: 1rem;
+  }
+  
+  .loading-spinner-small {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 1s ease-in-out infinite;
+  }
+  
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  .register-footer {
+    padding: 1.5rem 2.5rem;
+    text-align: center;
+    border-top: 1px solid #f3f4f6;
+    font-size: 0.75rem;
+    color: #9ca3af;
+  }
+  
+  .register-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    overflow: hidden;
+  }
+  
+  .register-background-shape {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.1;
+  }
+  
+  .shape-1 {
+    width: 500px;
+    height: 500px;
+    background-color: #10a37f;
+    top: -200px;
+    right: -100px;
+  }
+  
+  .shape-2 {
+    width: 300px;
+    height: 300px;
+    background-color: #3498db;
+    bottom: -100px;
+    left: -100px;
+  }
+  
+  .shape-3 {
+    width: 200px;
+    height: 200px;
+    background-color: #9b59b6;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .register-container {
+      padding: 1rem;
+    }
+  
+    .register-card {
+      padding: 1.5rem;
+    }
+  
+    .form-row {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .register-header h1 {
+      font-size: 1.5rem;
+    }
+  
+    .register-subtitle {
+      font-size: 0.875rem;
+    }
+  
+    .register-card {
+      padding: 1rem;
+    }
+  
+    .form-actions {
+      justify-content: center;
+    }
+  
+    .submit-button {
+      width: 100%;
+    }
+  }
+  
