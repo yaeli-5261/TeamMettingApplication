@@ -18,8 +18,8 @@ namespace MeetSummarizer.Core.Entities
         public string UserName { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
-        public DateTime UpdatedAt { get; set; } = DateTime.Now;
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
         public int TeamId { get; set; }
 
         //[DefaultValue(21)]

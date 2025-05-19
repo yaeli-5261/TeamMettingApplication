@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,9 +11,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MeetSummarizer.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20250519194451_New222")]
+    partial class New222
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -82,26 +85,26 @@ namespace MeetSummarizer.Data.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2025, 5, 19, 19, 47, 19, 417, DateTimeKind.Utc).AddTicks(8327),
+                            CreatedAt = new DateTime(2025, 5, 19, 19, 44, 50, 678, DateTimeKind.Utc).AddTicks(7642),
                             Description = "System Administrator",
                             RoleName = "Admin",
-                            UpdatedAt = new DateTime(2025, 5, 19, 19, 47, 19, 417, DateTimeKind.Utc).AddTicks(8328)
+                            UpdatedAt = new DateTime(2025, 5, 19, 19, 44, 50, 678, DateTimeKind.Utc).AddTicks(7643)
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2025, 5, 19, 19, 47, 19, 417, DateTimeKind.Utc).AddTicks(8331),
+                            CreatedAt = new DateTime(2025, 5, 19, 19, 44, 50, 678, DateTimeKind.Utc).AddTicks(7646),
                             Description = "System TeamHeadetor",
                             RoleName = "TeamHeader",
-                            UpdatedAt = new DateTime(2025, 5, 19, 19, 47, 19, 417, DateTimeKind.Utc).AddTicks(8331)
+                            UpdatedAt = new DateTime(2025, 5, 19, 19, 44, 50, 678, DateTimeKind.Utc).AddTicks(7646)
                         },
                         new
                         {
                             Id = 3,
-                            CreatedAt = new DateTime(2025, 5, 19, 19, 47, 19, 417, DateTimeKind.Utc).AddTicks(8333),
+                            CreatedAt = new DateTime(2025, 5, 19, 19, 44, 50, 678, DateTimeKind.Utc).AddTicks(7648),
                             Description = "System Developmen",
                             RoleName = "Developmen",
-                            UpdatedAt = new DateTime(2025, 5, 19, 19, 47, 19, 417, DateTimeKind.Utc).AddTicks(8334)
+                            UpdatedAt = new DateTime(2025, 5, 19, 19, 44, 50, 678, DateTimeKind.Utc).AddTicks(7649)
                         });
                 });
 

@@ -11,6 +11,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
 using Amazon.S3;
+using Npgsql.EntityFrameworkCore.PostgreSQL;
 using Amazon.Runtime;
 using System.Text.Json.Serialization;
 using MeetSummarizer.Data.MeetSummarizer.Data;
@@ -122,8 +123,11 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("Admin", policy => policy.RequireRole("Admin"));
     options.AddPolicy("AdminAndWorker", policy => policy.RequireRole("Worker", "Admin"));
 });
+//builder.Services.AddDbContext<DataContext>(options =>
+//    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddDbContext<DataContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAllOrigins",
