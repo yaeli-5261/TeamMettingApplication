@@ -14,6 +14,9 @@ import FileShare from "./FileShare"
 import FileViewer from "./FileViewer"
 
 export const FileUploader = () => {
+
+  const apiUrl = process.env.REACT_APP_API_URL;
+
   const [file, setFile] = useState<File | null>(null)
   const [progress, setProgress] = useState<number>(0)
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null)
@@ -116,7 +119,7 @@ export const FileUploader = () => {
         IsTranscript: true,
       }
 
-      await axios.put("https://localhost:7214/api/Meeting/update-meeting-file", fileMetadata, {
+      await axios.put(`${apiUrl}/Meeting/update-meeting-file", fileMetadata`, {
         headers: { Authorization: `Bearer ${getCookie("auth_token")}` },
       })
 
@@ -146,7 +149,7 @@ export const FileUploader = () => {
       setProgress(0)
 
       // Get presigned URL from your API
-      const response = await axios.get("https://localhost:7214/api/upload/presigned-url", {
+      const response = await axios.get(`${apiUrl}/upload/presigned-url`, {
         params: {
           fileName: `${meeting?.teamId}/${file.name}`,
           contentType: file.type,
@@ -172,12 +175,12 @@ export const FileUploader = () => {
         IsTranscript: false,
       }
 
-      await axios.put("https://localhost:7214/api/Meeting/update-meeting-file", fileMetadata, {
+      await axios.put(`${apiUrl}/Meeting/update-meeting-file", fileMetadata`, {
         headers: { Authorization: `Bearer ${getCookie("auth_token")}` },
       })
 
       // Get download URL for the uploaded file
-      const downloadResponse = await axios.get("https://localhost:7214/api/upload/download-url", {
+      const downloadResponse = await axios.get(`${apiUrl}/upload/download-url`, {
         params: { fileName: `${meeting?.teamId}/${file.name}` },
         headers: { Authorization: `Bearer ${getCookie("auth_token")}` },
       })

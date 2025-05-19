@@ -13,6 +13,9 @@ interface FileViewerProps {
 }
 
 const FileViewer = ({ filePath, fileName, isAiGenerated = false }: FileViewerProps) => {
+  
+  const apiUrl = process.env.REACT_APP_API_URL;
+
   const [fileUrl, setFileUrl] = useState<string | null>(null)
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null)
   const [docxHtml, setDocxHtml] = useState<string | null>(null)
@@ -55,7 +58,7 @@ const FileViewer = ({ filePath, fileName, isAiGenerated = false }: FileViewerPro
         return
       }
 
-      const response = await axios.get("https://localhost:7214/api/upload/download-url", {
+      const response = await axios.get(`${apiUrl}/upload/download-url`, {
         params: { fileName: filePath },
         headers: { Authorization: `Bearer ${getCookie("auth_token")}` },
       })
@@ -136,7 +139,7 @@ const FileViewer = ({ filePath, fileName, isAiGenerated = false }: FileViewerPro
           }
 
           // Get a new presigned URL for the file
-          const presignedResponse = await axios.get("https://localhost:7214/api/upload/download-url", {
+          const presignedResponse = await axios.get(`${apiUrl}/upload/download-url`, {
             params: { fileName: fileKey },
             headers: { Authorization: `Bearer ${getCookie("auth_token")}` },
           })
@@ -242,7 +245,7 @@ const FileViewer = ({ filePath, fileName, isAiGenerated = false }: FileViewerPro
           }
 
           // Get a new presigned URL for the file
-          const presignedResponse = await axios.get("https://localhost:7214/api/upload/download-url", {
+          const presignedResponse = await axios.get(`${apiUrl}/upload/download-url`, {
             params: { fileName: fileKey },
             headers: { Authorization: `Bearer ${getCookie("auth_token")}` },
           })

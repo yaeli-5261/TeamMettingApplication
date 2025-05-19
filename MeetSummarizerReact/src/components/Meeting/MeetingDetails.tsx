@@ -36,6 +36,9 @@ import FileUploader from "../File/FileUploader"
 import FileViewer from "../File/FileViewer"
 
 export default function MeetingDetails() {
+
+  const apiUrl = process.env.REACT_APP_API_URL;
+
   const { meetingId } = useParams<{ meetingId: string }>()
   const [meeting, setMeeting] = useState<MeetingDTO | null>(null)
   const [selectedMeeting, setSelectedMeeting] = useState<MeetingDTO | null>(null)
@@ -70,7 +73,7 @@ export default function MeetingDetails() {
   const fetchFileContent = async (fileUrl: string) => {
     try {
       // Get download URL from file path
-      const response = await axios.get("https://localhost:7214/api/upload/download-url", {
+      const response = await axios.get(`${apiUrl}/upload/download-url`, {
         params: { fileName: fileUrl },
         headers: { Authorization: `Bearer ${getCookie("auth_token")}` },
       })

@@ -1,7 +1,8 @@
 import axios from "axios"
 import type { MeetingDTO } from "../models/meetingTypes"
 
-const API_URL = "https://localhost:7214/api/Meeting"
+const apiUrl = process.env.REACT_APP_API_URL;
+const API_URL = `${apiUrl}/Meeting`
 
 // פונקציה לקבלת ערך מ-cookie
 export const getCookie = (name: string): string => {
