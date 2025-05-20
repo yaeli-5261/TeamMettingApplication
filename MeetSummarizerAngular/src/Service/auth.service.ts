@@ -134,6 +134,7 @@ import { Injectable } from "@angular/core"
 import { HttpClient, HttpHeaders } from "@angular/common/http"
 import { type Observable, of, throwError } from "rxjs"
 import { catchError, delay } from "rxjs/operators"
+import { environment } from "../environments/environment.prod"
 
 interface LoginResponse {
   token: string
@@ -151,7 +152,8 @@ interface LoginResponse {
   providedIn: "root",
 })
 export class AuthService {
-  private baseApiUrl = "https://localhost:7214/api"
+
+  private baseApiUrl = `${environment.apiUrl}/api`
 
   constructor(private http: HttpClient) {}
 

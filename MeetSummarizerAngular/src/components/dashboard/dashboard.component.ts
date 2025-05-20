@@ -6,6 +6,7 @@ import { AuthService } from "../../Service/auth.service"
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner"
 import { ListUsersComponent } from "../list-users/list-users.component"
 import { UserRoleChartComponent } from "../../user-role-chart/user-role-chart.component";
+import { environment } from "../../environments/environment.prod"
 
 interface TeamMeetingData {
   name: string
@@ -34,7 +35,7 @@ export class DashboardComponent implements OnInit {
   totalUsers = 0
   isLoading = true
   error = ""
-  apiUrl = "https://localhost:7214/api"
+  apiUrl = `${environment.apiUrl}/api`
 
   view: [number, number] = [700, 400]
   showXAxis = true
