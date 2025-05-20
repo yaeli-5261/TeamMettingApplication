@@ -85,7 +85,7 @@ export const FileUploader = () => {
     try {
       console.log("Sending file for AI processing:", fileUrl)
 
-      const response = await fetch("http://localhost:8000/generate", {
+      const response = await fetch(`${apiUrl}/generate`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
