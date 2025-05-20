@@ -9,7 +9,7 @@ import type { AppDispatch, RootState } from "../../store/store"
 import { fetchMeetingsByTeam } from "../../store/meetingSlice"
 import { Box, Button, Typography, Paper, CircularProgress, Alert, Divider, Chip } from "@mui/material"
 import { CloudUpload, Delete } from "@mui/icons-material"
-import "./fileUploader.css"
+import "./FileUploader.css"
 import FileShare from "./FileShare"
 import FileViewer from "./FileViewer"
 
