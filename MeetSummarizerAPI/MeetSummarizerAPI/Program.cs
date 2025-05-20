@@ -135,6 +135,17 @@ builder.Services.AddCors(options =>
                           .AllowAnyMethod()
                           .AllowAnyHeader());
 });
+/////פה הוספתי 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowLocalhost", policy =>
+    {
+        policy.WithOrigins("http://localhost:5174")
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 var app = builder.Build();
 
 
@@ -172,6 +183,8 @@ app.UseDeveloperExceptionPage();
 
 app.UseHttpsRedirection();
 
+///פה הוספתי!!
+app.UseCors("AllowLocalhost");
 //ריאקט
 app.UseCors("AllowAllOrigins");
 
