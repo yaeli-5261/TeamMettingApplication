@@ -109,12 +109,12 @@ import { createAsyncThunk, createSlice, type PayloadAction } from "@reduxjs/tool
 import axios from "axios"
 import type { User } from "../models/user"
 
-const API_URL = "https://localhost:7214/api/Auth"
-
+// const API_URL = "https://localhost:7214/api/Auth"
+const apiUrl = import.meta.env.VITE_API_URL;
 // פעולה להתחברות
 export const signIn = createAsyncThunk("Auth/login", async (user: { email: string; password: string }, thunkAPI) => {
   try {
-    const res = await axios.post(`${API_URL}/login`, {
+    const res = await axios.post(`${apiUrl}/login`, {
       email: user.email,
       password: user.password,
     })
@@ -135,7 +135,7 @@ export const signUp = createAsyncThunk(
   "Auth/register",
   async (user: { userName: string; email: string; password: string; role: string }, thunkAPI) => {
     try {
-      const res = await axios.post(`${API_URL}/register`, {
+      const res = await axios.post(`${apiUrl}/register`, {
         userName: user.userName,
         Email: user.email,
         Password: user.password,
