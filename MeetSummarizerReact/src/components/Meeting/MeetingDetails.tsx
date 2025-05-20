@@ -37,7 +37,7 @@ import FileViewer from "../File/FileViewer"
 
 export default function MeetingDetails() {
 
-  const apiUrl = process.env.REACT_APP_API_URL;
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   const { meetingId } = useParams<{ meetingId: string }>()
   const [meeting, setMeeting] = useState<MeetingDTO | null>(null)

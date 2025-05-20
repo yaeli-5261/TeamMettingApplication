@@ -13,7 +13,7 @@ interface FileShareProps {
 const FileShare = ({ fileUrl, fileName }: FileShareProps) => {
   
 
-  const apiUrl = process.env.REACT_APP_API_URL;
+  const apiUrl = import.meta.env.VITE_API_URL;
   const [email, setEmail] = useState("")
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState<{ text: string; type: "success" | "error" } | null>(null)

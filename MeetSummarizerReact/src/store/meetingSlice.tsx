@@ -3,7 +3,7 @@ import axios from "axios"
 import type { MeetingDTO, MeetingPostDTO } from "../models/meetingTypes"
 import { getCookie } from "../services/meetingService"
 
-const apiUrl = process.env.REACT_APP_API_URL;
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const API_URL = `${apiUrl}/Meeting`
 

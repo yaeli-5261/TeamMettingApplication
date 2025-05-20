@@ -14,7 +14,7 @@ interface FileViewerProps {
 
 const FileViewer = ({ filePath, fileName, isAiGenerated = false }: FileViewerProps) => {
   
-  const apiUrl = process.env.REACT_APP_API_URL;
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   const [fileUrl, setFileUrl] = useState<string | null>(null)
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null)

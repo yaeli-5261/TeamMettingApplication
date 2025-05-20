@@ -15,7 +15,7 @@ import FileViewer from "./FileViewer"
 
 export const FileUploader = () => {
 
-  const apiUrl = process.env.REACT_APP_API_URL;
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   const [file, setFile] = useState<File | null>(null)
   const [progress, setProgress] = useState<number>(0)
