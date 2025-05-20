@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import axios from "axios"
 import { Box, Button, Typography, Alert, CircularProgress, Dialog } from "@mui/material"
 import { Visibility, Download, Close } from "@mui/icons-material"
-import "./fileViewer.css"
+import "./FileViewer.css"
 
 interface FileViewerProps {
   filePath: string
