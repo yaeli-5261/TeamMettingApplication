@@ -21,8 +21,11 @@ const SignIn = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     try {
+      console.log("before");
+      
       // שליחה של הנתונים ל-Redux
       const result = await dispatch(signIn({ email, password })).unwrap()
+console.log("after");
 
       // בדיקה אם ההתחברות הצליחה
       if (result && result.token) {
