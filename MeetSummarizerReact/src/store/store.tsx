@@ -8,8 +8,6 @@ const store = configureStore({
       meeting: meetingSlice.reducer,
     },
   });
-  
-
 // טיפוסים עבור Redux
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
