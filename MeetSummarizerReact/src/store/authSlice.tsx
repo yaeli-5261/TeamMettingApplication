@@ -120,7 +120,8 @@ export const signIn = createAsyncThunk("Auth/login", async (user: { email: strin
       headers: {
         'Content-Type': 'application/json'
       }})
-    console.log("Login response:", res.data);
+    console.log("Login response:", res.data.User);
+    console.log("Login Token:", res.data.Token);
 
 
     // שמירת הטוקן ב-cookie עם תאריך תפוגה ארוך (30 ימים)
