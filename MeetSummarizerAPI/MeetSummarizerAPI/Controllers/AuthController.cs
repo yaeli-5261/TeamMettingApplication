@@ -96,7 +96,7 @@ namespace MeetSummarizerAPI.Controllers
         }
 
         [HttpPost("register")]
-        [Authorize(Roles = "Admin")] // ✅ מאפשר רק למנהלים לרשום משתמשים חדשים
+        //[Authorize(Roles = "Admin")] // ✅ מאפשר רק למנהלים לרשום משתמשים חדשים
         public async Task<IActionResult> RegisterAsync([FromBody] RegisterDto model)
         {
             if (model == null)
