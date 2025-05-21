@@ -151,8 +151,7 @@ app.UseDeveloperExceptionPage();
     app.UseSwaggerUI();
 //}
 
-//ירקתי לבדוק אם יעבוד ברנדר
-//app.UseHttpsRedirection();
+app.UseHttpsRedirection();
 
 //ריאקט
 app.UseCors("AllowAllOrigins");
