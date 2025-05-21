@@ -87,17 +87,14 @@
 
 
 
-
-
 import { RouterProvider } from "react-router-dom";
 import { router } from "./router";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import { Provider } from "react-redux";
-import store from "./store/store";
+import { Provider, useDispatch } from "react-redux";
+import store, { AppDispatch } from "./store/store";
 import { checkAuthState } from "./store/authSlice";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux"; // או useAppDispatch אם הגדרת כזה בהוקס שלך
 
 const theme = createTheme({
   palette: {
@@ -133,7 +130,7 @@ const theme = createTheme({
 });
 
 function AppInner() {
-  const dispatch = useDispatch(); // או useAppDispatch()
+  const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
     dispatch(checkAuthState());
