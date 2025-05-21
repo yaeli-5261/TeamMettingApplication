@@ -110,10 +110,12 @@ import axios from "axios"
 import type { User } from "../models/user"
 
 //אולי להוריד את +"api" מהקישור
-const apiUrl = import.meta.env.VITE_API_URL+"api";
+const apiUrl = import.meta.env.VITE_API_URL;
 //תבדקי שהוא טען את הקישור איך??איפה?
 // פעולה להתחברות
 export const signIn = createAsyncThunk("Auth/login", async (user: { email: string; password: string }, thunkAPI) => {
+  console.log("signIn called with user:", user);
+  
   try {
     const res = await axios.post(`${apiUrl}/login`, {//הנה הקריאה
       email: user.email,
