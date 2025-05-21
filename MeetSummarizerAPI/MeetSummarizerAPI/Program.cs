@@ -135,42 +135,12 @@ builder.Services.AddCors(options =>
                           .AllowAnyMethod()
                           .AllowAnyHeader());
 });
-/////פה הוספתי 
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowLocalhost", policy =>
-    {
-        policy.WithOrigins("http://localhost:5174")
-              .AllowAnyHeader()
-              .AllowAnyMethod();
-    });
-});
+
 
 var app = builder.Build();
 
 
 
-
-
-//AWS
-//var accessKey = Environment.GetEnvironmentVariable("AWS_ACCESS_KEY_ID", EnvironmentVariableTarget.User);
-//var secretKey = Environment.GetEnvironmentVariable("AWS_SECRET_ACCESS_KEY", EnvironmentVariableTarget.User);
-//var awsRegion = Environment.GetEnvironmentVariable("AWS_REGION", EnvironmentVariableTarget.User);
-
-//if (string.IsNullOrEmpty(accessKey) || string.IsNullOrEmpty(secretKey) || string.IsNullOrEmpty(awsRegion))
-//{
-//    throw new Exception("Missing AWS credentials in environment variables");
-//}
-
-//var credentials = new BasicAWSCredentials(accessKey, secretKey);
-//var region = Amazon.RegionEndpoint.GetBySystemName(awsRegion);
-
-//var s3Client = new AmazonS3Client(credentials, region);
-//builder.Services.AddSingleton<IAmazonS3>(s3Client);
-
-//Console.WriteLine("S3 Client initialized successfully.");
-
-//var app = builder.Build();
 app.UseDeveloperExceptionPage();
 
 // Configure the HTTP request pipeline.
@@ -181,10 +151,9 @@ app.UseDeveloperExceptionPage();
     app.UseSwaggerUI();
 //}
 
-app.UseHttpsRedirection();
+//ירקתי לבדוק אם יעבוד ברנדר
+//app.UseHttpsRedirection();
 
-///פה הוספתי!!
-app.UseCors("AllowLocalhost");
 //ריאקט
 app.UseCors("AllowAllOrigins");
 

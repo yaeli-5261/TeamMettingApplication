@@ -25,7 +25,7 @@ namespace MeetSummarizer.API.Controllers
         }
 
         [HttpGet("Admin")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         //[HttpGet]
         public async Task<ActionResult<List<UserDTO>>> GetAll()
         {
