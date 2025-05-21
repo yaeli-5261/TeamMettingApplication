@@ -18,13 +18,20 @@ const SignIn = () => {
   const navigate = useNavigate()
   const { loading, error } = useSelector((state: RootState) => state.auth)
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+
+  console.log("handleSubmit called============1111111111111",e);
+  
     e.preventDefault()
+  console.log("handleSubmit called============1111111111111",e);
+
     try {
       console.log("before");
       
       // שליחה של הנתונים ל-Redux
+      // const result = await dispatch(signIn({ email, password })).unwrap()
       const result = await dispatch(signIn({ email, password })).unwrap()
+
 console.log("after");
 
       // בדיקה אם ההתחברות הצליחה

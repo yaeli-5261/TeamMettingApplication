@@ -116,7 +116,10 @@ export const signIn = createAsyncThunk("Auth/login", async (user: { email: strin
     const res = await axios.post(`${apiUrl}/login`, {//הנה הקריאה
       email: user.email,
       password: user.password,
-    })
+    },{
+      headers: {
+        'Content-Type': 'application/json'
+      }})
     console.log("Login response:", res.data);
 
 
