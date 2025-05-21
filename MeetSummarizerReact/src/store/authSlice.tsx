@@ -109,11 +109,13 @@ import { createAsyncThunk, createSlice, type PayloadAction } from "@reduxjs/tool
 import axios from "axios"
 import type { User } from "../models/user"
 
-const apiUrl = import.meta.env.VITE_API_URL;
+//אולי להוריד את +"api" מהקישור
+const apiUrl = import.meta.env.VITE_API_URL+"api";
+//תבדקי שהוא טען את הקישור איך??איפה?
 // פעולה להתחברות
 export const signIn = createAsyncThunk("Auth/login", async (user: { email: string; password: string }, thunkAPI) => {
   try {
-    const res = await axios.post(`${apiUrl}/login`, {
+    const res = await axios.post(`${apiUrl}/login`, {//הנה הקריאה
       email: user.email,
       password: user.password,
     })
