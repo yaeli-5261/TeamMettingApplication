@@ -34,7 +34,7 @@ export const FileUploader = () => {
 
   const { meetingId } = useParams<{ meetingId: string }>()
   const dispatch: AppDispatch = useDispatch()
-  const meetings = useSelector((state: RootState) => state.meetings.list)
+  const meetings = useSelector((state: RootState) => state.meeting.list)
   const [meeting, setMeeting] = useState(meetings.find((m) => m.id === Number(meetingId)))
 
   // Check if meeting already has a file

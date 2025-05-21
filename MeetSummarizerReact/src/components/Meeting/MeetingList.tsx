@@ -64,7 +64,7 @@ export default function MeetingList({ meetings: meetingsFromProps }: MeetingList
 
   const navigate = useNavigate()
   const dispatch = useDispatch<AppDispatch>()
-  const user = useSelector((state: RootState) => state.Auth.user)
+  const user = useSelector((state: RootState) => state.auth.user)
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down("md"))
 

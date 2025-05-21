@@ -683,13 +683,13 @@ export function AppSidebar() {
   const dispatch = useDispatch<AppDispatch>()
   const isMobile = useMediaQuery(theme.breakpoints.down("md"))
   const [mobileOpen, setMobileOpen] = useState(false)
-  const { user, loading: authLoading } = useSelector((state: RootState) => state.Auth)
+  const { user, loading: authLoading } = useSelector((state: RootState) => state.auth)
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [recentFiles, setRecentFiles] = useState<RecentFile[]>([])
   const [loadingFiles, setLoadingFiles] = useState(false)
 
   // Get meetings from Redux store
-  const meetings = useSelector((state: RootState) => state.meetings.list)
+  const meetings = useSelector((state: RootState) => state.meeting.list)
 
   // Check if user is logged in when component loads
   useEffect(() => {
