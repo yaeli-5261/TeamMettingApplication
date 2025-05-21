@@ -16,7 +16,7 @@ const SignIn = () => {
   const [password, setPassword] = useState("")
   const dispatch = useDispatch<AppDispatch>()
   const navigate = useNavigate()
-  const { loading, error } = useSelector((state: RootState) => state.Auth)
+  const { loading, error } = useSelector((state: RootState) => state.auth)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
