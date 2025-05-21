@@ -206,7 +206,7 @@ export const checkAuthState = createAsyncThunk("Auth/checkState", async (_, thun
 
 // טעינת משתמש מה-Session Storage אם קיים
 const loadUserFromSession = (): User | null => {
-  const userData = sessionStorage.getשItem("user")
+  const userData = sessionStorage.getItem("user")
   if (userData) {
     return JSON.parse(userData)
   }
