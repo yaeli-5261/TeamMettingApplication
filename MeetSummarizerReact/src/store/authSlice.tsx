@@ -111,7 +111,7 @@ import type { User } from "../models/user"
 
 //אולי להוריד את +"api" מהקישור
 const apiUrl = import.meta.env.VITE_API_URL;
-//תבדקי שהוא טען את הקישור איך??איפה?
+
 // פעולה להתחברות
 export const signIn = createAsyncThunk("Auth/login", async (user: { email: string; password: string }, thunkAPI) => {
   console.log("signIn called with user:", user);
@@ -206,7 +206,7 @@ export const checkAuthState = createAsyncThunk("Auth/checkState", async (_, thun
 
 // טעינת משתמש מה-Session Storage אם קיים
 const loadUserFromSession = (): User | null => {
-  const userData = sessionStorage.getItem("user")
+  const userData = sessionStorage.getשItem("user")
   if (userData) {
     return JSON.parse(userData)
   }
