@@ -117,7 +117,8 @@ export const signIn = createAsyncThunk("Auth/login", async (user: { email: strin
       email: user.email,
       password: user.password,
     })
-console.log(res);
+    console.log("Login response:", res.data);
+
 
     // שמירת הטוקן ב-cookie עם תאריך תפוגה ארוך (30 ימים)
     const expirationDate = new Date()
