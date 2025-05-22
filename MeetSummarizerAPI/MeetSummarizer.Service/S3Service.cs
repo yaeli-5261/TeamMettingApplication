@@ -14,8 +14,9 @@ public class S3Service
 
     public S3Service(IConfiguration configuration)
     {
-        var awsOptions = configuration.GetSection("AWS");
-        var name = awsOptions["BucketName"];
+        //delete
+        //var awsOptions = configuration.GetSection("AWS");
+        //var name = awsOptions["BucketName"];
         //var accessKey = Environment.GetEnvironmentVariable("AWS_ACCESS_KEY_ID", EnvironmentVariableTarget.User);
         var accessKey = Environment.GetEnvironmentVariable("AWS_ACCESS_KEY_ID");
         var secretKey = Environment.GetEnvironmentVariable("AWS_SECRET_ACCESS_KEY");
