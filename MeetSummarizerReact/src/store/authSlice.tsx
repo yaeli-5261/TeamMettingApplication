@@ -97,17 +97,13 @@
 // export const { logout } = authSlice.actions;
 // export default authSlice;
 
-//אני נחנקת מצחוק 
-//הואני לא מפסיקה לבכותתת
-//הוא משתתף בצערך ממש לא עוזר לי שיתן לי פתרוןן לא צריכה שיתופים
-
 
 import { createAsyncThunk, createSlice, type PayloadAction } from "@reduxjs/toolkit"
 import axios from "axios"
 import type { User } from "../models/user"
 
 //אולי להוריד את +"api" מהקישור
-const apiUrl = import.meta.env.VITE_API_URL+"api";
+const apiUrl = import.meta.env.VITE_API_URL+"/api";
 
 export const signIn = createAsyncThunk("Auth/login", async (user: { email: string; password: string }, thunkAPI) => {
   console.log("signIn called with user:", user);
