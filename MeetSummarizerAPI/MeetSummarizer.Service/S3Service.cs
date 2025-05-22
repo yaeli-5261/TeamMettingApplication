@@ -1,6 +1,7 @@
 ﻿using Amazon;
 using Amazon.S3;
 using Amazon.S3.Model;
+using Microsoft.Azure.Cosmos;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Drawing;
@@ -15,9 +16,10 @@ public class S3Service
     {
         var awsOptions = configuration.GetSection("AWS");
         var name = awsOptions["BucketName"];
-        var accessKey = Environment.GetEnvironmentVariable("AWS_ACCESS_KEY_ID", EnvironmentVariableTarget.User);
-        var secretKey = Environment.GetEnvironmentVariable("AWS_SECRET_ACCESS_KEY", EnvironmentVariableTarget.User);
-        var awsRegion = Environment.GetEnvironmentVariable("AWS_REGION", EnvironmentVariableTarget.User);
+        //var accessKey = Environment.GetEnvironmentVariable("AWS_ACCESS_KEY_ID", EnvironmentVariableTarget.User);
+        var accessKey = Environment.GetEnvironmentVariable("AWS_ACCESS_KEY_ID");
+        var secretKey = Environment.GetEnvironmentVariable("AWS_SECRET_ACCESS_KEY");
+        var awsRegion = Environment.GetEnvironmentVariable("AWS_REGION");
         _s3Client = new AmazonS3Client(accessKey, secretKey, Amazon.RegionEndpoint.GetBySystemName(awsRegion));
     }
     public async Task<string> GeneratePresignedUrlAsync(string fileName, string contentType)
