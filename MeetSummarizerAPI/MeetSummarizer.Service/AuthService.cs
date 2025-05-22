@@ -67,14 +67,14 @@ public class AuthService
 
     public AuthService(IConfiguration configuration)
     {
-        var accessKey = Environment.GetEnvironmentVariable("AWS_ACCESS_KEY");
-        var secretKey = Environment.GetEnvironmentVariable("AWS_SECRET_ACCESS_KEY");
-        var region = Environment.GetEnvironmentVariable("AWS_REGION");
-        var _bucketName = " meet-summarizer-files";
+        //var accessKey = Environment.GetEnvironmentVariable("AWS_ACCESS_KEY");
+        //var secretKey = Environment.GetEnvironmentVariable("AWS_SECRET_ACCESS_KEY");
+        //var region = Environment.GetEnvironmentVariable("AWS_REGION");
+        //var _bucketName = " meet-summarizer-files";
 
 
 
-        var _s3Client = new AmazonS3Client(accessKey, secretKey, Amazon.RegionEndpoint.GetBySystemName(region));
+        //var _s3Client = new AmazonS3Client(accessKey, secretKey, Amazon.RegionEndpoint.GetBySystemName(region));
 
 
         //gעד לפה הוספתי
@@ -100,8 +100,11 @@ public class AuthService
         }
 
         var token = new JwtSecurityToken(
-            issuer: _configuration["Jwt:Issuer"],
-            audience: _configuration["Jwt:Audience"],
+            //issuer: _configuration["Jwt:Issuer"],
+            //audience: _configuration["Jwt:Audience"],
+            issuer: Environment.GetEnvironmentVariable("JWT_ISSUER"),
+            audience: Environment.GetEnvironmentVariable("JWT_AUDIENCE"),
+
             claims: claims,
             expires: DateTime.Now.AddMinutes(300),
             signingCredentials: credentials
