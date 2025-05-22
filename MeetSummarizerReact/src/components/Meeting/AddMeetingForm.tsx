@@ -104,29 +104,81 @@ export default function AddMeetingForm() {
     if (error) setError(null)
   }
 
+  // const handleSubmit = async (e: React.FormEvent) => {
+  //   e.preventDefault()
+
+  //   if (!meetingData.teamId && !teamId) {
+  //     setError("❌ מזהה צוות חסר. אנא התחבר מחדש למערכת.")
+  //     return
+  //   }
+
+  //   try {
+  //     setIsSubmitting(true)
+  //     setError(null)
+
+  //     // Create a copy of the meeting data with the current teamId
+  //     const meetingDataToSubmit = {
+  //       ...meetingData,
+  //       teamId: meetingData.teamId || teamId,
+  //     }
+
+  //     if (meetingDataToSubmit.teamId === null) {
+  //       throw new Error("Team ID is required but is null.")
+  //     }
+  //     const addedMeeting = await dispatch(addMeeting(meetingDataToSubmit as MeetingPostDTO)).unwrap()
+
+  //     if (addedMeeting) {
+  //       setSuccess("✅ הפגישה נוספה בהצלחה!")
+  //       setMeetingData({
+  //         name: "",
+  //         date: "",
+  //         linkTranscriptFile: "",
+  //         linkOrinignFile: "",
+  //         teamId: teamId,
+  //       })
+
+  //       // חזרה לרשימה לאחר 1.5 שניות
+  //       setTimeout(() => {
+  //         navigate("/meetings")
+  //       }, 1500)
+  //     }
+  //   } catch (error) {
+  //     console.error("❌ Error adding meeting:", error)
+  //     setError("❌ הוספת הפגישה נכשלה. אנא נסה שוב.")
+  //   } finally {
+  //     setIsSubmitting(false)
+  //   }
+  // }
+
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-
+  
     if (!meetingData.teamId && !teamId) {
       setError("❌ מזהה צוות חסר. אנא התחבר מחדש למערכת.")
       return
     }
-
+  
     try {
       setIsSubmitting(true)
       setError(null)
-
-      // Create a copy of the meeting data with the current teamId
+  
+      // המרה של תאריך לפורמט ISO עם Z
+      const dateAsUTCString = new Date(meetingData.date).toISOString()
+  
+      // הכנה לנתונים לשליחה
       const meetingDataToSubmit = {
         ...meetingData,
         teamId: meetingData.teamId || teamId,
+        date: dateAsUTCString, // תאריך עם Z
       }
-
+  
       if (meetingDataToSubmit.teamId === null) {
         throw new Error("Team ID is required but is null.")
       }
+  
       const addedMeeting = await dispatch(addMeeting(meetingDataToSubmit as MeetingPostDTO)).unwrap()
-
+  
       if (addedMeeting) {
         setSuccess("✅ הפגישה נוספה בהצלחה!")
         setMeetingData({
@@ -136,8 +188,7 @@ export default function AddMeetingForm() {
           linkOrinignFile: "",
           teamId: teamId,
         })
-
-        // חזרה לרשימה לאחר 1.5 שניות
+  
         setTimeout(() => {
           navigate("/meetings")
         }, 1500)
@@ -149,7 +200,7 @@ export default function AddMeetingForm() {
       setIsSubmitting(false)
     }
   }
-
+  
   return (
     <Box
       sx={{
