@@ -1,7 +1,6 @@
 import { Routes } from '@angular/router';
 import { DashboardComponent } from '../components/dashboard/dashboard.component';
 import { HomeComponent } from '../components/home/home.component';
-// import { ListUsersComponent } from '../components/list-users/list-users.component';
 import { LoginComponent } from '../components/login/login.component';
 import { RegisterComponent } from '../components/register/register.component';
 import { AdminGuard } from '../gaurds/auth.guard';
@@ -10,6 +9,8 @@ import { ListUsersComponent } from '../components/list-users/list-users.componen
 import { UserRoleChartComponent } from '../user-role-chart/user-role-chart.component';
 
 export const routes: Routes = [
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+
   { path: 'login', component: LoginComponent },
   { path: 'home', component: HomeComponent, canActivate: [AdminGuard] },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AdminGuard] },

@@ -4,7 +4,6 @@ import { NgxChartsModule } from "@swimlane/ngx-charts"
 import { RouterModule } from "@angular/router"
 import { AuthService } from "../../Service/auth.service"
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner"
-import { ListUsersComponent } from "../list-users/list-users.component"
 import { UserRoleChartComponent } from "../../user-role-chart/user-role-chart.component";
 import { environment } from "../../environments/environment.prod"
 
@@ -24,7 +23,7 @@ interface RecentActivity {
 
 @Component({
   selector: "app-dashboard",
-  imports: [NgxChartsModule, CommonModule, RouterModule, ListUsersComponent, MatProgressSpinnerModule, UserRoleChartComponent],
+  imports: [NgxChartsModule, CommonModule, RouterModule,  MatProgressSpinnerModule, UserRoleChartComponent],
   templateUrl: "./dashboard.component.html",
   styleUrls: ["./dashboard.component.css"],
 })

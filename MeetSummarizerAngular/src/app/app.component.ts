@@ -1,14 +1,12 @@
 import { Component } from '@angular/core';
-import { RouterLink, RouterModule, RouterOutlet } from '@angular/router';
+import {  RouterModule, RouterOutlet } from '@angular/router';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
-import { DashboardComponent } from "../components/dashboard/dashboard.component";
-// import { RegisterComponent } from '../components/register/register.component';
-// import { LoginComponent } from '../components/login/login.component';
+
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RouterModule, NgxChartsModule,RouterLink ],
+  imports: [RouterOutlet, RouterModule, NgxChartsModule ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
