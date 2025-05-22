@@ -107,7 +107,7 @@ import axios from "axios"
 import type { User } from "../models/user"
 
 //אולי להוריד את +"api" מהקישור
-const apiUrl = import.meta.env.VITE_API_URL;
+const apiUrl = import.meta.env.VITE_API_URL+"api";
 
 export const signIn = createAsyncThunk("Auth/login", async (user: { email: string; password: string }, thunkAPI) => {
   console.log("signIn called with user:", user);
