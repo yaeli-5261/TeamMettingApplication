@@ -175,7 +175,7 @@ export const FileUploader = () => {
         IsTranscript: false,
       }
 
-      await axios.put(`${apiUrl}/Meeting/update-meeting-file", fileMetadata`, {
+      await axios.put(`${apiUrl}/Meeting/update-meeting-file`, fileMetadata, {
         headers: { Authorization: `Bearer ${getCookie("auth_token")}` },
       })
 
