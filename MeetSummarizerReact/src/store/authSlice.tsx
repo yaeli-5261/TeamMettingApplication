@@ -121,14 +121,14 @@ export const signIn = createAsyncThunk("Auth/login", async (user: { email: strin
         'Content-Type': 'application/json'
       }})
     console.log("FULL RES:", res) // שימי לב לפה!
-    console.log("Login response:", res.data.user);
-    console.log("Login Token:", res.data.token);
+    console.log("Login response:", res.data.User);
+    console.log("Login Token:", res.data.Token);
 
 
     // שמירת הטוקן ב-cookie עם תאריך תפוגה ארוך (30 ימים)
     const expirationDate = new Date()
     expirationDate.setDate(expirationDate.getDate() + 30)
-    document.cookie = `auth_token=${res.data.token}; path=/; expires=${expirationDate.toUTCString()}; secure; samesite=strict;`
+    document.cookie = `auth_token=${res.data.Token}; path=/; expires=${expirationDate.toUTCString()}; secure; samesite=strict;`
 
     return res.data
   } catch (err: any) {
