@@ -16,6 +16,8 @@ import FileViewer from "./FileViewer"
 export const FileUploader = () => {
 
   const apiUrl = import.meta.env.VITE_API_URL;
+  const apiUrlAI = import.meta.env.VITE_API_URL_AI;
+
 
   const [file, setFile] = useState<File | null>(null)
   const [progress, setProgress] = useState<number>(0)
@@ -85,7 +87,7 @@ export const FileUploader = () => {
     try {
       console.log("Sending file for AI processing:", fileUrl)
 
-      const response = await fetch(`${apiUrl}/generate`, {
+      const response = await fetch(`${apiUrlAI}/generate`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

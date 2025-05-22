@@ -3,3 +3,10 @@ openai
 boto3
 python-docx
 PyPDF2
+
+requests
+python-dotenv
+PyMuPDF
+fpdf
+boto3
+flask-cors
