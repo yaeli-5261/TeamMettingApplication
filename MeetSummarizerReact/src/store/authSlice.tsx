@@ -120,6 +120,7 @@ export const signIn = createAsyncThunk("Auth/login", async (user: { email: strin
       headers: {
         'Content-Type': 'application/json'
       }})
+    console.log("FULL RES:", res) // שימי לב לפה!
     console.log("Login response:", res.data.user);
     console.log("Login Token:", res.data.token);
 
