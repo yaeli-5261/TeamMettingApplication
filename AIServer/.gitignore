@@ -17,8 +17,10 @@ ENV/
 .env
 
 # PyInstaller
+dist/
 build/
 
 # VS Code settings
 .vscode/
 
+send.ipynb
