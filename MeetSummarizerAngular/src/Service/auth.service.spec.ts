@@ -31,6 +31,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { environment } from '../environments/environment.prod';
 
 interface LoginResponse {
   Token: string;
@@ -58,7 +59,7 @@ interface RegisterResponse {
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'https://localhost:7214/api/Auth';
+  private apiUrl = `${environment.apiUrl}/api`;
 
   constructor(private http: HttpClient, private router: Router) {}
 

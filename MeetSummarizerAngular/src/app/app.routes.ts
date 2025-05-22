@@ -24,5 +24,5 @@ export const routes: Routes = [
     component: RegisterComponent,
     canActivate: [AdminGuard]  // רק אדמין יוכל לגשת
   },
-  { path: '**', redirectTo: 'login' }
+  // { path: '**', redirectTo: 'login' }
 ];
