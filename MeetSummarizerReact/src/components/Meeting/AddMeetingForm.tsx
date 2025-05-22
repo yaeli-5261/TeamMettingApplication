@@ -36,7 +36,7 @@ export default function AddMeetingForm() {
   const navigate = useNavigate()
 
   // Get user from Redux store
-  const { user } = useSelector((state: RootState) => state.Auth)
+  const { user } = useSelector((state: RootState) => state.auth)
 
   // State for team ID
   const [teamId, setTeamId] = useState<number | null>(null)
