@@ -315,8 +315,8 @@ export default function HomePage() {
   const [recentFiles, setRecentFiles] = useState<RecentFile[]>([])
   const [teamActivities, setTeamActivities] = useState<TeamActivity[]>([])
 
-  const { user } = useSelector((state: RootState) => state.Auth)
-  const meetings = useSelector((state: RootState) => state.meetings.list)
+  const { user } = useSelector((state: RootState) => state.auth)
+  const meetings = useSelector((state: RootState) => state.meeting.list)
 
   // Fetch meetings data
   useEffect(() => {
@@ -719,7 +719,7 @@ export default function HomePage() {
                       recentFiles.map((file, index) => (
                         <Tooltip
                           key={`${file.meetingId}-${index}`}
-                          title={`פגישה: ${meetings.find((m) => m.id === file.meetingId)?.name || ""}`}
+                          title={`פגישה: ${meetings.find((m: { id: number }) => m.id === file.meetingId)?.name || ""}`}
                         >
                           <Box
                             sx={{
