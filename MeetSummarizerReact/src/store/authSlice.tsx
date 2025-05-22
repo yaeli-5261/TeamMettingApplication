@@ -104,6 +104,7 @@ import type { User } from "../models/user"
 
 //אולי להוריד את +"api" מהקישור
 const apiUrl = import.meta.env.VITE_API_URL+"/api";
+console.log("VITE_API_URL:", import.meta.env.VITE_API_URL);
 
 export const signIn = createAsyncThunk("Auth/login", async (user: { email: string; password: string }, thunkAPI) => {
   console.log("signIn called with user:", user);
