@@ -110,7 +110,7 @@ export const signIn = createAsyncThunk("Auth/login", async (user: { email: strin
   console.log("signIn called with user:", user);
   
   try {
-    const res = await axios.post(`${apiUrl}/login`, {//הנה הקריאה
+    const res = await axios.post(`${apiUrl}/Auth/login`, {//הנה הקריאה
       Email: user.email,
       Password: user.password,
     },{
@@ -138,7 +138,7 @@ export const signUp = createAsyncThunk(
   "Auth/register",
   async (user: { userName: string; email: string; password: string; role: string }, thunkAPI) => {
     try {
-      const res = await axios.post(`${apiUrl}/register`, {
+      const res = await axios.post(`${apiUrl}/Auth/register`, {
         userName: user.userName,
         Email: user.email,
         Password: user.password,
