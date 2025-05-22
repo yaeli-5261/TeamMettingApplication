@@ -24,6 +24,11 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "static.json",
+                "input": "src/assets",
+                "output": "assets"
               }
             ],
             "styles": [
