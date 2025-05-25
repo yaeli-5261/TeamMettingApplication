@@ -20,10 +20,9 @@ if not api_key:
 app = Flask(__name__)
 CORS(app)
 client = OpenAI()
-CORS(app)
 
 my_model = "gpt-4o"
-CORS(app)
+
 
 PROMPT = """
 הטקסט הבא הוא תמלול של ישיבת צוות. 
