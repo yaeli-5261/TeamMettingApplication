@@ -12,7 +12,7 @@ import boto3
 from botocore.exceptions import NoCredentialsError
 
 load_dotenv()
-api_key = os.getenv('VITE_API_URL_AI')
+api_key = os.getenv('OPENAI_API_KEY')
 
 if not api_key:
     raise ValueError("Missing OPENAI_API_KEY environment variable")
