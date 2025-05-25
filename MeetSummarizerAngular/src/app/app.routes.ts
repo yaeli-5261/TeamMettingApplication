@@ -9,7 +9,7 @@ import { ListUsersComponent } from '../components/list-users/list-users.componen
 import { AddRoleComponent } from '../components/add-role/add-role.component';
 import { AddTeamComponent } from '../components/add-team/add-team.component';
 import { ManagementDashboardComponent } from '../components/management-dashboard/management-dashboard.component';
-import { UserRoleChartComponent } from '../components/user-role-chart/user-role-chart.component';
+import { UserRoleChartComponent } from '../user-role-chart/user-role-chart.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },

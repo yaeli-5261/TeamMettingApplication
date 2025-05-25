@@ -73,7 +73,7 @@ import { forkJoin } from 'rxjs'
 import { map } from 'rxjs/operators'
 import { NgChartsModule } from 'ng2-charts'
 import { CommonModule } from '@angular/common'
-import { AuthService } from '../../Service/auth.service'
+import { AuthService } from '../Service/auth.service'
 
 @Component({
   selector: 'app-user-role-chart',
