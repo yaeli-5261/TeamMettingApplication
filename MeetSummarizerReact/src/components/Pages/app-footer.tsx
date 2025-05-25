@@ -197,12 +197,12 @@ export function AppFooter() {
               >
                 <GitHubIcon fontSize="small" />
               </IconButton>
-              <IconButton size="small" aria-label="Twitter" sx={{ color: "text.secondary" }}>
+              {/* <IconButton size="small" aria-label="Twitter" sx={{ color: "text.secondary" }}>
                 <TwitterIcon fontSize="small" />
-              </IconButton>
-              <IconButton size="small" aria-label="LinkedIn" sx={{ color: "text.secondary" }}>
+              </IconButton> */}
+              {/* <IconButton size="small" aria-label="LinkedIn" sx={{ color: "text.secondary" }}>
                 <LinkedInIcon fontSize="small" />
-              </IconButton>
+              </IconButton> */}
             </Box>
 
             <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap", justifyContent: "center" }}>

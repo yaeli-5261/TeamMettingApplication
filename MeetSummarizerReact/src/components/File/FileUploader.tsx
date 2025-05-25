@@ -140,18 +140,46 @@ export const FileUploader = () => {
   //     setIsProcessing(false)
   //   }
   // }
+ 
+  // const handleUpload = async () => {
+  //   if (!file || !meetingId) {
+  //     setError("יש לבחור קובץ ולהיות בתוך פגישה.")
+  //     return
+  //   }
+
+  //   try {
+  //     setIsUploading(true)
+  //     setProgress(0)
+
+  //     // Get presigned URL from your API
+  //     const response = await axios.get(`${apiUrl}/upload/presigned-url`, {
+  //       params: {
+  //         fileName: `${meeting?.teamId}/${file.name}`,
+  //         contentType: file.type,
+  //       },
+  //       headers: { Authorization: `Bearer ${getCookie("auth_token")}` },
+  //     })
+
+  //     const presignedUrl = response.data.url
+  //     console.log("Got presigned URL for upload:", presignedUrl)
+
+  //     // Upload file directly to S3 using the presigned URL
+  //     await axios.put(presignedUrl, file, {
+  //       headers: { "Content-Type": file.type },
+  //       onUploadProgress: (progressEvent) => {
+  //         setProgress(Math.round((progressEvent.loaded * 100) / (progressEvent.total || 1)))
+  //       },
+  //     })
+
+
   const handleSummarize = async (fileUrl: string) => {
     const token = getCookie("auth_token")
-  
+
     setIsProcessing(true)
     setAiProcessingStatus("processing")
-    setError(null)
-  
+
     try {
-      if (!fileUrl.startsWith("https://")) {
-        throw new Error("כתובת הקובץ שנשלחה ל-AI אינה תקינה.")
-      }
-      console.log("fileUrl שנשלח ל-AI:", fileUrl)
+      console.log("Sending file for AI processing:", fileUrl)
 
       const response = await fetch(`${apiUrlAI}/generate`, {
         method: "POST",
@@ -159,53 +187,62 @@ export const FileUploader = () => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ file_url: fileUrl}),
+          body: JSON.stringify({ file_url: fileUrl }),
+
       })
-  
-      const text = await response.text()
-  
+
       if (!response.ok) {
-        throw new Error(`שגיאת שרת: ${response.status} - ${text}`)
+        const errorText = await response.text()
+        throw new Error(`Processing failed: ${errorText}`)
       }
-  
+      const text = await response.text()
+      console.log("Raw response:", text)
+      
       let result
       try {
         result = JSON.parse(text)
       } catch (err) {
-        throw new Error(`השרת החזיר תגובה לא תקפה:\n${text}`)
+        throw new Error("Server did not return valid JSON: " + text)
       }
-  
-      let s3Url = result.s3_url
-  
-      if (!s3Url || typeof s3Url !== "string") {
-        throw new Error("לא התקבלה כתובת קובץ תקינה מהשרת.")
-      }
-  
-      if (!s3Url.startsWith("https://")) {
+      
+      console.log("Generated file URL from AI:", result.s3_url)
+
+      // Make sure we have a valid S3 URL
+      let s3Url = result.s3_url || ""
+
+      // Check if the URL is properly formatted
+      if (s3Url && !s3Url.startsWith("https://")) {
+        console.warn("S3 URL doesn't start with https://, adding prefix")
         s3Url = `https://${s3Url}`
       }
-  
-      await axios.put(`${apiUrl}/Meeting/update-meeting-file`, {
+
+      console.log("Storing AI URL in database:", s3Url)
+
+      const fileMetadata = {
         MeetingId: Number(meetingId),
         FileUrl: s3Url,
         IsTranscript: true,
-      }, {
-        headers: { Authorization: `Bearer ${token}` },
+      }
+
+      await axios.put(`${apiUrl}/Meeting/update-meeting-file`, fileMetadata, {
+        headers: { Authorization: `Bearer ${getCookie("auth_token")}` },
       })
-  
+
       setAiDownloadUrl(s3Url)
       setAiProcessingStatus("success")
+      console.log("Summary file linked to meeting successfully:", fileMetadata)
+
+      // Refresh meeting data to update the file link
       dispatch(fetchMeetingsByTeam({ teamId: meeting?.teamId || 0 }))
     } catch (error: any) {
       console.error("Error processing file:", error)
-      setError(`שגיאה בעיבוד הקובץ: ${error.message}`)
+      setError(`שגיאה בעיבוד הקובץ: ${error.message || "Unknown error"}`)
       setAiProcessingStatus("error")
     } finally {
       setIsProcessing(false)
     }
   }
-  
-
+ 
   const handleUpload = async () => {
     if (!file || !meetingId) {
       setError("יש לבחור קובץ ולהיות בתוך פגישה.")
@@ -235,6 +272,7 @@ export const FileUploader = () => {
           setProgress(Math.round((progressEvent.loaded * 100) / (progressEvent.total || 1)))
         },
       })
+
 
       // Update meeting with file metadata
       const fileMetadata = {
