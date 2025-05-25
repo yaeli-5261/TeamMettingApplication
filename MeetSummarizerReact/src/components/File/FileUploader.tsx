@@ -78,15 +78,81 @@ export const FileUploader = () => {
     }
   }
 
+  // const handleSummarize = async (fileUrl: string) => {
+  //   const token = getCookie("auth_token")
+
+  //   setIsProcessing(true)
+  //   setAiProcessingStatus("processing")
+
+  //   try {
+  //     console.log("Sending file for AI processing:", fileUrl)
+
+  //     const response = await fetch(`${apiUrlAI}/generate`, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //         body: JSON.stringify({ file_url: fileUrl }),
+
+  //     })
+
+  //     if (!response.ok) {
+  //       const errorText = await response.text()
+  //       throw new Error(`Processing failed: ${errorText}`)
+  //     }
+
+  //     const result = await response.json()
+  //     console.log("Generated file URL from AI:", result.s3_url)
+
+  //     // Make sure we have a valid S3 URL
+  //     let s3Url = result.s3_url || ""
+
+  //     // Check if the URL is properly formatted
+  //     if (s3Url && !s3Url.startsWith("https://")) {
+  //       console.warn("S3 URL doesn't start with https://, adding prefix")
+  //       s3Url = `https://${s3Url}`
+  //     }
+
+  //     console.log("Storing AI URL in database:", s3Url)
+
+  //     const fileMetadata = {
+  //       MeetingId: Number(meetingId),
+  //       FileUrl: s3Url,
+  //       IsTranscript: true,
+  //     }
+
+  //     await axios.put(`${apiUrl}/Meeting/update-meeting-file`, fileMetadata, {
+  //       headers: { Authorization: `Bearer ${getCookie("auth_token")}` },
+  //     })
+
+  //     setAiDownloadUrl(s3Url)
+  //     setAiProcessingStatus("success")
+  //     console.log("Summary file linked to meeting successfully:", fileMetadata)
+
+  //     // Refresh meeting data to update the file link
+  //     dispatch(fetchMeetingsByTeam({ teamId: meeting?.teamId || 0 }))
+  //   } catch (error: any) {
+  //     console.error("Error processing file:", error)
+  //     setError(`שגיאה בעיבוד הקובץ: ${error.message || "Unknown error"}`)
+  //     setAiProcessingStatus("error")
+  //   } finally {
+  //     setIsProcessing(false)
+  //   }
+  // }
+
   const handleSummarize = async (fileUrl: string) => {
     const token = getCookie("auth_token")
-
+  
     setIsProcessing(true)
     setAiProcessingStatus("processing")
-
+    setError(null)
+  
     try {
-      console.log("Sending file for AI processing:", fileUrl)
-
+      if (!fileUrl.startsWith("https://")) {
+        throw new Error("כתובת הקובץ שנשלחה ל-AI אינה תקינה.")
+      }
+  
       const response = await fetch(`${apiUrlAI}/generate`, {
         method: "POST",
         headers: {
@@ -95,41 +161,34 @@ export const FileUploader = () => {
         },
         body: JSON.stringify({ file_url: fileUrl }),
       })
-
+  
       if (!response.ok) {
         const errorText = await response.text()
         throw new Error(`Processing failed: ${errorText}`)
       }
-
+  
       const result = await response.json()
-      console.log("Generated file URL from AI:", result.s3_url)
-
-      // Make sure we have a valid S3 URL
-      let s3Url = result.s3_url || ""
-
-      // Check if the URL is properly formatted
-      if (s3Url && !s3Url.startsWith("https://")) {
-        console.warn("S3 URL doesn't start with https://, adding prefix")
+      let s3Url = result.s3_url
+  
+      if (!s3Url || typeof s3Url !== "string") {
+        throw new Error("לא התקבלה כתובת קובץ תקינה מהשרת.")
+      }
+  
+      if (!s3Url.startsWith("https://")) {
         s3Url = `https://${s3Url}`
       }
-
-      console.log("Storing AI URL in database:", s3Url)
-
-      const fileMetadata = {
+  
+      // שמירת קובץ AI במסד נתונים
+      await axios.put(`${apiUrl}/Meeting/update-meeting-file`, {
         MeetingId: Number(meetingId),
         FileUrl: s3Url,
         IsTranscript: true,
-      }
-
-      await axios.put(`${apiUrl}/Meeting/update-meeting-file`, fileMetadata, {
-        headers: { Authorization: `Bearer ${getCookie("auth_token")}` },
+      }, {
+        headers: { Authorization: `Bearer ${token}` },
       })
-
+  
       setAiDownloadUrl(s3Url)
       setAiProcessingStatus("success")
-      console.log("Summary file linked to meeting successfully:", fileMetadata)
-
-      // Refresh meeting data to update the file link
       dispatch(fetchMeetingsByTeam({ teamId: meeting?.teamId || 0 }))
     } catch (error: any) {
       console.error("Error processing file:", error)
@@ -139,6 +198,7 @@ export const FileUploader = () => {
       setIsProcessing(false)
     }
   }
+  
 
   const handleUpload = async () => {
     if (!file || !meetingId) {
