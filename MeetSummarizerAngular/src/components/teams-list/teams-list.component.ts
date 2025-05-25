@@ -8,8 +8,8 @@ import { Team, TeamService, TeamPostDTO } from "../../Service/team.service"
   selector: "app-teams-list",
   standalone: true,
   imports: [CommonModule, RouterLink, FormsModule],
-  templateUrl: "./team-list.component.html",
-  styleUrls: ["./team-list.component.css"],
+  templateUrl: "./teams-list.component.html",
+  styleUrls: ["./teams-list.component.css"],
 })
 export class TeamsListComponent implements OnInit {
   teams: Team[] = []
