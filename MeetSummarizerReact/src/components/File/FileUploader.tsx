@@ -140,7 +140,6 @@ export const FileUploader = () => {
   //     setIsProcessing(false)
   //   }
   // }
-
   const handleSummarize = async (fileUrl: string) => {
     const token = getCookie("auth_token")
   
@@ -162,12 +161,19 @@ export const FileUploader = () => {
         body: JSON.stringify({ file_url: fileUrl }),
       })
   
+      const text = await response.text()
+  
       if (!response.ok) {
-        const errorText = await response.text()
-        throw new Error(`Processing failed: ${errorText}`)
+        throw new Error(`שגיאת שרת: ${response.status} - ${text}`)
       }
   
-      const result = await response.json()
+      let result
+      try {
+        result = JSON.parse(text)
+      } catch (err) {
+        throw new Error(`השרת החזיר תגובה לא תקפה:\n${text}`)
+      }
+  
       let s3Url = result.s3_url
   
       if (!s3Url || typeof s3Url !== "string") {
@@ -178,7 +184,6 @@ export const FileUploader = () => {
         s3Url = `https://${s3Url}`
       }
   
-      // שמירת קובץ AI במסד נתונים
       await axios.put(`${apiUrl}/Meeting/update-meeting-file`, {
         MeetingId: Number(meetingId),
         FileUrl: s3Url,
@@ -192,7 +197,7 @@ export const FileUploader = () => {
       dispatch(fetchMeetingsByTeam({ teamId: meeting?.teamId || 0 }))
     } catch (error: any) {
       console.error("Error processing file:", error)
-      setError(`שגיאה בעיבוד הקובץ: ${error.message || "Unknown error"}`)
+      setError(`שגיאה בעיבוד הקובץ: ${error.message}`)
       setAiProcessingStatus("error")
     } finally {
       setIsProcessing(false)
