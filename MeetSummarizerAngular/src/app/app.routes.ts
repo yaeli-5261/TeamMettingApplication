@@ -6,10 +6,10 @@ import { RegisterComponent } from '../components/register/register.component';
 import { AdminGuard } from '../gaurds/auth.guard';
 import { HeatmapCalendarComponent } from '../components/heatmap-calendar/heatmap-calendar.component';
 import { ListUsersComponent } from '../components/list-users/list-users.component';
-import { UserRoleChartComponent } from '../user-role-chart/user-role-chart.component';
 import { AddRoleComponent } from '../components/add-role/add-role.component';
 import { AddTeamComponent } from '../components/add-team/add-team.component';
 import { ManagementDashboardComponent } from '../components/management-dashboard/management-dashboard.component';
+import { UserRoleChartComponent } from '../components/user-role-chart/user-role-chart.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
