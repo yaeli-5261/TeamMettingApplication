@@ -22,6 +22,9 @@
 //         ml: { xs: 0, md: "250px" },
 //         boxSizing: "border-box",
 //         transition: "margin 0.3s, width 0.3s",
+//         position: "relative",
+//         bottom: 0,
+//         zIndex: 10,
 //       }}
 //     >
 //       <Container
@@ -46,10 +49,10 @@
 //               MeetingFiles
 //             </Typography>
 //             <Typography variant="body2" color="text.secondary">
-//               מערכת לניהול פגישות וקבצים
+//               Meeting and File Management System
 //             </Typography>
 //             <Typography variant="caption" color="text.secondary">
-//               © {new Date().getFullYear()} כל הזכויות שמורות
+//               © {new Date().getFullYear()} All Rights Reserved
 //             </Typography>
 //           </Box>
 
@@ -81,13 +84,13 @@
 
 //             <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap", justifyContent: "center" }}>
 //               <Link href="#" underline="hover" color="text.secondary" variant="body2">
-//                 עזרה ותמיכה
+//                 Help & Support
 //               </Link>
 //               <Link href="#" underline="hover" color="text.secondary" variant="body2">
-//                 תנאי שימוש
+//                 Terms of Use
 //               </Link>
 //               <Link href="#" underline="hover" color="text.secondary" variant="body2">
-//                 פרטיות
+//                 Privacy
 //               </Link>
 //             </Box>
 //           </Box>
@@ -109,35 +112,44 @@
 //   )
 // }
 
+// export default AppFooter
+
 
 
 "use client"
 
-import { Box, Container, Typography, Link, IconButton, Divider, useMediaQuery, useTheme } from "@mui/material"
-import { GitHub as GitHubIcon, Twitter as TwitterIcon, LinkedIn as LinkedInIcon } from "@mui/icons-material"
+import {
+  Box,
+  Container,
+  Typography,
+  Link,
+  IconButton,
+  Divider,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material"
+import {
+  GitHub as GitHubIcon,
+  Twitter as TwitterIcon,
+  LinkedIn as LinkedInIcon,
+} from "@mui/icons-material"
 
 export function AppFooter() {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
-  const isTablet = useMediaQuery(theme.breakpoints.down("md"))
 
   return (
     <Box
       component="footer"
       sx={{
-        py: 3,
-        px: 2,
-        mt: "auto",
+        width: "100%",
         bgcolor: "background.paper",
         borderTop: "1px solid",
         borderColor: "divider",
-        width: { xs: "100%", md: "calc(100% - 250px)" },
-        ml: { xs: 0, md: "250px" },
+        py: 3,
+        px: 2,
+        mt: "auto",
         boxSizing: "border-box",
-        transition: "margin 0.3s, width 0.3s",
-        position: "relative",
-        bottom: 0,
-        zIndex: 10,
       }}
     >
       <Container
@@ -158,7 +170,7 @@ export function AppFooter() {
           }}
         >
           <Box sx={{ textAlign: isMobile ? "center" : "left" }}>
-            <Typography variant="h6" color="text.primary" gutterBottom sx={{ fontWeight: 600 }}>
+            <Typography variant="h6" sx={{ fontWeight: 600 }} gutterBottom>
               MeetingFiles
             </Typography>
             <Typography variant="body2" color="text.secondary">
@@ -180,9 +192,7 @@ export function AppFooter() {
                 rel="noopener noreferrer"
                 sx={{
                   color: "text.secondary",
-                  "&:hover": {
-                    color: "#10a37f",
-                  },
+                  "&:hover": { color: "#10a37f" },
                 }}
               >
                 <GitHubIcon fontSize="small" />
