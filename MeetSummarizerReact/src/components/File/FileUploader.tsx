@@ -151,14 +151,15 @@ export const FileUploader = () => {
       if (!fileUrl.startsWith("https://")) {
         throw new Error("כתובת הקובץ שנשלחה ל-AI אינה תקינה.")
       }
-  
+      console.log("fileUrl שנשלח ל-AI:", fileUrl)
+
       const response = await fetch(`${apiUrlAI}/generate`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ file_url: fileUrl }),
+        body: JSON.stringify({ file_url: fileUrl}),
       })
   
       const text = await response.text()
