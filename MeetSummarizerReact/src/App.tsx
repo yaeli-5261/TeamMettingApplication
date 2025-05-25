@@ -1,12 +1,12 @@
 import { RouterProvider } from "react-router-dom";
 import { router } from "./router";
-import {  useDispatch } from "react-redux";
-import  { AppDispatch } from "./store/store";
+import {  Provider, useDispatch } from "react-redux";
+import  store, { AppDispatch } from "./store/store";
 import { checkAuthState } from "./store/authSlice";
 import { useEffect } from "react";
 import AppLayout from "./components/Layout";
 import HomePage from "./components/Pages/HomePage";
-import { createTheme } from "@mui/material";
+import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 
 const theme = createTheme({
   palette: {
@@ -51,24 +51,24 @@ function AppInner() {
   return <RouterProvider router={router} />;
 }
 //TODO
-// function App() {
-//   return (
-//     <Provider store={store}>
-//       <ThemeProvider theme={theme}>
-//         <CssBaseline />
-//         <AppInner />
-//       </ThemeProvider>
-//     </Provider>
-//   );
-// }
-
 function App() {
   return (
-    <AppLayout>
-      <HomePage />
-    </AppLayout>
-  )
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <AppInner />
+      </ThemeProvider>
+    </Provider>
+  );
 }
+
+// function App() {
+//   return (
+//     <AppLayout>
+//       <HomePage />
+//     </AppLayout>
+//   )
+// }
 
 export default App
 
