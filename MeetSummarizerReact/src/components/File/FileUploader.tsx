@@ -181,6 +181,12 @@ export const FileUploader = () => {
     try {
       console.log("Sending file for AI processing:", fileUrl)
 
+      console.log("Using API URL:", apiUrlAI) ;
+      console.log("yaeli!!!");
+      
+      
+  console.log("API URL for AI processing:", `${apiUrlAI}/generate`) ;
+  
       const response = await fetch(`${apiUrlAI}/generate`, {
         method: "POST",
         headers: {
