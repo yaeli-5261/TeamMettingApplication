@@ -1,7 +1,7 @@
 import { Component, type OnInit } from "@angular/core"
 import { CommonModule } from "@angular/common"
 import { NgxChartsModule } from "@swimlane/ngx-charts"
-import { RouterModule } from "@angular/router"
+import { Router, RouterModule } from "@angular/router"
 import { AuthService } from "../../Service/auth.service"
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner"
 import { UserRoleChartComponent } from "../../user-role-chart/user-role-chart.component";
@@ -48,9 +48,11 @@ export class DashboardComponent implements OnInit {
   colorScheme = {
     domain: ["#10a37f", "#3498db", "#9b59b6", "#e74c3c", "#f1c40f", "#1abc9c"],
   }
+ 
 
   constructor(
     private authService: AuthService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -112,6 +114,9 @@ export class DashboardComponent implements OnInit {
       minute: '2-digit'
     })
   }
+  Home():void{
+    this.router.navigate(["/home"])
+}
 }
 
 

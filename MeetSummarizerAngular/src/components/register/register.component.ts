@@ -68,7 +68,9 @@ export class RegisterComponent implements OnInit {
       },
     })
   }
-
+Home():void{
+    this.router.navigate(["/home"])
+}
   togglePasswordVisibility(): void {
     this.isPasswordVisible = !this.isPasswordVisible
   }
@@ -91,7 +93,7 @@ export class RegisterComponent implements OnInit {
       })
       .subscribe({
         next: () => {
-          this.router.navigate(["/users"])
+          this.router.navigate(["/users-list"])
         },
         error: (err) => {
           this.errorMessage = "Registration failed. Please try again."

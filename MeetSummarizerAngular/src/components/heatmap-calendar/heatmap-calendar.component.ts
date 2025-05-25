@@ -56,6 +56,7 @@
 
 import { Component, type OnInit } from "@angular/core"
 import { CommonModule } from "@angular/common"
+import { Router } from "@angular/router"
 
 interface CalendarDay {
   date: Date
@@ -74,6 +75,8 @@ export class HeatmapCalendarComponent implements OnInit {
   days: CalendarDay[] = []
   weekdays: string[] = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
   isLoading = true
+  
+  constructor(private router: Router) {}
 
   ngOnInit(): void {
     this.generateCalendarDays()
@@ -170,4 +173,7 @@ export class HeatmapCalendarComponent implements OnInit {
   formatMonthYear(date: Date): string {
     return date.toLocaleString("en-US", { month: "long", year: "numeric" })
   }
+  Home():void{
+    this.router.navigate(["/home"])
+}
 }

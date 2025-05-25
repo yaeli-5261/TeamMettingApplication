@@ -3,6 +3,7 @@ import { CommonModule } from "@angular/common"
 import { FormsModule, ReactiveFormsModule,  type FormGroup, Validators, FormBuilder } from "@angular/forms"
 import { AuthService } from "../../Service/auth.service"
 import { HttpClient } from "@angular/common/http"
+import { Router } from "@angular/router"
 
 interface User {
   id: number
@@ -64,6 +65,7 @@ export class ListUsersComponent implements OnInit {
     private authService: AuthService,
     private fb: FormBuilder,
     private http: HttpClient,
+    private router: Router, 
   ) {
     // Initialize edit form
     this.editForm = this.fb.group({
@@ -245,4 +247,7 @@ export class ListUsersComponent implements OnInit {
       }
     });
   }
+  Home():void{
+    this.router.navigate(["/home"])
+}
 }
