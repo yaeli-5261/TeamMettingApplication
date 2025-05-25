@@ -10,6 +10,8 @@ import { AddRoleComponent } from '../components/add-role/add-role.component';
 import { AddTeamComponent } from '../components/add-team/add-team.component';
 import { ManagementDashboardComponent } from '../components/management-dashboard/management-dashboard.component';
 import { UserRoleChartComponent } from '../user-role-chart/user-role-chart.component';
+import { RolesListComponent } from '../components/roles-list/roles-list.component';
+import { TeamsListComponent } from '../components/teams-list/teams-list.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -19,7 +21,6 @@ export const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent, canActivate: [AdminGuard] },
   { path: 'users', component: ListUsersComponent, canActivate: [AdminGuard] },
   { path: 'user-role', component: UserRoleChartComponent, canActivate: [AdminGuard] },
-
 
   { path: 'heatmap-calendar', component: HeatmapCalendarComponent, canActivate: [AdminGuard] },
   {
@@ -32,4 +33,6 @@ export const routes: Routes = [
   { path: "register", component: RegisterComponent },
   { path: "add-team", component: AddTeamComponent },
   { path: "add-role", component: AddRoleComponent },
+  { path: "teams-list", component: TeamsListComponent },
+  { path: "roles-list", component: RolesListComponent },
 ];
