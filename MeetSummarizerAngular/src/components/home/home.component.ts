@@ -33,7 +33,13 @@ export class HomeComponent implements OnInit {
   goToRegister(): void {
     this.router.navigate(["/register"])
   }
-
+  goToManagerDashboard(): void {
+    if (!this.isAdmin) {
+      this.router.navigate(["/home"])
+      return
+    }
+    this.router.navigate(["/management"])
+  }
   logout(): void {
     this.authService.logout()
     this.router.navigate(["/login"])
