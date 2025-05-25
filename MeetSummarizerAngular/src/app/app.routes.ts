@@ -7,6 +7,9 @@ import { AdminGuard } from '../gaurds/auth.guard';
 import { HeatmapCalendarComponent } from '../components/heatmap-calendar/heatmap-calendar.component';
 import { ListUsersComponent } from '../components/list-users/list-users.component';
 import { UserRoleChartComponent } from '../user-role-chart/user-role-chart.component';
+import { AddRoleComponent } from '../components/add-role/add-role.component';
+import { AddTeamComponent } from '../components/add-team/add-team.component';
+import { ManagementDashboardComponent } from '../components/management-dashboard/management-dashboard.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -24,5 +27,9 @@ export const routes: Routes = [
     component: RegisterComponent,
     canActivate: [AdminGuard]  // רק אדמין יוכל לגשת
   },
-  // { path: '**', redirectTo: 'login' }
+  { path: "", redirectTo: "/management", pathMatch: "full" },
+  { path: "management", component: ManagementDashboardComponent },
+  { path: "register", component: RegisterComponent },
+  { path: "add-team", component: AddTeamComponent },
+  { path: "add-role", component: AddRoleComponent },
 ];

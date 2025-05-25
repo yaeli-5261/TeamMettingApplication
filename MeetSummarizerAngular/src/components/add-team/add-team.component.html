@@ -1,0 +1,110 @@
+<p>add-team works!</p>
+<div class="register-container">
+    <div class="register-card">
+      <div class="register-header">
+        <div class="login-logo" routerLink="/home">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+            <circle cx="20" cy="20" r="20" fill="#10A37F"/>
+            <path d="M28 13H12C10.9 13 10 13.9 10 15V25C10 26.1 10.9 27 12 27H28C29.1 27 30 26.1 30 25V15C30 13.9 29.1 13 28 13Z" fill="white"/>
+            <path d="M18 21L23 18L18 15V21Z" fill="#10A37F"/>
+          </svg>
+          <span>Meeting Manager</span>
+        </div>
+        <h1>Add New Team</h1>
+        <p class="register-subtitle">Create a new team in the system</p>
+      </div>
+  
+      <form [formGroup]="teamForm" (ngSubmit)="onSubmit()" class="register-form">
+        @if(errorMessage) {
+          <div class="error-alert">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 9V11M12 15H12.01M5.07183 19H18.9282C20.4678 19 21.4301 17.3333 20.6603 16L13.7321 4C12.9623 2.66667 11.0377 2.66667 10.2679 4L3.33975 16C2.56998 17.3333 3.53223 19 5.07183 19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>{{ errorMessage }}</span>
+          </div>
+        }
+  
+        @if(successMessage) {
+          <div class="success-alert">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>{{ successMessage }}</span>
+          </div>
+        }
+  
+        <div class="form-group">
+          <label for="name">Team Name</label>
+          <div class="input-container">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M17 20H22V18C22 16.3431 20.6569 15 19 15C18.0444 15 17.1931 15.4468 16.6438 16.1429M17 20H7M17 20V18C17 17.3438 16.8736 16.717 16.6438 16.1429M7 20H2V18C2 16.3431 3.34315 15 5 15C5.95561 15 6.80686 15.4468 7.35625 16.1429M7 20V18C7 17.3438 7.12642 16.717 7.35625 16.1429M7.35625 16.1429C8.0935 14.301 9.89482 13 12 13C14.1052 13 15.9065 14.301 16.6438 16.1429M15 7C15 8.65685 13.6569 10 12 10C10.3431 10 9 8.65685 9 7C9 5.34315 10.3431 4 12 4C13.6569 4 15 5.34315 15 7ZM21 10C21 11.1046 20.1046 12 19 12C17.8954 12 17 11.1046 17 10C17 8.89543 17.8954 8 19 8C20.1046 8 21 8.89543 21 10ZM7 10C7 11.1046 6.10457 12 5 12C3.89543 12 3 11.1046 3 10C3 8.89543 3.89543 8 5 8C6.10457 8 7 8.89543 7 10Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <input 
+              id="name" 
+              type="text" 
+              formControlName="name" 
+              placeholder="Enter team name"
+              [class.error]="teamForm.get('name')?.invalid && teamForm.get('name')?.touched"
+            >
+          </div>
+          @if(teamForm.get('name')?.invalid && teamForm.get('name')?.touched) {
+            <div class="error-message">Team name is required</div>
+          }
+        </div>
+  
+        <div class="form-group">
+          <label for="description">Description (Optional)</label>
+          <div class="input-container">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M14 2V8H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M16 13H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M16 17H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M10 9H9H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <textarea 
+              id="description" 
+              formControlName="description" 
+              placeholder="Enter team description"
+              rows="3"
+            ></textarea>
+          </div>
+        </div>
+  
+        <div class="form-actions">
+          <button 
+            type="button" 
+            class="back-button" 
+            (click)="goBack()"
+            [disabled]="isLoading"
+          >
+            <span>Back to Dashboard</span>
+          </button>
+          <button 
+            type="submit" 
+            class="submit-button" 
+            [disabled]="teamForm.invalid || isLoading"
+          >
+            @if(isLoading) {
+              <div class="loading-spinner-small"></div>
+              <span>Creating Team...</span>
+            } @else {
+              <span>Create Team</span>
+            }
+          </button>
+        </div>
+      </form>
+  
+      <div class="register-footer">
+        <p>Meeting Manager Admin Portal</p>
+        <p>© {{ currentYear }} All rights reserved yael</p>
+      </div>
+    </div>
+    
+    <div class="register-background">
+      <div class="register-background-shape shape-1"></div>
+      <div class="register-background-shape shape-2"></div>
+      <div class="register-background-shape shape-3"></div>
+    </div>
+  </div>
+  
