@@ -386,7 +386,6 @@ export class AuthService {
     })
 
     const userCreateDTO = {
-      id: userId,
       userName: userData.userName,
       email: userData.email,
       roleId: Number(userData.roleId),
