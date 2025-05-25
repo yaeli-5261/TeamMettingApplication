@@ -12,6 +12,7 @@ import { ManagementDashboardComponent } from '../components/management-dashboard
 import { UserRoleChartComponent } from '../user-role-chart/user-role-chart.component';
 import { RolesListComponent } from '../components/roles-list/roles-list.component';
 import { TeamsListComponent } from '../components/teams-list/teams-list.component';
+import { UsersListComponent } from '../components/users-list/users-list.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -33,6 +34,8 @@ export const routes: Routes = [
   { path: "register", component: RegisterComponent },
   { path: "add-team", component: AddTeamComponent },
   { path: "add-role", component: AddRoleComponent },
+  { path: "users-list", component:  UsersListComponent},
+
   { path: "teams-list", component: TeamsListComponent },
   { path: "roles-list", component: RolesListComponent },
 ];
