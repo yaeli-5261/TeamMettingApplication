@@ -1,0 +1,142 @@
+<p>roles-list works!</p>
+<div class="list-container">
+    <div class="list-header">
+      <div class="header-content">
+        <div class="breadcrumb">
+          <a routerLink="/management" class="breadcrumb-link">Dashboard</a>
+          <span class="breadcrumb-separator">/</span>
+          <span class="breadcrumb-current">Roles</span>
+        </div>
+        <h1>Role Management</h1>
+        <p>Define roles and access levels</p>
+      </div>
+      <div class="header-actions">
+        <button class="btn-primary" routerLink="/add-role">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+            <path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2"/>
+          </svg>
+          Add Role
+        </button>
+      </div>
+    </div>
+  
+    <div class="list-content">
+      <div class="search-section">
+        <div class="search-box">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M21 21L16.514 16.506L21 21ZM19 10.5C19 15.194 15.194 19 10.5 19C5.806 19 2 15.194 2 10.5C2 5.806 5.806 2 10.5 2C15.194 2 19 5.806 19 10.5Z" stroke="currentColor" stroke-width="2"/>
+          </svg>
+          <input 
+            type="text" 
+            placeholder="Search roles by name or description..."
+            [(ngModel)]="searchTerm"
+            (input)="filterRoles()"
+          >
+        </div>
+      </div>
+  
+      @if(isLoading) {
+        <div class="loading-state">
+          <div class="loading-spinner"></div>
+          <p>Loading roles...</p>
+        </div>
+      } @else if(filteredRoles.length === 0) {
+        <div class="empty-state">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none">
+            <path d="M9 12H15M12 9V15M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z" stroke="currentColor" stroke-width="2"/>
+          </svg>
+          <h3>No roles found</h3>
+          <p>{{ searchTerm ? 'Try adjusting your search criteria' : 'Get started by creating your first role' }}</p>
+          @if(!searchTerm) {
+            <button class="btn-primary" routerLink="/add-role">Create First Role</button>
+          }
+        </div>
+      } @else {
+        <div class="roles-grid">
+          @for(role of filteredRoles; track role.id) {
+            <div class="role-card">
+              <div class="role-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path d="M9 12H15M12 9V15M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z" stroke="currentColor" stroke-width="2"/>
+                </svg>
+              </div>
+              <div class="role-info">
+                <h3>{{ role.roleName }}</h3>
+                <p class="role-description">{{ role.description || 'No description available' }}</p>
+              </div>
+              <div class="role-actions">
+                <button class="action-btn edit" (click)="openEditModal(role)">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                    <path d="M11 4H4C3.46957 4 2.96086 4.21071 2.58579 4.58579C2.21071 4.96086 2 5.46957 2 6V20C2 20.5304 2.21071 21.0391 2.58579 21.4142C2.96086 21.7893 3.46957 22 4 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V13" stroke="currentColor" stroke-width="2"/>
+                    <path d="M18.5 2.50023C18.8978 2.1024 19.4374 1.87891 20 1.87891C20.5626 1.87891 21.1022 2.1024 21.5 2.50023C21.8978 2.89805 22.1213 3.43762 22.1213 4.00023C22.1213 4.56284 21.8978 5.1024 21.5 5.50023L12 15.0002L8 16.0002L9 12.0002L18.5 2.50023Z" stroke="currentColor" stroke-width="2"/>
+                  </svg>
+                </button>
+                <button class="action-btn delete" (click)="openDeleteModal(role)">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                    <path d="M3 6H5H21" stroke="currentColor" stroke-width="2"/>
+                    <path d="M8 6V4C8 3.46957 8.21071 2.96086 8.58579 2.58579C8.96086 2.21071 9.46957 2 10 2H14C14.5304 2 15.0391 2.21071 15.4142 2.58579C15.7893 2.96086 16 3.46957 16 4V6M19 6V20C19 20.5304 18.7893 21.0391 18.4142 21.4142C18.0391 21.7893 17.5304 22 17 22H7C6.46957 22 5.96086 21.7893 5.58579 21.4142C5.21071 21.0391 5 20.5304 5 20V6H19Z" stroke="currentColor" stroke-width="2"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  </div>
+  
+  <!-- Edit Modal -->
+  @if(showEditModal && selectedRole) {
+    <div class="modal-overlay" (click)="closeEditModal()">
+      <div class="modal-content" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+          <h2>Edit Role</h2>
+          <button class="modal-close" (click)="closeEditModal()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2"/>
+            </svg>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Role Name</label>
+            <input type="text" [(ngModel)]="editForm.roleName" placeholder="Enter role name">
+          </div>
+          <div class="form-group">
+            <label>Description</label>
+            <textarea [(ngModel)]="editForm.description" placeholder="Enter role description" rows="3"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-secondary" (click)="closeEditModal()">Cancel</button>
+          <button class="btn-primary" (click)="saveRole()">Save Changes</button>
+        </div>
+      </div>
+    </div>
+  }
+  
+  <!-- Delete Modal -->
+  @if(showDeleteModal && selectedRole) {
+    <div class="modal-overlay" (click)="closeDeleteModal()">
+      <div class="modal-content delete-modal" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+          <div class="delete-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M3 6H5H21" stroke="currentColor" stroke-width="2"/>
+              <path d="M8 6V4C8 3.46957 8.21071 2.96086 8.58579 2.58579C8.96086 2.21071 9.46957 2 10 2H14C14.5304 2 15.0391 2.21071 15.4142 2.58579C15.7893 2.96086 16 3.46957 16 4V6M19 6V20C19 20.5304 18.7893 21.0391 18.4142 21.4142C18.0391 21.7893 17.5304 22 17 22H7C6.46957 22 5.96086 21.7893 5.58579 21.4142C5.21071 21.0391 5 20.5304 5 20V6H19Z" stroke="currentColor" stroke-width="2"/>
+            </svg>
+          </div>
+          <h2>Delete Role</h2>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure you want to delete <strong>{{ selectedRole.roleName }}</strong>?</p>
+          <p class="warning-text">This action cannot be undone.</p>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-secondary" (click)="closeDeleteModal()">Cancel</button>
+          <button class="btn-danger" (click)="confirmDelete()">Delete Role</button>
+        </div>
+      </div>
+    </div>
+  }
+  

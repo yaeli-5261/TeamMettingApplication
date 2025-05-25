@@ -1,4 +1,4 @@
-.register-container {
+/* .register-container {
     min-height: 100vh;
     display: flex;
     align-items: center;
@@ -209,6 +209,256 @@
   
     .register-header h1 {
       font-size: 24px;
+    }
+  }
+   */
+
+
+
+
+   .dashboard-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    padding: 0;
+  }
+  
+  .dashboard-header {
+    background: white;
+    border-bottom: 1px solid #e5e7eb;
+    padding: 32px 40px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  .header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .logo-section {
+    margin-bottom: 24px;
+  }
+  
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  .logo:hover {
+    transform: scale(1.02);
+  }
+  
+  .logo span {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1a1a1a;
+  }
+  
+  .header-text h1 {
+    font-size: 36px;
+    font-weight: 800;
+    color: #1a1a1a;
+    margin: 0 0 8px 0;
+    letter-spacing: -0.025em;
+  }
+  
+  .header-text p {
+    font-size: 18px;
+    color: #6b7280;
+    margin: 0;
+  }
+  
+  .dashboard-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px;
+  }
+  
+  .management-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 32px;
+  }
+  
+  .management-card {
+    background: white;
+    border-radius: 20px;
+    padding: 32px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    border: 1px solid #f3f4f6;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .management-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #10a37f, #0d8f6b);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .management-card.card-blue::before {
+    background: linear-gradient(90deg, #3b82f6, #1d4ed8);
+  }
+  
+  .management-card.card-green::before {
+    background: linear-gradient(90deg, #10a37f, #0d8f6b);
+  }
+  
+  .management-card.card-purple::before {
+    background: linear-gradient(90deg, #8b5cf6, #7c3aed);
+  }
+  
+  .management-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  }
+  
+  .management-card:hover::before {
+    opacity: 1;
+  }
+  
+  .card-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 32px;
+  }
+  
+  .card-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+  }
+  
+  .icon-blue {
+    background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+    color: #1d4ed8;
+  }
+  
+  .icon-green {
+    background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+    color: #059669;
+  }
+  
+  .icon-purple {
+    background: linear-gradient(135deg, #ede9fe, #ddd6fe);
+    color: #7c3aed;
+  }
+  
+  .management-card:hover .card-icon {
+    transform: scale(1.1);
+  }
+  
+  .card-title h3 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0 0 8px 0;
+  }
+  
+  .card-title p {
+    font-size: 16px;
+    color: #6b7280;
+    margin: 0;
+    line-height: 1.5;
+  }
+  
+  .card-actions {
+    display: flex;
+    gap: 12px;
+  }
+  
+  .action-btn {
+    flex: 1;
+    padding: 14px 20px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-decoration: none;
+    border: none;
+  }
+  
+  .action-btn.primary {
+    background: linear-gradient(135deg, #10a37f, #0d8f6b);
+    color: white;
+  }
+  
+  .action-btn.primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(16, 163, 127, 0.3);
+  }
+  
+  .action-btn.secondary {
+    background: #f8fafc;
+    color: #475569;
+    border: 1px solid #e2e8f0;
+  }
+  
+  .action-btn.secondary:hover {
+    background: #f1f5f9;
+    border-color: #cbd5e1;
+  }
+  
+  .dashboard-footer {
+    text-align: center;
+    padding: 32px 40px;
+    border-top: 1px solid #e5e7eb;
+    background: white;
+    margin-top: 40px;
+  }
+  
+  .dashboard-footer p {
+    margin: 4px 0;
+    color: #6b7280;
+    font-size: 14px;
+  }
+  
+  @media (max-width: 768px) {
+    .dashboard-header {
+      padding: 24px 20px;
+    }
+  
+    .header-text h1 {
+      font-size: 28px;
+    }
+  
+    .dashboard-content {
+      padding: 24px 20px;
+    }
+  
+    .management-grid {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+  
+    .management-card {
+      padding: 24px;
+    }
+  
+    .card-actions {
+      flex-direction: column;
     }
   }
   
