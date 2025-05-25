@@ -50,7 +50,7 @@ function AppInner() {
 
   return <RouterProvider router={router} />;
 }
-//TODO
+
 function App() {
   return (
     <Provider store={store}>
@@ -61,14 +61,6 @@ function App() {
     </Provider>
   );
 }
-
-// function App() {
-//   return (
-//     <AppLayout>
-//       <HomePage />
-//     </AppLayout>
-//   )
-// }
 
 export default App
 
