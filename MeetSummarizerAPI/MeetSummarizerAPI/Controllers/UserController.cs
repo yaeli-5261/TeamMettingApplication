@@ -60,7 +60,7 @@ namespace MeetSummarizer.API.Controllers
 
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> Put(int id, [FromBody] UserCreateDTO userDto)
+        public async Task<ActionResult> Put(int id, [FromBody] UserUpdateDTO userDto)
         {
 
             var current = await _userService.GetUserById(id);
