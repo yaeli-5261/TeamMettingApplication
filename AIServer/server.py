@@ -12,7 +12,7 @@ import boto3
 from botocore.exceptions import NoCredentialsError
 
 load_dotenv()
-api_key = os.getenv('OPENAI_API_KEY')
+api_key = os.getenv('VITE_API_URL_AI')
 
 if not api_key:
     raise ValueError("Missing OPENAI_API_KEY environment variable")
@@ -20,7 +20,10 @@ if not api_key:
 app = Flask(__name__)
 CORS(app)
 client = OpenAI()
+CORS(app)
+
 my_model = "gpt-4o"
+CORS(app)
 
 PROMPT = """
 הטקסט הבא הוא תמלול של ישיבת צוות. 
