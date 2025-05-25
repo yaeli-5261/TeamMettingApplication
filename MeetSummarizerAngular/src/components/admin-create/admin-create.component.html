@@ -1,0 +1,25 @@
+<div *ngIf="isAdmin; else notAuthorized">
+    <h2>Create Role</h2>
+    <form [formGroup]="roleForm" (ngSubmit)="createRole()">
+      <input formControlName="roleName" placeholder="Role Name" />
+      <button type="submit">Create Role</button>
+    </form>
+  
+    <h2>Create Team</h2>
+    <form [formGroup]="teamForm" (ngSubmit)="createTeam()">
+      <input formControlName="teamName" placeholder="Team Name" />
+      <button type="submit">Create Team</button>
+    </form>
+  
+    @if(successMessage){
+        <div style="color: green">{{ successMessage }}</div>
+    }
+    @if(errorMessage){
+        <div style="color: red">{{ errorMessage }}</div>
+    }
+  </div>
+  
+  <ng-template #notAuthorized>
+    <p>You are not authorized to view this page.</p>
+  </ng-template>
+  
