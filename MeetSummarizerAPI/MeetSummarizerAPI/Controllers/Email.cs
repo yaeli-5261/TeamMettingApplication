@@ -114,42 +114,38 @@ namespace MeetSummarizer.API.Controllers
         {
             try
             {
-                // Get user details
                 var user = await _userService.GetUserById(userId);
                 if (user == null)
-                {
                     return NotFound(new { message = "User not found" });
-                }
 
                 if (string.IsNullOrWhiteSpace(user.Email))
-                {
                     return BadRequest(new { message = "User email is missing or empty" });
-                }
 
-                // Email configuration
+                Console.WriteLine($"📧 Will send email to: {user.Email}");
+
                 var smtpHost = _configuration["EmailSettings:SmtpHost"];
                 var smtpPort = int.Parse(_configuration["EmailSettings:SmtpPort"]);
                 var senderEmail = _configuration["EmailSettings:SenderEmail"];
                 var senderPassword = _configuration["EmailSettings:SenderPassword"];
                 var senderName = _configuration["EmailSettings:SenderName"];
 
-                using (var client = new SmtpClient(smtpHost, smtpPort))
+                using var client = new SmtpClient(smtpHost, smtpPort)
                 {
-                    client.EnableSsl = true;
-                    client.Credentials = new NetworkCredential(senderEmail, senderPassword);
+                    EnableSsl = true,
+                    Credentials = new NetworkCredential(senderEmail, senderPassword)
+                };
 
-                    var mailMessage = new MailMessage
-                    {
-                        From = new MailAddress(senderEmail, senderName),
-                        Subject = emailRequest.Subject,
-                        Body = emailRequest.Body,
-                        IsBodyHtml = true
-                    };
+                var mailMessage = new MailMessage
+                {
+                    From = new MailAddress(senderEmail, senderName),
+                    Subject = emailRequest.Subject,
+                    Body = emailRequest.Body,
+                    IsBodyHtml = true
+                };
 
-                    mailMessage.To.Add(user.Email);
+                mailMessage.To.Add(user.Email);
 
-                    await client.SendMailAsync(mailMessage);
-                }
+                await client.SendMailAsync(mailMessage);
 
                 return Ok(new { message = "Email sent successfully" });
             }
@@ -158,6 +154,7 @@ namespace MeetSummarizer.API.Controllers
                 return BadRequest(new { message = "Failed to send email", error = ex.Message });
             }
         }
+
     }
 
     public class EmailRequestDTO
