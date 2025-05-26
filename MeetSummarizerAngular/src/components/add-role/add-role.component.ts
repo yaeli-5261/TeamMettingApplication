@@ -60,7 +60,5 @@ export class AddRoleComponent {
   goBack(): void {
     this.router.navigate(["/management"])
   }
-  Home():void{
-    this.router.navigate(["/home"])
-}
+
 }

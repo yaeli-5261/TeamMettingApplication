@@ -114,9 +114,7 @@ export class DashboardComponent implements OnInit {
       minute: '2-digit'
     })
   }
-  Home():void{
-    this.router.navigate(["/home"])
-}
+
 }
 
 

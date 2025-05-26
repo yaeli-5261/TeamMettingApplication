@@ -247,7 +247,5 @@ export class ListUsersComponent implements OnInit {
       }
     });
   }
-  Home():void{
-    this.router.navigate(["/home"])
-}
+  
 }

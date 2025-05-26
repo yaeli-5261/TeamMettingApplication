@@ -68,9 +68,7 @@ export class RegisterComponent implements OnInit {
       },
     })
   }
-Home():void{
-    this.router.navigate(["/home"])
-}
+
   togglePasswordVisibility(): void {
     this.isPasswordVisible = !this.isPasswordVisible
   }
