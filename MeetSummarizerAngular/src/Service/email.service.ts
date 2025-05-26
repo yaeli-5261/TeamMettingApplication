@@ -30,19 +30,10 @@ export class EmailService {
   private apiUrl = `${environment.apiUrl}/api/Email`;
 
   constructor(private http: HttpClient) {}
-
+ 
+  
   sendEmailToUser(userId: number, subject: string, body: string): Observable<any> {
-    const token = localStorage.getItem("token");
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json"
-    });
 
-    const emailData = {
-      subject,
-      body
-    };
-
-    return this.http.post(`${this.apiUrl}/send-to-user/${userId}`, emailData, { headers });
+    return this.http.post(`${this.apiUrl}/send-to-user/${userId}`,{subject, body}, );
   }
 }
