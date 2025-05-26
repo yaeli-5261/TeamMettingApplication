@@ -88,10 +88,6 @@
 
 
 
-
-
-
-
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mail;
 using System.Net;
@@ -125,7 +121,12 @@ namespace MeetSummarizer.API.Controllers
                     return NotFound(new { message = "User not found" });
                 }
 
-                // Email configuration from appsettings.json
+                if (string.IsNullOrWhiteSpace(user.Email))
+                {
+                    return BadRequest(new { message = "User email is missing or empty" });
+                }
+
+                // Email configuration
                 var smtpHost = _configuration["EmailSettings:SmtpHost"];
                 var smtpPort = int.Parse(_configuration["EmailSettings:SmtpPort"]);
                 var senderEmail = _configuration["EmailSettings:SenderEmail"];
