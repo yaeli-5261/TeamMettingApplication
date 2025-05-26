@@ -1,17 +1,48 @@
-import { Injectable } from "@angular/core"
-import type { Observable } from "rxjs"
+// import { Injectable } from "@angular/core"
+// import type { Observable } from "rxjs"
+// import { environment } from "../environments/environment";
+// import { HttpClient } from "@angular/common/http";
+
+// @Injectable({
+//   providedIn: "root",
+// })
+// export class EmailService {
+//   private apiUrl = `${environment.apiUrl}/api/Email`
+
+//   constructor(private http: HttpClient) {}
+
+//   sendEmailToUser(userId: number, emailData: { subject: string; body: string }): Observable<any> {
+//     return this.http.post(`${this.apiUrl}/send-to-user/${userId}`, emailData)
+//   }
+// }
+
+
+
+import { Injectable } from "@angular/core";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { Observable } from "rxjs";
 import { environment } from "../environments/environment";
-import { HttpClient } from "@angular/common/http";
 
 @Injectable({
-  providedIn: "root",
+  providedIn: "root"
 })
 export class EmailService {
-  private apiUrl = `${environment.apiUrl}/api/Email`
+  private apiUrl = `${environment.apiUrl}/api/Email`;
 
   constructor(private http: HttpClient) {}
 
-  sendEmailToUser(userId: number, emailData: { subject: string; body: string }): Observable<any> {
-    return this.http.post(`${this.apiUrl}/send-to-user/${userId}`, emailData)
+  sendEmailToUser(userId: number, subject: string, body: string): Observable<any> {
+    const token = localStorage.getItem("token");
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json"
+    });
+
+    const emailData = {
+      subject,
+      body
+    };
+
+    return this.http.post(`${this.apiUrl}/send-to-user/${userId}`, emailData, { headers });
   }
 }

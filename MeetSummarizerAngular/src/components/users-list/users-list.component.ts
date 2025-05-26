@@ -171,6 +171,7 @@ import { TeamService } from "../../Service/team.service"
 import { RoleService } from "../../Service/role.service"
 import { EmailService } from "../../Service/email.service"
 
+
 interface User {
   id: number
   userName: string
@@ -348,21 +349,23 @@ export class UsersListComponent implements OnInit {
     if (!this.selectedUser || !this.emailForm.subject.trim() || !this.emailForm.body.trim()) {
       return
     }
+    this.isSendingEmail = true;
 
-    this.isSendingEmail = true
-
-    this.emailService.sendEmailToUser(this.selectedUser.id, this.emailForm).subscribe({
-      next: (response:any) => {
-        console.log("Email sent successfully:", response)
-        this.isSendingEmail = false
-        this.closeEmailModal()
-        // You can add a success notification here
+    const subject = this.emailForm.subject;
+    const body = this.emailForm.body;
+    
+    this.emailService.sendEmailToUser(this.selectedUser.id, subject, body).subscribe({
+      next: (response: any) => {
+        console.log("Email sent successfully:", response);
+        this.isSendingEmail = false;
+        this.closeEmailModal(); // סוגר את המודל אחרי שליחה
       },
-      error: (error:any) => {
-        console.error("Error sending email:", error)
-        this.isSendingEmail = false
-        // You can add an error notification here
-      },
-    })
+      error: (error: any) => {
+        console.error("Error sending email:", error);
+        this.isSendingEmail = false;
+      }
+    });
+    
+    
   }
 }
