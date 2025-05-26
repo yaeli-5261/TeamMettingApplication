@@ -147,8 +147,10 @@ var app = builder.Build();
 app.UseDeveloperExceptionPage();
 
 // Configure the HTTP request pipeline.
-//if (app.Environment.IsDevelopment())
-//{
+if (app.Environment.IsDevelopment())
+{
+    builder.Configuration.AddUserSecrets<Program>();
+}
     app.UseDeveloperExceptionPage(); // ✅ מציג שגיאות מפורטות
     app.UseSwagger();
     app.UseSwaggerUI();
