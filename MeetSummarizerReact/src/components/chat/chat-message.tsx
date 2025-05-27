@@ -838,24 +838,6 @@ export default function TeamChat() {
               }}
             />
 
-            <Tooltip title="Video call">
-              <IconButton sx={{ color: "#5f6368" }}>
-                <VideoIcon />
-              </IconButton>
-            </Tooltip>
-
-            <Tooltip title="Phone call">
-              <IconButton sx={{ color: "#5f6368" }}>
-                <PhoneIcon />
-              </IconButton>
-            </Tooltip>
-
-            <Tooltip title="Chat info">
-              <IconButton sx={{ color: "#5f6368" }}>
-                <InfoIcon />
-              </IconButton>
-            </Tooltip>
-
             <Tooltip title="More options">
               <IconButton sx={{ color: "#5f6368" }} onClick={(e) => setMoreAnchor(e.currentTarget)}>
                 <MoreIcon />
