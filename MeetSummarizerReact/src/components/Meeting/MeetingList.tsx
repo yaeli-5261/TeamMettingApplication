@@ -571,6 +571,12 @@
 // }
 
 
+
+
+
+
+
+
 "use client"
 
 import type React from "react"
@@ -682,7 +688,7 @@ export default function MeetingList({ meetings: meetingsFromProps }: MeetingList
   const formatDate = (dateString: string) => {
     try {
       const date = new Date(dateString)
-      return new Intl.DateTimeFormat("he-IL", {
+      return new Intl.DateTimeFormat("en-US", {
         year: "numeric",
         month: "short",
         day: "numeric",
@@ -751,11 +757,11 @@ export default function MeetingList({ meetings: meetingsFromProps }: MeetingList
       try {
         await dispatch(deleteMeeting(meetingToDelete)).unwrap()
         setMeetings((prevMeetings) => prevMeetings.filter((meeting) => meeting.id !== meetingToDelete))
-        setSnackbarMessage("הפגישה נמחקה בהצלחה")
+        setSnackbarMessage("Meeting deleted successfully")
         setSnackbarOpen(true)
       } catch (error) {
         console.error("Error deleting meeting:", error)
-        setSnackbarMessage("שגיאה במחיקת הפגישה")
+        setSnackbarMessage("Error deleting meeting")
         setSnackbarOpen(true)
       }
       setDeleteDialogOpen(false)
@@ -768,70 +774,84 @@ export default function MeetingList({ meetings: meetingsFromProps }: MeetingList
   }
 
   return (
-    <Box sx={{ width: "100%", p: 3 }}>
+    <Box
+      sx={{
+        width: "100%",
+        height: "100vh",
+        overflow: "auto",
+        p: 2,
+        direction: "rtl",
+        textAlign: "right",
+      }}
+    >
       {/* Header */}
       <Paper
         elevation={0}
         sx={{
-          borderRadius: 2,
+          borderRadius: 1,
           background: "rgba(255, 255, 255, 0.9)",
           border: "1px solid rgba(255, 255, 255, 0.2)",
-          boxShadow: "0 4px 16px rgba(0, 0, 0, 0.08)",
-          mb: 3,
+          boxShadow: "0 2px 8px rgba(0, 0, 0, 0.08)",
+          mb: 2,
           overflow: "hidden",
+          height: "120px",
         }}
       >
-        <Box sx={{ p: 3 }}>
+        <Box sx={{ p: 2, height: "100%" }}>
           <Box
             sx={{
               display: "flex",
               flexDirection: { xs: "column", sm: "row" },
               justifyContent: "space-between",
               alignItems: { xs: "flex-start", sm: "center" },
-              mb: 2,
-              gap: 2,
+              mb: 1.5,
+              gap: 1,
             }}
           >
             <Box>
-              <Typography variant="h5" fontWeight={700} color="text.primary" gutterBottom>
-                פגישות
+              <Typography variant="h6" fontWeight={700} color="text.primary" gutterBottom sx={{ fontSize: "1rem" }}>
+                Meetings
               </Typography>
-              <Typography variant="body1" color="text.secondary">
-                נהל את כל הפגישות שלך במקום אחד
+              <Typography variant="body2" color="text.secondary" sx={{ fontSize: "0.75rem" }}>
+                Manage all your meetings in one place
               </Typography>
             </Box>
-            <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
+            <Box sx={{ display: "flex", gap: 0.5, flexWrap: "wrap" }}>
               <Button
                 variant="outlined"
                 size="small"
-                startIcon={<FilterListIcon />}
+                startIcon={<FilterListIcon sx={{ fontSize: 14 }} />}
                 onClick={handleFilterMenuOpen}
                 sx={{
                   borderColor: "divider",
                   color: "text.secondary",
                   textTransform: "none",
                   borderRadius: 1,
+                  fontSize: "0.7rem",
+                  height: 28,
                 }}
               >
-                סינון
+                Filter
               </Button>
               <Button
                 variant="outlined"
                 size="small"
-                startIcon={<SortIcon />}
+                startIcon={<SortIcon sx={{ fontSize: 14 }} />}
                 onClick={handleSortMenuOpen}
                 sx={{
                   borderColor: "divider",
                   color: "text.secondary",
                   textTransform: "none",
                   borderRadius: 1,
+                  fontSize: "0.7rem",
+                  height: 28,
                 }}
               >
-                מיון
+                Sort
               </Button>
               <Button
                 variant="contained"
-                startIcon={<AddIcon />}
+                startIcon={<AddIcon sx={{ fontSize: 14 }} />}
                 onClick={() => navigate("/add-meeting")}
                 sx={{
                   background: "linear-gradient(135deg, #10a37f 0%, #0ea5e9 100%)",
@@ -839,12 +859,14 @@ export default function MeetingList({ meetings: meetingsFromProps }: MeetingList
                   textTransform: "none",
                   fontWeight: 600,
                   borderRadius: 1,
+                  fontSize: "0.7rem",
+                  height: 28,
                   "&:hover": {
                     background: "linear-gradient(135deg, #0e8a6c 0%, #0284c7 100%)",
                   },
                 }}
               >
-                פגישה חדשה
+                New Meeting
               </Button>
             </Box>
           </Box>
@@ -855,132 +877,154 @@ export default function MeetingList({ meetings: meetingsFromProps }: MeetingList
       </Paper>
 
       {/* Meetings Grid */}
-      {loading ? (
-        <Grid container spacing={2}>
-          {Array.from(new Array(6)).map((_, index) => (
-            <Grid item xs={12} sm={6} lg={4} key={index}>
-              <Card sx={{ borderRadius: 2 }}>
-                <CardContent sx={{ p: 2 }}>
-                  <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
-                    <Skeleton variant="circular" width={40} height={40} sx={{ mr: 2 }} />
-                    <Skeleton variant="text" width={120} height={20} />
-                  </Box>
-                  <Skeleton variant="text" width="80%" height={16} />
-                  <Skeleton variant="text" width="60%" height={16} />
-                </CardContent>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
-      ) : sortedMeetings.length > 0 ? (
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.4 }}>
-          <Grid container spacing={2}>
-            {sortedMeetings.map((meeting) => (
-              <Grid item xs={12} sm={6} lg={4} key={meeting.id}>
-                <motion.div
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <Card
-                    sx={{
-                      borderRadius: 2,
-                      background: "rgba(255, 255, 255, 0.9)",
-                      border: "1px solid rgba(255, 255, 255, 0.2)",
-                      boxShadow: "0 2px 8px rgba(0, 0, 0, 0.08)",
-                      transition: "all 0.2s ease",
-                      "&:hover": {
-                        transform: "translateY(-2px)",
-                        boxShadow: "0 4px 16px rgba(0, 0, 0, 0.12)",
-                      },
-                    }}
-                  >
-                    <CardContent sx={{ p: 2 }}>
-                      <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", mb: 1 }}>
-                        <Box sx={{ display: "flex", alignItems: "center" }}>
-                          <Avatar
-                            sx={{
-                              background: "linear-gradient(135deg, #10a37f 0%, #0ea5e9 100%)",
-                              width: 40,
-                              height: 40,
-                              mr: 2,
-                              fontWeight: 600,
-                              fontSize: "1rem",
-                            }}
-                          >
-                            {meeting.name.charAt(0).toUpperCase()}
-                          </Avatar>
-                          <Typography variant="h6" fontWeight={600} noWrap sx={{ fontSize: "1rem" }}>
-                            {meeting.name}
-                          </Typography>
-                        </Box>
-                        <IconButton
-                          size="small"
-                          onClick={(e) => handleMenuOpen(e, meeting.id)}
-                          aria-label="אפשרויות נוספות"
-                        >
-                          <MoreVertIcon fontSize="small" />
-                        </IconButton>
-                      </Box>
-
-                      <Box sx={{ display: "flex", alignItems: "center", mb: 1, color: "text.secondary" }}>
-                        <CalendarTodayIcon sx={{ mr: 1, fontSize: 16 }} />
-                        <Typography variant="body2" sx={{ fontSize: "0.875rem" }}>
-                          {formatDate(meeting.date)}
-                        </Typography>
-                      </Box>
-
-                      <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                        <Box>
-                          {meeting.linkTranscriptFile && (
-                            <Chip
-                              label="תמלול זמין"
-                              size="small"
-                              sx={{
-                                bgcolor: "#10a37f20",
-                                color: "#10a37f",
-                                fontWeight: 500,
-                                fontSize: "0.75rem",
-                              }}
-                            />
-                          )}
-                        </Box>
-                        <Button
-                          variant="text"
-                          size="small"
-                          startIcon={<VisibilityIcon fontSize="small" />}
-                          onClick={() => navigate(`/meeting-details/${meeting.id}`)}
-                          sx={{
-                            color: "#10a37f",
-                            textTransform: "none",
-                            fontWeight: 500,
-                            fontSize: "0.875rem",
-                          }}
-                        >
-                          הצג פרטים
-                        </Button>
-                      </Box>
-                    </CardContent>
-                  </Card>
-                </motion.div>
+      <Box sx={{ height: "calc(100vh - 160px)", overflow: "auto" }}>
+        {loading ? (
+          <Grid container spacing={1.5}>
+            {Array.from(new Array(6)).map((_, index) => (
+              <Grid item xs={12} sm={6} lg={4} key={index}>
+                <Card sx={{ borderRadius: 1, height: 120 }}>
+                  <CardContent sx={{ p: 1.5 }}>
+                    <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
+                      <Skeleton variant="circular" width={32} height={32} sx={{ mr: 1.5 }} />
+                      <Skeleton variant="text" width={100} height={16} />
+                    </Box>
+                    <Skeleton variant="text" width="80%" height={14} />
+                    <Skeleton variant="text" width="60%" height={14} />
+                  </CardContent>
+                </Card>
               </Grid>
             ))}
           </Grid>
-        </motion.div>
-      ) : (
-        <Box
-          sx={{
-            textAlign: "center",
-            py: 6,
-            color: "text.secondary",
-          }}
-        >
-          <Typography variant="h6" gutterBottom>
-            לא נמצאו פגישות
-          </Typography>
-          <Typography variant="body1">נסה לחפש מחדש או צור פגישה חדשה.</Typography>
-        </Box>
-      )}
+        ) : sortedMeetings.length > 0 ? (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.4 }}>
+            <Grid container spacing={1.5}>
+              {sortedMeetings.map((meeting) => (
+                <Grid item xs={12} sm={6} lg={4} key={meeting.id}>
+                  <motion.div
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <Card
+                      sx={{
+                        borderRadius: 1,
+                        background: "rgba(255, 255, 255, 0.9)",
+                        border: "1px solid rgba(255, 255, 255, 0.2)",
+                        boxShadow: "0 1px 4px rgba(0, 0, 0, 0.08)",
+                        transition: "all 0.2s ease",
+                        height: 120,
+                        "&:hover": {
+                          transform: "translateY(-1px)",
+                          boxShadow: "0 2px 8px rgba(0, 0, 0, 0.12)",
+                        },
+                      }}
+                    >
+                      <CardContent sx={{ p: 1.5, height: "100%" }}>
+                        <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", mb: 1 }}>
+                          <Box sx={{ display: "flex", alignItems: "center", flex: 1, minWidth: 0 }}>
+                            <Avatar
+                              sx={{
+                                background: "linear-gradient(135deg, #10a37f 0%, #0ea5e9 100%)",
+                                width: 32,
+                                height: 32,
+                                mr: 1.5,
+                                fontWeight: 600,
+                                fontSize: "0.75rem",
+                              }}
+                            >
+                              {meeting.name.charAt(0).toUpperCase()}
+                            </Avatar>
+                            <Typography
+                              variant="subtitle2"
+                              fontWeight={600}
+                              noWrap
+                              sx={{
+                                fontSize: "0.8rem",
+                                flex: 1,
+                                minWidth: 0,
+                              }}
+                            >
+                              {meeting.name}
+                            </Typography>
+                          </Box>
+                          <IconButton
+                            size="small"
+                            onClick={(e) => handleMenuOpen(e, meeting.id)}
+                            aria-label="More options"
+                            sx={{ flexShrink: 0 }}
+                          >
+                            <MoreVertIcon sx={{ fontSize: 14 }} />
+                          </IconButton>
+                        </Box>
+
+                        <Box sx={{ display: "flex", alignItems: "center", mb: 1, color: "text.secondary" }}>
+                          <CalendarTodayIcon sx={{ mr: 1, fontSize: 12 }} />
+                          <Typography variant="caption" sx={{ fontSize: "0.7rem" }}>
+                            {formatDate(meeting.date)}
+                          </Typography>
+                        </Box>
+
+                        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                          <Box>
+                            {meeting.linkTranscriptFile && (
+                              <Chip
+                                label="Transcript Available"
+                                size="small"
+                                sx={{
+                                  bgcolor: "#10a37f20",
+                                  color: "#10a37f",
+                                  fontWeight: 500,
+                                  fontSize: "0.65rem",
+                                  height: 18,
+                                }}
+                              />
+                            )}
+                          </Box>
+                          <Button
+                            variant="text"
+                            size="small"
+                            startIcon={<VisibilityIcon sx={{ fontSize: 12 }} />}
+                            onClick={() => navigate(`/meeting-details/${meeting.id}`)}
+                            sx={{
+                              color: "#10a37f",
+                              textTransform: "none",
+                              fontWeight: 500,
+                              fontSize: "0.7rem",
+                              minWidth: "auto",
+                              p: 0.5,
+                            }}
+                          >
+                            View
+                          </Button>
+                        </Box>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                </Grid>
+              ))}
+            </Grid>
+          </motion.div>
+        ) : (
+          <Box
+            sx={{
+              textAlign: "center",
+              py: 4,
+              color: "text.secondary",
+              height: "100%",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+            }}
+          >
+            <Typography variant="subtitle1" gutterBottom sx={{ fontSize: "0.9rem" }}>
+              No meetings found
+            </Typography>
+            <Typography variant="body2" sx={{ fontSize: "0.75rem" }}>
+              Try searching again or create a new meeting.
+            </Typography>
+          </Box>
+        )}
+      </Box>
 
       {/* Menus */}
       <Menu
@@ -994,16 +1038,16 @@ export default function MeetingList({ meetings: meetingsFromProps }: MeetingList
           <ListItemIcon>
             <CalendarTodayIcon fontSize="small" />
           </ListItemIcon>
-          <Typography variant="body2">
-            לפי תאריך {sortBy === "date" && (sortDirection === "asc" ? "(מהישן לחדש)" : "(מהחדש לישן)")}
+          <Typography variant="body2" sx={{ fontSize: "0.75rem" }}>
+            By Date {sortBy === "date" && (sortDirection === "asc" ? "(Old to New)" : "(New to Old)")}
           </Typography>
         </MenuItem>
         <MenuItem onClick={() => handleSort("name")} selected={sortBy === "name"}>
           <ListItemIcon>
             <SortIcon fontSize="small" />
           </ListItemIcon>
-          <Typography variant="body2">
-            לפי שם {sortBy === "name" && (sortDirection === "asc" ? "(א-ת)" : "(ת-א)")}
+          <Typography variant="body2" sx={{ fontSize: "0.75rem" }}>
+            By Name {sortBy === "name" && (sortDirection === "asc" ? "(A-Z)" : "(Z-A)")}
           </Typography>
         </MenuItem>
       </Menu>
@@ -1016,13 +1060,19 @@ export default function MeetingList({ meetings: meetingsFromProps }: MeetingList
         transformOrigin={{ vertical: "top", horizontal: "right" }}
       >
         <MenuItem onClick={handleFilterMenuClose}>
-          <Typography variant="body2">כל הפגישות</Typography>
+          <Typography variant="body2" sx={{ fontSize: "0.75rem" }}>
+            All Meetings
+          </Typography>
         </MenuItem>
         <MenuItem onClick={handleFilterMenuClose}>
-          <Typography variant="body2">פגישות עם תמלול</Typography>
+          <Typography variant="body2" sx={{ fontSize: "0.75rem" }}>
+            With Transcript
+          </Typography>
         </MenuItem>
         <MenuItem onClick={handleFilterMenuClose}>
-          <Typography variant="body2">פגישות ללא תמלול</Typography>
+          <Typography variant="body2" sx={{ fontSize: "0.75rem" }}>
+            Without Transcript
+          </Typography>
         </MenuItem>
       </Menu>
 
@@ -1042,7 +1092,9 @@ export default function MeetingList({ meetings: meetingsFromProps }: MeetingList
           <ListItemIcon>
             <EditIcon fontSize="small" />
           </ListItemIcon>
-          <Typography variant="body2">ערוך פגישה</Typography>
+          <Typography variant="body2" sx={{ fontSize: "0.75rem" }}>
+            Edit Meeting
+          </Typography>
         </MenuItem>
         <MenuItem
           onClick={() => {
@@ -1052,26 +1104,34 @@ export default function MeetingList({ meetings: meetingsFromProps }: MeetingList
           <ListItemIcon>
             <DeleteIcon fontSize="small" color="error" />
           </ListItemIcon>
-          <Typography variant="body2" color="error.main">
-            מחק פגישה
+          <Typography variant="body2" color="error.main" sx={{ fontSize: "0.75rem" }}>
+            Delete Meeting
           </Typography>
         </MenuItem>
       </Menu>
 
       {/* Delete Dialog */}
-      <Dialog open={deleteDialogOpen} onClose={handleDeleteCancel} PaperProps={{ sx: { borderRadius: 2 } }}>
-        <DialogTitle sx={{ color: "error.main" }}>{"האם אתה בטוח שברצונך למחוק את הפגישה?"}</DialogTitle>
+      <Dialog open={deleteDialogOpen} onClose={handleDeleteCancel} PaperProps={{ sx: { borderRadius: 1 } }}>
+        <DialogTitle sx={{ color: "error.main", fontSize: "0.9rem" }}>
+          {"Are you sure you want to delete this meeting?"}
+        </DialogTitle>
         <DialogContent>
-          <Typography variant="body1">
-            פעולה זו אינה ניתנת לביטול. כל הנתונים הקשורים לפגישה זו יימחקו לצמיתות.
+          <Typography variant="body2" sx={{ fontSize: "0.75rem" }}>
+            This action cannot be undone. All data related to this meeting will be permanently deleted.
           </Typography>
         </DialogContent>
-        <DialogActions sx={{ p: 2 }}>
-          <Button onClick={handleDeleteCancel} color="inherit">
-            ביטול
+        <DialogActions sx={{ p: 1.5 }}>
+          <Button onClick={handleDeleteCancel} color="inherit" sx={{ fontSize: "0.75rem" }}>
+            Cancel
           </Button>
-          <Button onClick={handleDeleteConfirm} variant="contained" color="error" startIcon={<DeleteIcon />}>
-            מחק פגישה
+          <Button
+            onClick={handleDeleteConfirm}
+            variant="contained"
+            color="error"
+            startIcon={<DeleteIcon sx={{ fontSize: 14 }} />}
+            sx={{ fontSize: "0.75rem" }}
+          >
+            Delete Meeting
           </Button>
         </DialogActions>
       </Dialog>
@@ -1093,10 +1153,11 @@ export default function MeetingList({ meetings: meetingsFromProps }: MeetingList
         onClose={handleCloseSnackbar}
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
-        <Alert onClose={handleCloseSnackbar} severity={snackbarMessage.includes("שגיאה") ? "error" : "success"}>
-          {snackbarMessage}
+        <Alert onClose={handleCloseSnackbar} severity={snackbarMessage.includes("Error") ? "error" : "success"}>
+          <Typography sx={{ fontSize: "0.75rem" }}>{snackbarMessage}</Typography>
         </Alert>
       </Snackbar>
     </Box>
   )
 }
+

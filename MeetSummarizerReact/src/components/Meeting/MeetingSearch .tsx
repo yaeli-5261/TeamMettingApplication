@@ -157,14 +157,23 @@ export default function MeetingSearch({ onSearch }: MeetingSearchProps) {
   }
 
   return (
-    <Box sx={{ width: "100%", mb: 2 }}>
+    <Box
+      sx={{
+        width: "100%",
+        height: "60px",
+        display: "flex",
+        alignItems: "center",
+        mb: 1,
+      }}
+    >
       <Paper
         elevation={0}
         sx={{
           display: "flex",
           alignItems: "center",
           width: "100%",
-          borderRadius: 2,
+          height: "40px",
+          borderRadius: 1,
           border: "1px solid",
           borderColor: "divider",
           overflow: "hidden",
@@ -172,31 +181,31 @@ export default function MeetingSearch({ onSearch }: MeetingSearchProps) {
           background: "white",
           "&:hover": {
             borderColor: "#10a37f",
-            boxShadow: "0 2px 8px rgba(16, 163, 127, 0.15)",
+            boxShadow: "0 1px 4px rgba(16, 163, 127, 0.15)",
           },
           "&:focus-within": {
             borderColor: "#10a37f",
-            boxShadow: "0 4px 12px rgba(16, 163, 127, 0.2)",
+            boxShadow: "0 2px 8px rgba(16, 163, 127, 0.2)",
           },
         }}
       >
-        <InputAdornment position="start" sx={{ pl: 2 }}>
+        <InputAdornment position="start" sx={{ pl: 1.5 }}>
           <SearchIcon
             sx={{
               color: searchValue ? "#10a37f" : "text.secondary",
               transition: "color 0.2s ease",
-              fontSize: 20,
+              fontSize: 16,
             }}
           />
         </InputAdornment>
         <TextField
-          placeholder="חפש פגישות לפי שם..."
+          placeholder="Search meetings by name..."
           value={searchValue}
           onChange={handleSearch}
           variant="standard"
           fullWidth
           sx={{
-            px: 2,
+            px: 1.5,
             "& .MuiInput-root": {
               border: "none",
               "&:before, &:after": {
@@ -204,8 +213,8 @@ export default function MeetingSearch({ onSearch }: MeetingSearchProps) {
               },
             },
             "& .MuiInputBase-input": {
-              py: 1.5,
-              fontSize: "1rem",
+              py: 1,
+              fontSize: "0.875rem",
               "&::placeholder": {
                 color: "text.secondary",
                 opacity: 0.7,
@@ -216,12 +225,12 @@ export default function MeetingSearch({ onSearch }: MeetingSearchProps) {
             disableUnderline: true,
             endAdornment: searchValue ? (
               <Fade in={Boolean(searchValue)}>
-                <Tooltip title="נקה חיפוש">
+                <Tooltip title="Clear search">
                   <IconButton
                     size="small"
                     onClick={handleClear}
                     sx={{
-                      mr: 1,
+                      mr: 0.5,
                       color: "text.secondary",
                       "&:hover": {
                         color: "#10a37f",

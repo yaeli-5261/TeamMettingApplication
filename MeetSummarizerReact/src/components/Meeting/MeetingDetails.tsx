@@ -358,8 +358,6 @@
 // }
 
 
-
-
 "use client"
 
 import { useParams, useNavigate } from "react-router-dom"
@@ -421,7 +419,7 @@ export default function MeetingDetails() {
         setMeeting(data)
       } catch (err) {
         console.error("Error fetching meeting:", err)
-        setError("שגיאה בטעינת פרטי הפגישה")
+        setError("Error loading meeting details")
       } finally {
         setLoading(false)
       }
@@ -445,8 +443,8 @@ export default function MeetingDetails() {
       setFileContent(fileResponse.data)
       setIsFileDialogOpen(true)
     } catch (error) {
-      console.error("❌ שגיאה בטעינת תוכן הקובץ:", error)
-      setFileContent("⚠️ שגיאה בטעינת הקובץ")
+      console.error("❌ Error loading file content:", error)
+      setFileContent("⚠️ Error loading file")
       setIsFileDialogOpen(true)
     }
   }
@@ -454,7 +452,7 @@ export default function MeetingDetails() {
   const formatDate = (dateString: string) => {
     try {
       const date = new Date(dateString)
-      return new Intl.DateTimeFormat("he-IL", {
+      return new Intl.DateTimeFormat("en-US", {
         year: "numeric",
         month: "long",
         day: "numeric",
@@ -468,7 +466,7 @@ export default function MeetingDetails() {
 
   const getFileName = (filePath: string) => {
     if (!filePath) return ""
-    return filePath.split("/").pop() || "קובץ"
+    return filePath.split("/").pop() || "File"
   }
 
   function getCookie(name: string): string | null {
@@ -484,14 +482,23 @@ export default function MeetingDetails() {
 
   if (loading) {
     return (
-      <Box sx={{ width: "100%", p: 3 }}>
-        <Skeleton variant="rectangular" width="100%" height={120} sx={{ borderRadius: 2, mb: 3 }} />
-        <Grid container spacing={3}>
+      <Box
+        sx={{
+          width: "100%",
+          height: "100vh",
+          p: 2,
+          direction: "rtl",
+          textAlign: "right",
+          overflow: "auto",
+        }}
+      >
+        <Skeleton variant="rectangular" width="100%" height={80} sx={{ borderRadius: 1, mb: 2 }} />
+        <Grid container spacing={2}>
           <Grid item xs={12} md={8}>
-            <Skeleton variant="rectangular" width="100%" height={200} sx={{ borderRadius: 2 }} />
+            <Skeleton variant="rectangular" width="100%" height={150} sx={{ borderRadius: 1 }} />
           </Grid>
           <Grid item xs={12} md={4}>
-            <Skeleton variant="rectangular" width="100%" height={200} sx={{ borderRadius: 2 }} />
+            <Skeleton variant="rectangular" width="100%" height={150} sx={{ borderRadius: 1 }} />
           </Grid>
         </Grid>
       </Box>
@@ -500,8 +507,19 @@ export default function MeetingDetails() {
 
   if (error) {
     return (
-      <Box sx={{ width: "100%", p: 3, display: "flex", justifyContent: "center" }}>
-        <Alert severity="error" sx={{ borderRadius: 2 }}>
+      <Box
+        sx={{
+          width: "100%",
+          height: "100vh",
+          p: 2,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          direction: "rtl",
+          textAlign: "right",
+        }}
+      >
+        <Alert severity="error" sx={{ borderRadius: 1, fontSize: "0.75rem" }}>
           {error}
         </Alert>
       </Box>
@@ -510,82 +528,106 @@ export default function MeetingDetails() {
 
   if (!meeting) {
     return (
-      <Box sx={{ width: "100%", p: 3, display: "flex", justifyContent: "center" }}>
-        <Alert severity="warning" sx={{ borderRadius: 2 }}>
-          לא נמצאה פגישה עם המזהה המבוקש
+      <Box
+        sx={{
+          width: "100%",
+          height: "100vh",
+          p: 2,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          direction: "rtl",
+          textAlign: "right",
+        }}
+      >
+        <Alert severity="warning" sx={{ borderRadius: 1, fontSize: "0.75rem" }}>
+          Meeting not found with the requested ID
         </Alert>
       </Box>
     )
   }
 
   return (
-    <Box sx={{ width: "100%", p: 3 }}>
+    <Box
+      sx={{
+        width: "100%",
+        height: "100vh",
+        overflow: "auto",
+        p: 2,
+        direction: "rtl",
+        textAlign: "right",
+      }}
+    >
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
         {/* Header */}
-        <Box sx={{ mb: 3 }}>
+        <Box sx={{ mb: 2, height: "100px" }}>
           <Button
             startIcon={<ArrowBackIcon />}
             onClick={() => navigate("/meetings")}
             sx={{
-              mb: 2,
+              mb: 1,
               color: "text.secondary",
               textTransform: "none",
-              fontWeight: 600,
+              fontWeight: 500,
+              fontSize: "0.75rem",
               "&:hover": {
                 color: "#10a37f",
                 backgroundColor: "rgba(16, 163, 127, 0.1)",
               },
             }}
           >
-            חזרה לרשימת הפגישות
+            Back to Meetings
           </Button>
 
           {/* Meeting Header Card */}
           <Paper
             elevation={0}
             sx={{
-              borderRadius: 2,
+              borderRadius: 1,
               background: "rgba(255, 255, 255, 0.9)",
               border: "1px solid rgba(255, 255, 255, 0.2)",
-              boxShadow: "0 4px 16px rgba(0, 0, 0, 0.08)",
+              boxShadow: "0 2px 8px rgba(0, 0, 0, 0.08)",
               overflow: "hidden",
               position: "relative",
+              height: "70px",
               "&::before": {
                 content: '""',
                 position: "absolute",
                 top: 0,
                 left: 0,
                 right: 0,
-                height: "3px",
+                height: "2px",
                 background: "linear-gradient(90deg, #10a37f 0%, #0ea5e9 100%)",
               },
             }}
           >
-            <Box sx={{ p: 3 }}>
-              <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            <Box sx={{ p: 2, height: "100%", display: "flex", alignItems: "center" }}>
+              <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%" }}>
                 <Box sx={{ display: "flex", alignItems: "center" }}>
                   <Avatar
                     sx={{
                       background: "linear-gradient(135deg, #10a37f 0%, #0ea5e9 100%)",
-                      width: 48,
-                      height: 48,
-                      mr: 2,
+                      width: 32,
+                      height: 32,
+                      mr: 1.5,
                       fontWeight: 600,
+                      fontSize: "0.875rem",
                     }}
                   >
                     {meeting.name.charAt(0).toUpperCase()}
                   </Avatar>
                   <Box>
-                    <Typography variant="h5" fontWeight={700} color="text.primary">
+                    <Typography variant="subtitle1" fontWeight={700} color="text.primary" sx={{ fontSize: "0.875rem" }}>
                       {meeting.name}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      פרטי פגישה מפורטים
+                    <Typography variant="caption" color="text.secondary" sx={{ fontSize: "0.7rem" }}>
+                      Detailed meeting information
                     </Typography>
                   </Box>
                 </Box>
-                <Tooltip title="ערוך פגישה">
+                <Tooltip title="Edit Meeting">
                   <IconButton
+                    size="small"
                     color="primary"
                     onClick={() => setSelectedMeeting(meeting)}
                     sx={{
@@ -595,7 +637,7 @@ export default function MeetingDetails() {
                       },
                     }}
                   >
-                    <EditIcon />
+                    <EditIcon sx={{ fontSize: 16 }} />
                   </IconButton>
                 </Tooltip>
               </Box>
@@ -604,141 +646,176 @@ export default function MeetingDetails() {
         </Box>
 
         {/* Main Content */}
-        <Grid container spacing={3}>
-          {/* Meeting Details */}
-          <Grid item xs={12} lg={8}>
-            <Card
-              sx={{
-                borderRadius: 2,
-                background: "rgba(255, 255, 255, 0.9)",
-                border: "1px solid rgba(255, 255, 255, 0.2)",
-                boxShadow: "0 4px 16px rgba(0, 0, 0, 0.08)",
-                mb: 3,
-              }}
-            >
-              <CardContent sx={{ p: 3 }}>
-                <Typography variant="h6" fontWeight={600} gutterBottom>
-                  פרטי הפגישה
-                </Typography>
-                <Divider sx={{ mb: 2 }} />
+        <Box sx={{ height: "calc(100vh - 140px)" }}>
+          <Grid container spacing={2} sx={{ height: "100%" }}>
+            {/* Meeting Details */}
+            <Grid item xs={12} lg={8} sx={{ height: "100%" }}>
+              <Box sx={{ height: "100%", display: "flex", flexDirection: "column", gap: 2 }}>
+                <Card
+                  sx={{
+                    borderRadius: 1,
+                    background: "rgba(255, 255, 255, 0.9)",
+                    border: "1px solid rgba(255, 255, 255, 0.2)",
+                    boxShadow: "0 2px 8px rgba(0, 0, 0, 0.08)",
+                    height: "50%",
+                    overflow: "auto",
+                  }}
+                >
+                  <CardContent sx={{ p: 2 }}>
+                    <Typography variant="subtitle2" fontWeight={600} gutterBottom sx={{ fontSize: "0.8rem" }}>
+                      Meeting Details
+                    </Typography>
+                    <Divider sx={{ mb: 1.5 }} />
 
-                <Grid container spacing={2}>
-                  <Grid item xs={12} md={6}>
-                    <Box sx={{ mb: 2 }}>
-                      <Typography variant="body2" color="text.secondary" gutterBottom fontWeight={600}>
-                        תאריך ושעה
-                      </Typography>
-                      <Box sx={{ display: "flex", alignItems: "center" }}>
-                        <CalendarTodayIcon sx={{ mr: 1, color: "#10a37f", fontSize: 18 }} />
-                        <Typography variant="body1" fontWeight={500}>
-                          {formatDate(meeting.date)}
-                        </Typography>
-                      </Box>
-                    </Box>
-                  </Grid>
-
-                  {meeting.linkOrinignFile && (
-                    <Grid item xs={12}>
-                      <Box sx={{ mb: 2 }}>
-                        <Typography variant="body2" color="text.secondary" gutterBottom fontWeight={600}>
-                          קובץ מקור
-                        </Typography>
-                        <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
-                          <DescriptionIcon sx={{ mr: 1, color: "#10a37f", fontSize: 18 }} />
-                          <Typography variant="body1" fontWeight={500}>
-                            {getFileName(meeting.linkOrinignFile)}
+                    <Grid container spacing={1.5}>
+                      <Grid item xs={12} md={6}>
+                        <Box sx={{ mb: 1.5 }}>
+                          <Typography
+                            variant="caption"
+                            color="text.secondary"
+                            gutterBottom
+                            fontWeight={600}
+                            sx={{ fontSize: "0.7rem" }}
+                          >
+                            Date & Time
                           </Typography>
+                          <Box sx={{ display: "flex", alignItems: "center" }}>
+                            <CalendarTodayIcon sx={{ mr: 1, color: "#10a37f", fontSize: 14 }} />
+                            <Typography variant="body2" fontWeight={500} sx={{ fontSize: "0.75rem" }}>
+                              {formatDate(meeting.date)}
+                            </Typography>
+                          </Box>
                         </Box>
-                        <FileViewer
-                          filePath={meeting.linkOrinignFile}
-                          fileName={getFileName(meeting.linkOrinignFile)}
-                        />
-                      </Box>
-                    </Grid>
-                  )}
+                      </Grid>
 
-                  {meeting.linkTranscriptFile ? (
-                    <Grid item xs={12}>
-                      <Box sx={{ mb: 2 }}>
-                        <Typography variant="body2" color="text.secondary" gutterBottom fontWeight={600}>
-                          קובץ תמלול
-                        </Typography>
-                        <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
-                          <LinkIcon sx={{ mr: 1, color: "#0ea5e9", fontSize: 18 }} />
-                          <Typography variant="body1" fontWeight={500}>
-                            {getFileName(meeting.linkTranscriptFile)}
-                          </Typography>
-                        </Box>
-                        <FileViewer
-                          filePath={meeting.linkTranscriptFile}
-                          fileName={getFileName(meeting.linkTranscriptFile)}
-                          isAiGenerated={true}
-                        />
-                      </Box>
-                    </Grid>
-                  ) : (
-                    <Grid item xs={12}>
-                      <Box sx={{ mb: 2 }}>
-                        <Typography variant="body2" color="text.secondary" gutterBottom fontWeight={600}>
-                          קובץ תמלול
-                        </Typography>
-                        <Chip
-                          label="אין קובץ תמלול"
-                          size="small"
-                          sx={{
-                            bgcolor: "warning.lighter",
-                            color: "warning.dark",
-                            fontWeight: 500,
-                          }}
-                        />
-                      </Box>
-                    </Grid>
-                  )}
-                </Grid>
-              </CardContent>
-            </Card>
+                      {meeting.linkOrinignFile && (
+                        <Grid item xs={12}>
+                          <Box sx={{ mb: 1.5 }}>
+                            <Typography
+                              variant="caption"
+                              color="text.secondary"
+                              gutterBottom
+                              fontWeight={600}
+                              sx={{ fontSize: "0.7rem" }}
+                            >
+                              Original File
+                            </Typography>
+                            <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
+                              <DescriptionIcon sx={{ mr: 1, color: "#10a37f", fontSize: 14 }} />
+                              <Typography variant="body2" fontWeight={500} sx={{ fontSize: "0.75rem" }}>
+                                {getFileName(meeting.linkOrinignFile)}
+                              </Typography>
+                            </Box>
+                            <FileViewer
+                              filePath={meeting.linkOrinignFile}
+                              fileName={getFileName(meeting.linkOrinignFile)}
+                            />
+                          </Box>
+                        </Grid>
+                      )}
 
-            {/* File Upload Section */}
-            <Card
-              sx={{
-                borderRadius: 2,
-                background: "rgba(255, 255, 255, 0.9)",
-                border: "1px solid rgba(255, 255, 255, 0.2)",
-                boxShadow: "0 4px 16px rgba(0, 0, 0, 0.08)",
-              }}
-            >
-              <CardContent sx={{ p: 3 }}>
-                <Typography variant="h6" fontWeight={600} gutterBottom>
-                  העלאת קבצים
-                </Typography>
-                <Divider sx={{ mb: 2 }} />
-                <FileUploader />
-              </CardContent>
-            </Card>
+                      {meeting.linkTranscriptFile ? (
+                        <Grid item xs={12}>
+                          <Box sx={{ mb: 1.5 }}>
+                            <Typography
+                              variant="caption"
+                              color="text.secondary"
+                              gutterBottom
+                              fontWeight={600}
+                              sx={{ fontSize: "0.7rem" }}
+                            >
+                              Transcript File
+                            </Typography>
+                            <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
+                              <LinkIcon sx={{ mr: 1, color: "#0ea5e9", fontSize: 14 }} />
+                              <Typography variant="body2" fontWeight={500} sx={{ fontSize: "0.75rem" }}>
+                                {getFileName(meeting.linkTranscriptFile)}
+                              </Typography>
+                            </Box>
+                            <FileViewer
+                              filePath={meeting.linkTranscriptFile}
+                              fileName={getFileName(meeting.linkTranscriptFile)}
+                              isAiGenerated={true}
+                            />
+                          </Box>
+                        </Grid>
+                      ) : (
+                        <Grid item xs={12}>
+                          <Box sx={{ mb: 1.5 }}>
+                            <Typography
+                              variant="caption"
+                              color="text.secondary"
+                              gutterBottom
+                              fontWeight={600}
+                              sx={{ fontSize: "0.7rem" }}
+                            >
+                              Transcript File
+                            </Typography>
+                            <Chip
+                              label="No transcript file"
+                              size="small"
+                              sx={{
+                                bgcolor: "warning.lighter",
+                                color: "warning.dark",
+                                fontWeight: 500,
+                                fontSize: "0.65rem",
+                                height: 20,
+                              }}
+                            />
+                          </Box>
+                        </Grid>
+                      )}
+                    </Grid>
+                  </CardContent>
+                </Card>
+
+                {/* File Upload Section */}
+                <Card
+                  sx={{
+                    borderRadius: 1,
+                    background: "rgba(255, 255, 255, 0.9)",
+                    border: "1px solid rgba(255, 255, 255, 0.2)",
+                    boxShadow: "0 2px 8px rgba(0, 0, 0, 0.08)",
+                    height: "50%",
+                    overflow: "auto",
+                  }}
+                >
+                  <CardContent sx={{ p: 2 }}>
+                    <Typography variant="subtitle2" fontWeight={600} gutterBottom sx={{ fontSize: "0.8rem" }}>
+                      File Upload
+                    </Typography>
+                    <Divider sx={{ mb: 1.5 }} />
+                    <FileUploader />
+                  </CardContent>
+                </Card>
+              </Box>
+            </Grid>
+
+            {/* Sidebar - Additional Info */}
+            <Grid item xs={12} lg={4} sx={{ height: "100%" }}>
+              <Card
+                sx={{
+                  borderRadius: 1,
+                  background: "rgba(255, 255, 255, 0.9)",
+                  border: "1px solid rgba(255, 255, 255, 0.2)",
+                  boxShadow: "0 2px 8px rgba(0, 0, 0, 0.08)",
+                  height: "100%",
+                  overflow: "auto",
+                }}
+              >
+                <CardContent sx={{ p: 2 }}>
+                  <Typography variant="subtitle2" fontWeight={600} gutterBottom sx={{ fontSize: "0.8rem" }}>
+                    Additional Information
+                  </Typography>
+                  <Divider sx={{ mb: 1.5 }} />
+                  <Typography variant="caption" color="text.secondary" sx={{ fontSize: "0.7rem" }}>
+                    Here you can add additional information about the meeting, notes, or relevant links.
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
           </Grid>
-
-          {/* Sidebar - Additional Info */}
-          <Grid item xs={12} lg={4}>
-            <Card
-              sx={{
-                borderRadius: 2,
-                background: "rgba(255, 255, 255, 0.9)",
-                border: "1px solid rgba(255, 255, 255, 0.2)",
-                boxShadow: "0 4px 16px rgba(0, 0, 0, 0.08)",
-              }}
-            >
-              <CardContent sx={{ p: 3 }}>
-                <Typography variant="h6" fontWeight={600} gutterBottom>
-                  מידע נוסף
-                </Typography>
-                <Divider sx={{ mb: 2 }} />
-                <Typography variant="body2" color="text.secondary">
-                  כאן ניתן להוסיף מידע נוסף על הפגישה, הערות, או קישורים רלוונטיים.
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-        </Grid>
+        </Box>
       </motion.div>
 
       {/* File Content Dialog */}
@@ -749,40 +826,47 @@ export default function MeetingDetails() {
         onClose={() => setIsFileDialogOpen(false)}
         PaperProps={{
           sx: {
-            borderRadius: isMobile ? 0 : 2,
+            borderRadius: isMobile ? 0 : 1,
             maxHeight: isMobile ? "100%" : "80vh",
           },
         }}
       >
-        <DialogContent sx={{ p: 3 }}>
-          <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", mb: 2 }}>
-            <Typography variant="h6" fontWeight={600}>
-              תוכן הקובץ
+        <DialogContent sx={{ p: 2 }}>
+          <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", mb: 1.5 }}>
+            <Typography variant="subtitle2" fontWeight={600} sx={{ fontSize: "0.8rem" }}>
+              File Content
             </Typography>
-            <IconButton edge="end" color="inherit" onClick={() => setIsFileDialogOpen(false)} aria-label="close">
-              <CloseIcon />
+            <IconButton
+              edge="end"
+              color="inherit"
+              onClick={() => setIsFileDialogOpen(false)}
+              aria-label="close"
+              size="small"
+            >
+              <CloseIcon sx={{ fontSize: 16 }} />
             </IconButton>
           </Box>
-          <Divider sx={{ mb: 2 }} />
+          <Divider sx={{ mb: 1.5 }} />
           <Paper
             elevation={0}
             sx={{
-              p: 2,
+              p: 1.5,
               borderRadius: 1,
               border: "1px solid",
               borderColor: "divider",
               bgcolor: "background.paper",
-              maxHeight: "calc(80vh - 120px)",
+              maxHeight: "calc(80vh - 100px)",
               overflow: "auto",
             }}
           >
             <Typography
-              variant="body2"
+              variant="caption"
               component="pre"
               sx={{
                 whiteSpace: "pre-wrap",
                 fontFamily: "monospace",
-                lineHeight: 1.5,
+                lineHeight: 1.4,
+                fontSize: "0.7rem",
               }}
             >
               {fileContent}
