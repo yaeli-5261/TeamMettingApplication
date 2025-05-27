@@ -401,7 +401,7 @@ export default function AddMeetingForm() {
     }
 
     if (!teamId) {
-      setError("❌ Unable to identify team ID. Please log in again.")
+      setError("❌ לא ניתן לזהות את מזהה הצוות. אנא התחבר מחדש למערכת.")
     }
   }, [user])
 
@@ -414,7 +414,7 @@ export default function AddMeetingForm() {
     e.preventDefault()
 
     if (!meetingData.teamId && !teamId) {
-      setError("❌ Team ID missing. Please log in again.")
+      setError("❌ מזהה צוות חסר. אנא התחבר מחדש למערכת.")
       return
     }
 
@@ -436,7 +436,7 @@ export default function AddMeetingForm() {
       const addedMeeting = await dispatch(addMeeting(meetingDataToSubmit as MeetingPostDTO)).unwrap()
 
       if (addedMeeting) {
-        setSuccess("✅ Meeting added successfully!")
+        setSuccess("✅ הפגישה נוספה בהצלחה!")
         setMeetingData({
           name: "",
           date: "",
@@ -451,49 +451,39 @@ export default function AddMeetingForm() {
       }
     } catch (error) {
       console.error("❌ Error adding meeting:", error)
-      setError("❌ Failed to add meeting. Please try again.")
+      setError("❌ הוספת הפגישה נכשלה. אנא נסה שוב.")
     } finally {
       setIsSubmitting(false)
     }
   }
 
   return (
-    <Box
-      sx={{
-        width: "100%",
-        height: "100vh",
-        overflow: "auto",
-        p: 2,
-        direction: "rtl",
-        textAlign: "right",
-      }}
-    >
+    <Box sx={{ width: "100%", p: 3 }}>
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
         {/* Header */}
-        <Box sx={{ mb: 2, height: "80px" }}>
+        <Box sx={{ mb: 3 }}>
           <Button
             startIcon={<ArrowBackIcon />}
             onClick={() => navigate("/meetings")}
             sx={{
-              mb: 1,
+              mb: 2,
               color: "text.secondary",
               textTransform: "none",
-              fontWeight: 500,
-              fontSize: "0.75rem",
+              fontWeight: 600,
               "&:hover": {
                 color: "#10a37f",
                 backgroundColor: "rgba(16, 163, 127, 0.1)",
               },
             }}
           >
-            Back to Meetings
+            חזרה לרשימת הפגישות
           </Button>
 
-          <Typography variant="h6" fontWeight={600} color="text.primary" gutterBottom sx={{ fontSize: "1rem" }}>
-            Add New Meeting
+          <Typography variant="h4" fontWeight={700} color="text.primary" gutterBottom>
+            הוספת פגישה חדשה
           </Typography>
-          <Typography variant="body2" color="text.secondary" sx={{ fontSize: "0.75rem" }}>
-            Fill in the details to create a new meeting
+          <Typography variant="body1" color="text.secondary">
+            מלא את הפרטים הבאים כדי ליצור פגישה חדשה
           </Typography>
         </Box>
 
@@ -501,86 +491,76 @@ export default function AddMeetingForm() {
         <Paper
           elevation={0}
           sx={{
-            borderRadius: 1,
+            borderRadius: 2,
             background: "rgba(255, 255, 255, 0.9)",
             border: "1px solid rgba(255, 255, 255, 0.2)",
-            boxShadow: "0 2px 8px rgba(0, 0, 0, 0.08)",
+            boxShadow: "0 4px 16px rgba(0, 0, 0, 0.08)",
             overflow: "hidden",
-            height: "calc(100vh - 120px)",
           }}
         >
           {/* Header Card */}
           <Box
             sx={{
-              p: 2,
+              p: 3,
               background: "linear-gradient(135deg, #10a37f, #0e8a6c)",
               color: "white",
               textAlign: "center",
-              height: "80px",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
             }}
           >
-            <EventNoteIcon sx={{ fontSize: 20, mb: 0.5 }} />
-            <Typography variant="subtitle1" fontWeight={600} sx={{ fontSize: "0.875rem" }}>
-              Add New Meeting
+            <EventNoteIcon sx={{ fontSize: 32, mb: 1 }} />
+            <Typography variant="h6" fontWeight={600} gutterBottom>
+              הוספת פגישה חדשה
             </Typography>
-            <Typography variant="caption" sx={{ opacity: 0.9, fontSize: "0.7rem" }}>
-              Fill in the details to create a new meeting
+            <Typography variant="body2" sx={{ opacity: 0.9 }}>
+              מלא את הפרטים הבאים כדי ליצור פגישה חדשה
             </Typography>
           </Box>
 
           {/* Form Content */}
-          <Box sx={{ p: 2, height: "calc(100% - 80px)", overflow: "auto" }}>
+          <Box sx={{ p: 3 }}>
             {error && (
-              <Alert severity="error" sx={{ mb: 1, borderRadius: 1, fontSize: "0.75rem" }}>
+              <Alert severity="error" sx={{ mb: 2, borderRadius: 1 }}>
                 {error}
               </Alert>
             )}
 
             {success && (
-              <Alert severity="success" sx={{ mb: 1, borderRadius: 1, fontSize: "0.75rem" }}>
+              <Alert severity="success" sx={{ mb: 2, borderRadius: 1 }}>
                 {success}
               </Alert>
             )}
 
             {teamId ? (
-              <Alert severity="info" sx={{ mb: 1, borderRadius: 1, fontSize: "0.75rem" }}>
-                Team ID: {teamId}
+              <Alert severity="info" sx={{ mb: 2, borderRadius: 1 }}>
+                מזהה צוות: {teamId}
               </Alert>
             ) : (
-              <Alert severity="warning" sx={{ mb: 1, borderRadius: 1, fontSize: "0.75rem" }}>
-                No team ID detected. Please log in again.
+              <Alert severity="warning" sx={{ mb: 2, borderRadius: 1 }}>
+                לא זוהה מזהה צוות. אנא התחבר מחדש למערכת.
               </Alert>
             )}
 
             <Box component="form" onSubmit={handleSubmit}>
-              <Grid container spacing={1.5}>
+              <Grid container spacing={2}>
                 {/* Meeting Name */}
                 <Grid item xs={12}>
                   <TextField
-                    label="Meeting Name"
+                    label="שם הפגישה"
                     name="name"
                     value={meetingData.name}
                     onChange={handleChange}
                     fullWidth
                     required
-                    size="small"
                     sx={{
                       "& .MuiOutlinedInput-root": {
                         borderRadius: 1,
-                        height: 36,
-                        fontSize: "0.75rem",
-                      },
-                      "& .MuiInputLabel-root": {
-                        fontSize: "0.75rem",
+                        height: 48,
                       },
                     }}
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
-                          <TitleIcon sx={{ fontSize: 14 }} />
+                          <TitleIcon fontSize="small" />
                         </InputAdornment>
                       ),
                     }}
@@ -590,29 +570,24 @@ export default function AddMeetingForm() {
                 {/* Date and Time */}
                 <Grid item xs={12}>
                   <TextField
-                    label="Meeting Date & Time"
+                    label="תאריך ושעת הפגישה"
                     name="date"
                     type="datetime-local"
                     value={meetingData.date}
                     onChange={handleChange}
                     fullWidth
                     required
-                    size="small"
                     InputLabelProps={{ shrink: true }}
                     sx={{
                       "& .MuiOutlinedInput-root": {
                         borderRadius: 1,
-                        height: 36,
-                        fontSize: "0.75rem",
-                      },
-                      "& .MuiInputLabel-root": {
-                        fontSize: "0.75rem",
+                        height: 48,
                       },
                     }}
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
-                          <CalendarTodayIcon sx={{ fontSize: 14 }} />
+                          <CalendarTodayIcon fontSize="small" />
                         </InputAdornment>
                       ),
                     }}
@@ -622,34 +597,29 @@ export default function AddMeetingForm() {
                 {/* Files Section */}
                 <Grid item xs={12}>
                   <Divider sx={{ my: 1 }} />
-                  <Typography variant="caption" color="text.secondary" gutterBottom sx={{ mb: 1, fontSize: "0.7rem" }}>
-                    File Links (Optional)
+                  <Typography variant="subtitle1" color="text.secondary" gutterBottom sx={{ mb: 2 }}>
+                    קישורים לקבצים (אופציונלי)
                   </Typography>
                 </Grid>
 
                 <Grid item xs={12}>
                   <TextField
-                    label="Original File Link"
+                    label="קישור לקובץ מקורי"
                     name="linkOrinignFile"
                     value={meetingData.linkOrinignFile}
                     onChange={handleChange}
                     fullWidth
-                    size="small"
                     placeholder="https://example.com/original.docx"
                     sx={{
                       "& .MuiOutlinedInput-root": {
                         borderRadius: 1,
-                        height: 36,
-                        fontSize: "0.75rem",
-                      },
-                      "& .MuiInputLabel-root": {
-                        fontSize: "0.75rem",
+                        height: 48,
                       },
                     }}
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
-                          <AttachFileIcon sx={{ fontSize: 14 }} />
+                          <AttachFileIcon fontSize="small" />
                         </InputAdornment>
                       ),
                     }}
@@ -658,28 +628,20 @@ export default function AddMeetingForm() {
 
                 {/* Submit Button */}
                 <Grid item xs={12}>
-                  <Box sx={{ mt: 1, textAlign: "center" }}>
+                  <Box sx={{ mt: 2, textAlign: "center" }}>
                     <Button
                       type="submit"
                       variant="contained"
                       disabled={isSubmitting || !teamId}
-                      startIcon={
-                        isSubmitting ? (
-                          <CircularProgress size={12} color="inherit" />
-                        ) : (
-                          <RocketIcon sx={{ fontSize: 14 }} />
-                        )
-                      }
+                      startIcon={isSubmitting ? <CircularProgress size={16} color="inherit" /> : <RocketIcon />}
                       sx={{
-                        py: 1,
-                        px: 3,
-                        borderRadius: 1,
+                        py: 1.5,
+                        px: 4,
+                        borderRadius: 2,
                         background: "linear-gradient(135deg, #10a37f 0%, #0ea5e9 100%)",
                         textTransform: "none",
                         fontWeight: 600,
-                        fontSize: "0.75rem",
-                        minWidth: 120,
-                        height: 32,
+                        minWidth: 160,
                         "&:hover": {
                           background: "linear-gradient(135deg, #0e8a6c 0%, #0284c7 100%)",
                         },
@@ -688,7 +650,7 @@ export default function AddMeetingForm() {
                         },
                       }}
                     >
-                      {isSubmitting ? "Adding..." : "Add Meeting"}
+                      {isSubmitting ? "מוסיף פגישה..." : "הוסף פגישה"}
                     </Button>
                   </Box>
                 </Grid>

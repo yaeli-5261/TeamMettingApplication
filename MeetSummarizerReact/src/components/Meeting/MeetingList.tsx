@@ -1,585 +1,7 @@
-// "use client"
-
-// import type React from "react"
-
-// import { useEffect, useState } from "react"
-// import { useNavigate } from "react-router-dom"
-// import { motion } from "framer-motion"
-// import {
-//   Typography,
-//   Button,
-//   Box,
-//   Avatar,
-//   Paper,
-//   Divider,
-//   Chip,
-//   IconButton,
-//   Skeleton,
-//   Menu,
-//   MenuItem,
-//   ListItemIcon,
-//   useTheme,
-//   useMediaQuery,
-//   Dialog,
-//   DialogActions,
-//   DialogContent,
-//   DialogTitle,
-//   Snackbar,
-//   Alert,
-// } from "@mui/material"
-// import AddIcon from "@mui/icons-material/Add"
-// import MoreVertIcon from "@mui/icons-material/MoreVert"
-// import CalendarTodayIcon from "@mui/icons-material/CalendarToday"
-// import VisibilityIcon from "@mui/icons-material/Visibility"
-// import EditIcon from "@mui/icons-material/Edit"
-// import DeleteIcon from "@mui/icons-material/Delete"
-// import SortIcon from "@mui/icons-material/Sort"
-// import FilterListIcon from "@mui/icons-material/FilterList"
-// import UpdateMeetingDialog from "./UpdateMeetingDialog"
-// import type { MeetingDTO } from "../../models/meetingTypes"
-// import { fetchMeetingsByTeam, deleteMeeting } from "../../store/meetingSlice"
-// import { useSelector, useDispatch } from "react-redux"
-// import type { RootState, AppDispatch } from "../../store/store"
-// import MeetingSearch from "./MeetingSearch "
-
-// interface MeetingListProps {
-//   meetings?: MeetingDTO[]
-// }
-
-// export default function MeetingList({ meetings: meetingsFromProps }: MeetingListProps) {
-//   const [meetings, setMeetings] = useState<MeetingDTO[]>(meetingsFromProps || [])
-//   const [loading, setLoading] = useState(!meetingsFromProps)
-//   const [selectedMeeting, setSelectedMeeting] = useState<MeetingDTO | null>(null)
-//   const [searchQuery, setSearchQuery] = useState("")
-//   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null)
-//   const [activeMeetingId, setActiveMeetingId] = useState<number | null>(null)
-//   const [sortMenuAnchorEl, setSortMenuAnchorEl] = useState<null | HTMLElement>(null)
-//   const [filterMenuAnchorEl, setFilterMenuAnchorEl] = useState<null | HTMLElement>(null)
-//   const [sortBy, setSortBy] = useState<"date" | "name">("date")
-//   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc")
-//   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
-//   const [meetingToDelete, setMeetingToDelete] = useState<number | null>(null)
-//   const [snackbarOpen, setSnackbarOpen] = useState(false)
-//   const [snackbarMessage, setSnackbarMessage] = useState("")
-
-//   const navigate = useNavigate()
-//   const dispatch = useDispatch<AppDispatch>()
-//   const user = useSelector((state: RootState) => state.auth.user)
-//   const theme = useTheme()
-//   const isMobile = useMediaQuery(theme.breakpoints.down("md"))
-
-//   useEffect(() => {
-//     if (!meetingsFromProps) {
-//       const getMeetings = async () => {
-//         setLoading(true)
-//         try {
-//           const response = user?.teamId ? await fetchMeetingsByTeam({ teamId: user.teamId }) : []
-//           if (Array.isArray(response)) {
-//             setMeetings(response)
-//           }
-//         } catch (error) {
-//           console.error("Error fetching meetings:", error)
-//         } finally {
-//           setLoading(false)
-//         }
-//       }
-//       getMeetings()
-//     }
-//   }, [meetingsFromProps, user])
-
-//   const handleUpdate = (updatedMeeting: MeetingDTO) => {
-//     setMeetings((prevMeetings) =>
-//       prevMeetings.map((meeting) => (meeting.id === updatedMeeting.id ? updatedMeeting : meeting)),
-//     )
-//   }
-
-//   // פונקציית חיפוש
-//   const filteredMeetings = meetings.filter((meeting) => meeting.name.toLowerCase().includes(searchQuery.toLowerCase()))
-
-//   // מיון פגישות
-//   const sortedMeetings = [...filteredMeetings].sort((a, b) => {
-//     if (sortBy === "date") {
-//       const dateA = new Date(a.date).getTime()
-//       const dateB = new Date(b.date).getTime()
-//       return sortDirection === "asc" ? dateA - dateB : dateB - dateA
-//     } else {
-//       return sortDirection === "asc" ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name)
-//     }
-//   })
-
-//   // פונקציה לפורמט תאריך
-//   const formatDate = (dateString: string) => {
-//     try {
-//       const date = new Date(dateString)
-//       return new Intl.DateTimeFormat("he-IL", {
-//         year: "numeric",
-//         month: "short",
-//         day: "numeric",
-//         hour: "2-digit",
-//         minute: "2-digit",
-//       }).format(date)
-//     } catch (e) {
-//       return dateString // אם יש בעיה בפורמט, החזר את המחרוזת המקורית
-//     }
-//   }
-
-//   // פונקציות לתפריטים
-//   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>, meetingId: number) => {
-//     setMenuAnchorEl(event.currentTarget)
-//     setActiveMeetingId(meetingId)
-//   }
-
-//   const handleMenuClose = () => {
-//     setMenuAnchorEl(null)
-//     setActiveMeetingId(null)
-//   }
-
-//   const handleSortMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-//     setSortMenuAnchorEl(event.currentTarget)
-//   }
-
-//   const handleSortMenuClose = () => {
-//     setSortMenuAnchorEl(null)
-//   }
-
-//   const handleFilterMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-//     setFilterMenuAnchorEl(event.currentTarget)
-//   }
-
-//   const handleFilterMenuClose = () => {
-//     setFilterMenuAnchorEl(null)
-//   }
-
-//   const handleSort = (field: "date" | "name") => {
-//     if (sortBy === field) {
-//       setSortDirection(sortDirection === "asc" ? "desc" : "asc")
-//     } else {
-//       setSortBy(field)
-//       setSortDirection("desc")
-//     }
-//     handleSortMenuClose()
-//   }
-
-//   const handleEditMeeting = (meeting: MeetingDTO) => {
-//     setSelectedMeeting(meeting)
-//     handleMenuClose()
-//   }
-
-//   // פונקציות למחיקת פגישה
-//   const handleDeleteClick = (meetingId: number) => {
-//     setMeetingToDelete(meetingId)
-//     setDeleteDialogOpen(true)
-//     handleMenuClose()
-//   }
-
-//   const handleDeleteCancel = () => {
-//     setDeleteDialogOpen(false)
-//     setMeetingToDelete(null)
-//   }
-
-//   const handleDeleteConfirm = async () => {
-//     if (meetingToDelete) {
-//       try {
-//         await dispatch(deleteMeeting(meetingToDelete)).unwrap()
-//         setMeetings((prevMeetings) => prevMeetings.filter((meeting) => meeting.id !== meetingToDelete))
-//         setSnackbarMessage("הפגישה נמחקה בהצלחה")
-//         setSnackbarOpen(true)
-//       } catch (error) {
-//         console.error("Error deleting meeting:", error)
-//         setSnackbarMessage("שגיאה במחיקת הפגישה")
-//         setSnackbarOpen(true)
-//       }
-//       setDeleteDialogOpen(false)
-//       setMeetingToDelete(null)
-//     }
-//   }
-
-//   const handleCloseSnackbar = () => {
-//     setSnackbarOpen(false)
-//   }
-
-//   return (
-//     <Box
-//       sx={{
-//         width: "100%",
-//         height: "100%",
-//         boxSizing: "border-box",
-//       }}
-//     >
-//       <Paper
-//         elevation={0}
-//         sx={{
-//           p: 3,
-//           borderRadius: 2,
-//           border: "1px solid",
-//           borderColor: "divider",
-//           bgcolor: "background.paper",
-//           mb: 4,
-//           overflow: "hidden",
-//         }}
-//       >
-//         <Box
-//           sx={{
-//             display: "flex",
-//             flexDirection: { xs: "column", sm: "row" },
-//             justifyContent: "space-between",
-//             alignItems: { xs: "flex-start", sm: "center" },
-//             mb: 3,
-//             gap: 2,
-//           }}
-//         >
-//           <Typography variant="h5" fontWeight={600} color="text.primary">
-//             פגישות
-//           </Typography>
-//           <Box sx={{ display: "flex", gap: 1 }}>
-//             <Button
-//               variant="outlined"
-//               size="small"
-//               startIcon={<FilterListIcon />}
-//               onClick={handleFilterMenuOpen}
-//               sx={{
-//                 borderColor: "divider",
-//                 color: "text.secondary",
-//                 textTransform: "none",
-//               }}
-//             >
-//               סינון
-//             </Button>
-//             <Button
-//               variant="outlined"
-//               size="small"
-//               startIcon={<SortIcon />}
-//               onClick={handleSortMenuOpen}
-//               sx={{
-//                 borderColor: "divider",
-//                 color: "text.secondary",
-//                 textTransform: "none",
-//               }}
-//             >
-//               מיון
-//             </Button>
-//             <Button
-//               variant="contained"
-//               startIcon={<AddIcon />}
-//               onClick={() => navigate("/add-meeting")}
-//               sx={{
-//                 bgcolor: "#10a37f",
-//                 color: "white",
-//                 textTransform: "none",
-//                 fontWeight: 500,
-//                 "&:hover": {
-//                   bgcolor: "#0e8a6c",
-//                 },
-//               }}
-//             >
-//               פגישה חדשה
-//             </Button>
-//           </Box>
-//         </Box>
-
-//         {/* תפריט מיון */}
-//         <Menu
-//           anchorEl={sortMenuAnchorEl}
-//           open={Boolean(sortMenuAnchorEl)}
-//           onClose={handleSortMenuClose}
-//           anchorOrigin={{
-//             vertical: "bottom",
-//             horizontal: "right",
-//           }}
-//           transformOrigin={{
-//             vertical: "top",
-//             horizontal: "right",
-//           }}
-//         >
-//           <MenuItem onClick={() => handleSort("date")} selected={sortBy === "date"}>
-//             <ListItemIcon>
-//               <CalendarTodayIcon fontSize="small" />
-//             </ListItemIcon>
-//             <Typography variant="body2">
-//               לפי תאריך {sortBy === "date" && (sortDirection === "asc" ? "(מהישן לחדש)" : "(מהחדש לישן)")}
-//             </Typography>
-//           </MenuItem>
-//           <MenuItem onClick={() => handleSort("name")} selected={sortBy === "name"}>
-//             <ListItemIcon>
-//               <SortIcon fontSize="small" />
-//             </ListItemIcon>
-//             <Typography variant="body2">
-//               לפי שם {sortBy === "name" && (sortDirection === "asc" ? "(א-ת)" : "(ת-א)")}
-//             </Typography>
-//           </MenuItem>
-//         </Menu>
-
-//         {/* תפריט סינון */}
-//         <Menu
-//           anchorEl={filterMenuAnchorEl}
-//           open={Boolean(filterMenuAnchorEl)}
-//           onClose={handleFilterMenuClose}
-//           anchorOrigin={{
-//             vertical: "bottom",
-//             horizontal: "right",
-//           }}
-//           transformOrigin={{
-//             vertical: "top",
-//             horizontal: "right",
-//           }}
-//         >
-//           <MenuItem onClick={handleFilterMenuClose}>
-//             <Typography variant="body2">כל הפגישות</Typography>
-//           </MenuItem>
-//           <MenuItem onClick={handleFilterMenuClose}>
-//             <Typography variant="body2">פגישות עם תמלול</Typography>
-//           </MenuItem>
-//           <MenuItem onClick={handleFilterMenuClose}>
-//             <Typography variant="body2">פגישות ללא תמלול</Typography>
-//           </MenuItem>
-//         </Menu>
-
-//         {/* מנוע החיפוש */}
-//         <Box sx={{ mb: 3 }}>
-//           <MeetingSearch onSearch={setSearchQuery} />
-//         </Box>
-
-//         {/* רשימת פגישות */}
-//         {loading ? (
-//           // סקלטון לטעינה
-//           Array.from(new Array(3)).map((_, index) => (
-//             <Paper
-//               key={index}
-//               elevation={0}
-//               sx={{
-//                 p: 2,
-//                 mb: 2,
-//                 borderRadius: 2,
-//                 border: "1px solid",
-//                 borderColor: "divider",
-//               }}
-//             >
-//               <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-//                 <Skeleton variant="circular" width={40} height={40} sx={{ mr: 2 }} />
-//                 <Skeleton variant="text" width={200} height={30} />
-//               </Box>
-//               <Skeleton variant="text" width="60%" />
-//               <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
-//                 <Skeleton variant="text" width={100} />
-//                 <Skeleton variant="rectangular" width={100} height={36} />
-//               </Box>
-//             </Paper>
-//           ))
-//         ) : sortedMeetings.length > 0 ? (
-//           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.4 }}>
-//             {sortedMeetings.map((meeting) => (
-//               <motion.div
-//                 key={meeting.id}
-//                 initial={{ y: 20, opacity: 0 }}
-//                 animate={{ y: 0, opacity: 1 }}
-//                 transition={{ duration: 0.3 }}
-//               >
-//                 <Paper
-//                   elevation={0}
-//                   sx={{
-//                     p: 0,
-//                     mb: 2,
-//                     borderRadius: 2,
-//                     border: "1px solid",
-//                     borderColor: "divider",
-//                     overflow: "hidden",
-//                     transition: "all 0.2s ease-in-out",
-//                     "&:hover": {
-//                       borderColor: "primary.main",
-//                       boxShadow: "0 4px 12px rgba(0,0,0,0.05)",
-//                     },
-//                   }}
-//                 >
-//                   <Box sx={{ p: 2 }}>
-//                     <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-//                       <Box sx={{ display: "flex", alignItems: "center" }}>
-//                         <Avatar
-//                           sx={{
-//                             bgcolor: "#10a37f",
-//                             width: 40,
-//                             height: 40,
-//                             mr: 2,
-//                           }}
-//                         >
-//                           {meeting.name.charAt(0).toUpperCase()}
-//                         </Avatar>
-//                         <Typography variant="h6" fontWeight={600}>
-//                           {meeting.name}
-//                         </Typography>
-//                       </Box>
-//                       <IconButton
-//                         size="small"
-//                         onClick={(e) => handleMenuOpen(e, meeting.id)}
-//                         aria-label="אפשרויות נוספות"
-//                       >
-//                         <MoreVertIcon fontSize="small" />
-//                       </IconButton>
-//                     </Box>
-
-//                     <Box sx={{ display: "flex", alignItems: "center", mt: 2, color: "text.secondary" }}>
-//                       <CalendarTodayIcon fontSize="small" sx={{ mr: 1 }} />
-//                       <Typography variant="body2">{formatDate(meeting.date)}</Typography>
-//                     </Box>
-//                   </Box>
-
-//                   <Divider />
-
-//                   <Box
-//                     sx={{
-//                       display: "flex",
-//                       justifyContent: "space-between",
-//                       alignItems: "center",
-//                       p: 1.5,
-//                       bgcolor: "rgba(0,0,0,0.01)",
-//                     }}
-//                   >
-//                     <Box>
-//                       {meeting.linkTranscriptFile && (
-//                         <Chip
-//                           label="תמלול זמין"
-//                           size="small"
-//                           sx={{
-//                             bgcolor: "#10a37f20",
-//                             color: "#10a37f",
-//                             fontSize: "0.75rem",
-//                             fontWeight: 500,
-//                           }}
-//                         />
-//                       )}
-//                     </Box>
-//                     <Button
-//                       variant="text"
-//                       size="small"
-//                       startIcon={<VisibilityIcon />}
-//                       onClick={() => navigate(`/meeting-details/${meeting.id}`)}
-//                       sx={{
-//                         color: "#10a37f",
-//                         textTransform: "none",
-//                         fontWeight: 500,
-//                       }}
-//                     >
-//                       הצג פרטים
-//                     </Button>
-//                   </Box>
-//                 </Paper>
-//               </motion.div>
-//             ))}
-//           </motion.div>
-//         ) : (
-//           <Box
-//             sx={{
-//               textAlign: "center",
-//               py: 6,
-//               color: "text.secondary",
-//             }}
-//           >
-//             <Typography variant="body1" gutterBottom>
-//               לא נמצאו פגישות בשם זה.
-//             </Typography>
-//             <Typography variant="body2">נסה לחפש מחדש או צור פגישה חדשה.</Typography>
-//           </Box>
-//         )}
-//       </Paper>
-
-//       {/* תפריט אפשרויות לפגישה */}
-//       <Menu
-//         anchorEl={menuAnchorEl}
-//         open={Boolean(menuAnchorEl)}
-//         onClose={handleMenuClose}
-//         anchorOrigin={{
-//           vertical: "bottom",
-//           horizontal: "right",
-//         }}
-//         transformOrigin={{
-//           vertical: "top",
-//           horizontal: "right",
-//         }}
-//       >
-//         <MenuItem
-//           onClick={() => {
-//             const meeting = meetings.find((m) => m.id === activeMeetingId)
-//             if (meeting) handleEditMeeting(meeting)
-//           }}
-//         >
-//           <ListItemIcon>
-//             <EditIcon fontSize="small" />
-//           </ListItemIcon>
-//           <Typography variant="body2">ערוך פגישה</Typography>
-//         </MenuItem>
-//         <MenuItem
-//           onClick={() => {
-//             if (activeMeetingId) handleDeleteClick(activeMeetingId)
-//           }}
-//         >
-//           <ListItemIcon>
-//             <DeleteIcon fontSize="small" color="error" />
-//           </ListItemIcon>
-//           <Typography variant="body2" color="error.main">
-//             מחק פגישה
-//           </Typography>
-//         </MenuItem>
-//       </Menu>
-
-//       {/* דיאלוג אישור מחיקה */}
-//       <Dialog
-//         open={deleteDialogOpen}
-//         onClose={handleDeleteCancel}
-//         aria-labelledby="alert-dialog-title"
-//         aria-describedby="alert-dialog-description"
-//       >
-//         <DialogTitle id="alert-dialog-title" sx={{ color: "error.main" }}>
-//           {"האם אתה בטוח שברצונך למחוק את הפגישה?"}
-//         </DialogTitle>
-//         <DialogContent>
-//           <Typography variant="body1" id="alert-dialog-description">
-//             פעולה זו אינה ניתנת לביטול. כל הנתונים הקשורים לפגישה זו יימחקו לצמיתות.
-//           </Typography>
-//         </DialogContent>
-//         <DialogActions>
-//           <Button onClick={handleDeleteCancel} color="inherit">
-//             ביטול
-//           </Button>
-//           <Button onClick={handleDeleteConfirm} variant="contained" color="error" autoFocus startIcon={<DeleteIcon />}>
-//             מחק פגישה
-//           </Button>
-//         </DialogActions>
-//       </Dialog>
-
-//       {/* דיאלוג עדכון פגישה */}
-//       {selectedMeeting && (
-//         <UpdateMeetingDialog
-//           open={Boolean(selectedMeeting)}
-//           handleClose={() => setSelectedMeeting(null)}
-//           meeting={selectedMeeting}
-//           onUpdate={handleUpdate}
-//         />
-//       )}
-
-//       {/* הודעת Snackbar */}
-//       <Snackbar
-//         open={snackbarOpen}
-//         autoHideDuration={5000}
-//         onClose={handleCloseSnackbar}
-//         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-//       >
-//         <Alert onClose={handleCloseSnackbar} severity={snackbarMessage.includes("שגיאה") ? "error" : "success"}>
-//           {snackbarMessage}
-//         </Alert>
-//       </Snackbar>
-//     </Box>
-//   )
-// }
-
-
-
-
-
-
-
-
 "use client"
 
 import type React from "react"
+
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { motion } from "framer-motion"
@@ -589,6 +11,7 @@ import {
   Box,
   Avatar,
   Paper,
+  Divider,
   Chip,
   IconButton,
   Skeleton,
@@ -603,9 +26,6 @@ import {
   DialogTitle,
   Snackbar,
   Alert,
-  Grid,
-  Card,
-  CardContent,
 } from "@mui/material"
 import AddIcon from "@mui/icons-material/Add"
 import MoreVertIcon from "@mui/icons-material/MoreVert"
@@ -673,8 +93,10 @@ export default function MeetingList({ meetings: meetingsFromProps }: MeetingList
     )
   }
 
+  // פונקציית חיפוש
   const filteredMeetings = meetings.filter((meeting) => meeting.name.toLowerCase().includes(searchQuery.toLowerCase()))
 
+  // מיון פגישות
   const sortedMeetings = [...filteredMeetings].sort((a, b) => {
     if (sortBy === "date") {
       const dateA = new Date(a.date).getTime()
@@ -685,10 +107,11 @@ export default function MeetingList({ meetings: meetingsFromProps }: MeetingList
     }
   })
 
+  // פונקציה לפורמט תאריך
   const formatDate = (dateString: string) => {
     try {
       const date = new Date(dateString)
-      return new Intl.DateTimeFormat("en-US", {
+      return new Intl.DateTimeFormat("he-IL", {
         year: "numeric",
         month: "short",
         day: "numeric",
@@ -696,10 +119,11 @@ export default function MeetingList({ meetings: meetingsFromProps }: MeetingList
         minute: "2-digit",
       }).format(date)
     } catch (e) {
-      return dateString
+      return dateString // אם יש בעיה בפורמט, החזר את המחרוזת המקורית
     }
   }
 
+  // פונקציות לתפריטים
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>, meetingId: number) => {
     setMenuAnchorEl(event.currentTarget)
     setActiveMeetingId(meetingId)
@@ -741,6 +165,7 @@ export default function MeetingList({ meetings: meetingsFromProps }: MeetingList
     handleMenuClose()
   }
 
+  // פונקציות למחיקת פגישה
   const handleDeleteClick = (meetingId: number) => {
     setMeetingToDelete(meetingId)
     setDeleteDialogOpen(true)
@@ -757,11 +182,11 @@ export default function MeetingList({ meetings: meetingsFromProps }: MeetingList
       try {
         await dispatch(deleteMeeting(meetingToDelete)).unwrap()
         setMeetings((prevMeetings) => prevMeetings.filter((meeting) => meeting.id !== meetingToDelete))
-        setSnackbarMessage("Meeting deleted successfully")
+        setSnackbarMessage("הפגישה נמחקה בהצלחה")
         setSnackbarOpen(true)
       } catch (error) {
         console.error("Error deleting meeting:", error)
-        setSnackbarMessage("Error deleting meeting")
+        setSnackbarMessage("שגיאה במחיקת הפגישה")
         setSnackbarOpen(true)
       }
       setDeleteDialogOpen(false)
@@ -777,311 +202,298 @@ export default function MeetingList({ meetings: meetingsFromProps }: MeetingList
     <Box
       sx={{
         width: "100%",
-        height: "100vh",
-        overflow: "auto",
-        p: 2,
-        direction: "rtl",
-        textAlign: "right",
+        height: "100%",
+        boxSizing: "border-box",
       }}
     >
-      {/* Header */}
       <Paper
         elevation={0}
         sx={{
-          borderRadius: 1,
-          background: "rgba(255, 255, 255, 0.9)",
-          border: "1px solid rgba(255, 255, 255, 0.2)",
-          boxShadow: "0 2px 8px rgba(0, 0, 0, 0.08)",
-          mb: 2,
+          p: 3,
+          borderRadius: 2,
+          border: "1px solid",
+          borderColor: "divider",
+          bgcolor: "background.paper",
+          mb: 4,
           overflow: "hidden",
-          height: "120px",
         }}
       >
-        <Box sx={{ p: 2, height: "100%" }}>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: { xs: "column", sm: "row" },
-              justifyContent: "space-between",
-              alignItems: { xs: "flex-start", sm: "center" },
-              mb: 1.5,
-              gap: 1,
-            }}
-          >
-            <Box>
-              <Typography variant="h6" fontWeight={700} color="text.primary" gutterBottom sx={{ fontSize: "1rem" }}>
-                Meetings
-              </Typography>
-              <Typography variant="body2" color="text.secondary" sx={{ fontSize: "0.75rem" }}>
-                Manage all your meetings in one place
-              </Typography>
-            </Box>
-            <Box sx={{ display: "flex", gap: 0.5, flexWrap: "wrap" }}>
-              <Button
-                variant="outlined"
-                size="small"
-                startIcon={<FilterListIcon sx={{ fontSize: 14 }} />}
-                onClick={handleFilterMenuOpen}
-                sx={{
-                  borderColor: "divider",
-                  color: "text.secondary",
-                  textTransform: "none",
-                  borderRadius: 1,
-                  fontSize: "0.7rem",
-                  height: 28,
-                }}
-              >
-                Filter
-              </Button>
-              <Button
-                variant="outlined"
-                size="small"
-                startIcon={<SortIcon sx={{ fontSize: 14 }} />}
-                onClick={handleSortMenuOpen}
-                sx={{
-                  borderColor: "divider",
-                  color: "text.secondary",
-                  textTransform: "none",
-                  borderRadius: 1,
-                  fontSize: "0.7rem",
-                  height: 28,
-                }}
-              >
-                Sort
-              </Button>
-              <Button
-                variant="contained"
-                startIcon={<AddIcon sx={{ fontSize: 14 }} />}
-                onClick={() => navigate("/add-meeting")}
-                sx={{
-                  background: "linear-gradient(135deg, #10a37f 0%, #0ea5e9 100%)",
-                  color: "white",
-                  textTransform: "none",
-                  fontWeight: 600,
-                  borderRadius: 1,
-                  fontSize: "0.7rem",
-                  height: 28,
-                  "&:hover": {
-                    background: "linear-gradient(135deg, #0e8a6c 0%, #0284c7 100%)",
-                  },
-                }}
-              >
-                New Meeting
-              </Button>
-            </Box>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: { xs: "column", sm: "row" },
+            justifyContent: "space-between",
+            alignItems: { xs: "flex-start", sm: "center" },
+            mb: 3,
+            gap: 2,
+          }}
+        >
+          <Typography variant="h5" fontWeight={600} color="text.primary">
+            פגישות
+          </Typography>
+          <Box sx={{ display: "flex", gap: 1 }}>
+            <Button
+              variant="outlined"
+              size="small"
+              startIcon={<FilterListIcon />}
+              onClick={handleFilterMenuOpen}
+              sx={{
+                borderColor: "divider",
+                color: "text.secondary",
+                textTransform: "none",
+              }}
+            >
+              סינון
+            </Button>
+            <Button
+              variant="outlined"
+              size="small"
+              startIcon={<SortIcon />}
+              onClick={handleSortMenuOpen}
+              sx={{
+                borderColor: "divider",
+                color: "text.secondary",
+                textTransform: "none",
+              }}
+            >
+              מיון
+            </Button>
+            <Button
+              variant="contained"
+              startIcon={<AddIcon />}
+              onClick={() => navigate("/add-meeting")}
+              sx={{
+                bgcolor: "#10a37f",
+                color: "white",
+                textTransform: "none",
+                fontWeight: 500,
+                "&:hover": {
+                  bgcolor: "#0e8a6c",
+                },
+              }}
+            >
+              פגישה חדשה
+            </Button>
           </Box>
+        </Box>
 
-          {/* Search */}
+        {/* תפריט מיון */}
+        <Menu
+          anchorEl={sortMenuAnchorEl}
+          open={Boolean(sortMenuAnchorEl)}
+          onClose={handleSortMenuClose}
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "right",
+          }}
+          transformOrigin={{
+            vertical: "top",
+            horizontal: "right",
+          }}
+        >
+          <MenuItem onClick={() => handleSort("date")} selected={sortBy === "date"}>
+            <ListItemIcon>
+              <CalendarTodayIcon fontSize="small" />
+            </ListItemIcon>
+            <Typography variant="body2">
+              לפי תאריך {sortBy === "date" && (sortDirection === "asc" ? "(מהישן לחדש)" : "(מהחדש לישן)")}
+            </Typography>
+          </MenuItem>
+          <MenuItem onClick={() => handleSort("name")} selected={sortBy === "name"}>
+            <ListItemIcon>
+              <SortIcon fontSize="small" />
+            </ListItemIcon>
+            <Typography variant="body2">
+              לפי שם {sortBy === "name" && (sortDirection === "asc" ? "(א-ת)" : "(ת-א)")}
+            </Typography>
+          </MenuItem>
+        </Menu>
+
+        {/* תפריט סינון */}
+        <Menu
+          anchorEl={filterMenuAnchorEl}
+          open={Boolean(filterMenuAnchorEl)}
+          onClose={handleFilterMenuClose}
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "right",
+          }}
+          transformOrigin={{
+            vertical: "top",
+            horizontal: "right",
+          }}
+        >
+          <MenuItem onClick={handleFilterMenuClose}>
+            <Typography variant="body2">כל הפגישות</Typography>
+          </MenuItem>
+          <MenuItem onClick={handleFilterMenuClose}>
+            <Typography variant="body2">פגישות עם תמלול</Typography>
+          </MenuItem>
+          <MenuItem onClick={handleFilterMenuClose}>
+            <Typography variant="body2">פגישות ללא תמלול</Typography>
+          </MenuItem>
+        </Menu>
+
+        {/* מנוע החיפוש */}
+        <Box sx={{ mb: 3 }}>
           <MeetingSearch onSearch={setSearchQuery} />
         </Box>
-      </Paper>
 
-      {/* Meetings Grid */}
-      <Box sx={{ height: "calc(100vh - 160px)", overflow: "auto" }}>
+        {/* רשימת פגישות */}
         {loading ? (
-          <Grid container spacing={1.5}>
-            {Array.from(new Array(6)).map((_, index) => (
-              <Grid item xs={12} sm={6} lg={4} key={index}>
-                <Card sx={{ borderRadius: 1, height: 120 }}>
-                  <CardContent sx={{ p: 1.5 }}>
-                    <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
-                      <Skeleton variant="circular" width={32} height={32} sx={{ mr: 1.5 }} />
-                      <Skeleton variant="text" width={100} height={16} />
-                    </Box>
-                    <Skeleton variant="text" width="80%" height={14} />
-                    <Skeleton variant="text" width="60%" height={14} />
-                  </CardContent>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
+          // סקלטון לטעינה
+          Array.from(new Array(3)).map((_, index) => (
+            <Paper
+              key={index}
+              elevation={0}
+              sx={{
+                p: 2,
+                mb: 2,
+                borderRadius: 2,
+                border: "1px solid",
+                borderColor: "divider",
+              }}
+            >
+              <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+                <Skeleton variant="circular" width={40} height={40} sx={{ mr: 2 }} />
+                <Skeleton variant="text" width={200} height={30} />
+              </Box>
+              <Skeleton variant="text" width="60%" />
+              <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
+                <Skeleton variant="text" width={100} />
+                <Skeleton variant="rectangular" width={100} height={36} />
+              </Box>
+            </Paper>
+          ))
         ) : sortedMeetings.length > 0 ? (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.4 }}>
-            <Grid container spacing={1.5}>
-              {sortedMeetings.map((meeting) => (
-                <Grid item xs={12} sm={6} lg={4} key={meeting.id}>
-                  <motion.div
-                    initial={{ y: 20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ duration: 0.3 }}
+            {sortedMeetings.map((meeting) => (
+              <motion.div
+                key={meeting.id}
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.3 }}
+              >
+                <Paper
+                  elevation={0}
+                  sx={{
+                    p: 0,
+                    mb: 2,
+                    borderRadius: 2,
+                    border: "1px solid",
+                    borderColor: "divider",
+                    overflow: "hidden",
+                    transition: "all 0.2s ease-in-out",
+                    "&:hover": {
+                      borderColor: "primary.main",
+                      boxShadow: "0 4px 12px rgba(0,0,0,0.05)",
+                    },
+                  }}
+                >
+                  <Box sx={{ p: 2 }}>
+                    <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                      <Box sx={{ display: "flex", alignItems: "center" }}>
+                        <Avatar
+                          sx={{
+                            bgcolor: "#10a37f",
+                            width: 40,
+                            height: 40,
+                            mr: 2,
+                          }}
+                        >
+                          {meeting.name.charAt(0).toUpperCase()}
+                        </Avatar>
+                        <Typography variant="h6" fontWeight={600}>
+                          {meeting.name}
+                        </Typography>
+                      </Box>
+                      <IconButton
+                        size="small"
+                        onClick={(e) => handleMenuOpen(e, meeting.id)}
+                        aria-label="אפשרויות נוספות"
+                      >
+                        <MoreVertIcon fontSize="small" />
+                      </IconButton>
+                    </Box>
+
+                    <Box sx={{ display: "flex", alignItems: "center", mt: 2, color: "text.secondary" }}>
+                      <CalendarTodayIcon fontSize="small" sx={{ mr: 1 }} />
+                      <Typography variant="body2">{formatDate(meeting.date)}</Typography>
+                    </Box>
+                  </Box>
+
+                  <Divider />
+
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      p: 1.5,
+                      bgcolor: "rgba(0,0,0,0.01)",
+                    }}
                   >
-                    <Card
+                    <Box>
+                      {meeting.linkTranscriptFile && (
+                        <Chip
+                          label="תמלול זמין"
+                          size="small"
+                          sx={{
+                            bgcolor: "#10a37f20",
+                            color: "#10a37f",
+                            fontSize: "0.75rem",
+                            fontWeight: 500,
+                          }}
+                        />
+                      )}
+                    </Box>
+                    <Button
+                      variant="text"
+                      size="small"
+                      startIcon={<VisibilityIcon />}
+                      onClick={() => navigate(`/meeting-details/${meeting.id}`)}
                       sx={{
-                        borderRadius: 1,
-                        background: "rgba(255, 255, 255, 0.9)",
-                        border: "1px solid rgba(255, 255, 255, 0.2)",
-                        boxShadow: "0 1px 4px rgba(0, 0, 0, 0.08)",
-                        transition: "all 0.2s ease",
-                        height: 120,
-                        "&:hover": {
-                          transform: "translateY(-1px)",
-                          boxShadow: "0 2px 8px rgba(0, 0, 0, 0.12)",
-                        },
+                        color: "#10a37f",
+                        textTransform: "none",
+                        fontWeight: 500,
                       }}
                     >
-                      <CardContent sx={{ p: 1.5, height: "100%" }}>
-                        <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", mb: 1 }}>
-                          <Box sx={{ display: "flex", alignItems: "center", flex: 1, minWidth: 0 }}>
-                            <Avatar
-                              sx={{
-                                background: "linear-gradient(135deg, #10a37f 0%, #0ea5e9 100%)",
-                                width: 32,
-                                height: 32,
-                                mr: 1.5,
-                                fontWeight: 600,
-                                fontSize: "0.75rem",
-                              }}
-                            >
-                              {meeting.name.charAt(0).toUpperCase()}
-                            </Avatar>
-                            <Typography
-                              variant="subtitle2"
-                              fontWeight={600}
-                              noWrap
-                              sx={{
-                                fontSize: "0.8rem",
-                                flex: 1,
-                                minWidth: 0,
-                              }}
-                            >
-                              {meeting.name}
-                            </Typography>
-                          </Box>
-                          <IconButton
-                            size="small"
-                            onClick={(e) => handleMenuOpen(e, meeting.id)}
-                            aria-label="More options"
-                            sx={{ flexShrink: 0 }}
-                          >
-                            <MoreVertIcon sx={{ fontSize: 14 }} />
-                          </IconButton>
-                        </Box>
-
-                        <Box sx={{ display: "flex", alignItems: "center", mb: 1, color: "text.secondary" }}>
-                          <CalendarTodayIcon sx={{ mr: 1, fontSize: 12 }} />
-                          <Typography variant="caption" sx={{ fontSize: "0.7rem" }}>
-                            {formatDate(meeting.date)}
-                          </Typography>
-                        </Box>
-
-                        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                          <Box>
-                            {meeting.linkTranscriptFile && (
-                              <Chip
-                                label="Transcript Available"
-                                size="small"
-                                sx={{
-                                  bgcolor: "#10a37f20",
-                                  color: "#10a37f",
-                                  fontWeight: 500,
-                                  fontSize: "0.65rem",
-                                  height: 18,
-                                }}
-                              />
-                            )}
-                          </Box>
-                          <Button
-                            variant="text"
-                            size="small"
-                            startIcon={<VisibilityIcon sx={{ fontSize: 12 }} />}
-                            onClick={() => navigate(`/meeting-details/${meeting.id}`)}
-                            sx={{
-                              color: "#10a37f",
-                              textTransform: "none",
-                              fontWeight: 500,
-                              fontSize: "0.7rem",
-                              minWidth: "auto",
-                              p: 0.5,
-                            }}
-                          >
-                            View
-                          </Button>
-                        </Box>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
-                </Grid>
-              ))}
-            </Grid>
+                      הצג פרטים
+                    </Button>
+                  </Box>
+                </Paper>
+              </motion.div>
+            ))}
           </motion.div>
         ) : (
           <Box
             sx={{
               textAlign: "center",
-              py: 4,
+              py: 6,
               color: "text.secondary",
-              height: "100%",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
             }}
           >
-            <Typography variant="subtitle1" gutterBottom sx={{ fontSize: "0.9rem" }}>
-              No meetings found
+            <Typography variant="body1" gutterBottom>
+              לא נמצאו פגישות בשם זה.
             </Typography>
-            <Typography variant="body2" sx={{ fontSize: "0.75rem" }}>
-              Try searching again or create a new meeting.
-            </Typography>
+            <Typography variant="body2">נסה לחפש מחדש או צור פגישה חדשה.</Typography>
           </Box>
         )}
-      </Box>
+      </Paper>
 
-      {/* Menus */}
-      <Menu
-        anchorEl={sortMenuAnchorEl}
-        open={Boolean(sortMenuAnchorEl)}
-        onClose={handleSortMenuClose}
-        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-        transformOrigin={{ vertical: "top", horizontal: "right" }}
-      >
-        <MenuItem onClick={() => handleSort("date")} selected={sortBy === "date"}>
-          <ListItemIcon>
-            <CalendarTodayIcon fontSize="small" />
-          </ListItemIcon>
-          <Typography variant="body2" sx={{ fontSize: "0.75rem" }}>
-            By Date {sortBy === "date" && (sortDirection === "asc" ? "(Old to New)" : "(New to Old)")}
-          </Typography>
-        </MenuItem>
-        <MenuItem onClick={() => handleSort("name")} selected={sortBy === "name"}>
-          <ListItemIcon>
-            <SortIcon fontSize="small" />
-          </ListItemIcon>
-          <Typography variant="body2" sx={{ fontSize: "0.75rem" }}>
-            By Name {sortBy === "name" && (sortDirection === "asc" ? "(A-Z)" : "(Z-A)")}
-          </Typography>
-        </MenuItem>
-      </Menu>
-
-      <Menu
-        anchorEl={filterMenuAnchorEl}
-        open={Boolean(filterMenuAnchorEl)}
-        onClose={handleFilterMenuClose}
-        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-        transformOrigin={{ vertical: "top", horizontal: "right" }}
-      >
-        <MenuItem onClick={handleFilterMenuClose}>
-          <Typography variant="body2" sx={{ fontSize: "0.75rem" }}>
-            All Meetings
-          </Typography>
-        </MenuItem>
-        <MenuItem onClick={handleFilterMenuClose}>
-          <Typography variant="body2" sx={{ fontSize: "0.75rem" }}>
-            With Transcript
-          </Typography>
-        </MenuItem>
-        <MenuItem onClick={handleFilterMenuClose}>
-          <Typography variant="body2" sx={{ fontSize: "0.75rem" }}>
-            Without Transcript
-          </Typography>
-        </MenuItem>
-      </Menu>
-
+      {/* תפריט אפשרויות לפגישה */}
       <Menu
         anchorEl={menuAnchorEl}
         open={Boolean(menuAnchorEl)}
         onClose={handleMenuClose}
-        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-        transformOrigin={{ vertical: "top", horizontal: "right" }}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "right",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
       >
         <MenuItem
           onClick={() => {
@@ -1092,9 +504,7 @@ export default function MeetingList({ meetings: meetingsFromProps }: MeetingList
           <ListItemIcon>
             <EditIcon fontSize="small" />
           </ListItemIcon>
-          <Typography variant="body2" sx={{ fontSize: "0.75rem" }}>
-            Edit Meeting
-          </Typography>
+          <Typography variant="body2">ערוך פגישה</Typography>
         </MenuItem>
         <MenuItem
           onClick={() => {
@@ -1104,39 +514,38 @@ export default function MeetingList({ meetings: meetingsFromProps }: MeetingList
           <ListItemIcon>
             <DeleteIcon fontSize="small" color="error" />
           </ListItemIcon>
-          <Typography variant="body2" color="error.main" sx={{ fontSize: "0.75rem" }}>
-            Delete Meeting
+          <Typography variant="body2" color="error.main">
+            מחק פגישה
           </Typography>
         </MenuItem>
       </Menu>
 
-      {/* Delete Dialog */}
-      <Dialog open={deleteDialogOpen} onClose={handleDeleteCancel} PaperProps={{ sx: { borderRadius: 1 } }}>
-        <DialogTitle sx={{ color: "error.main", fontSize: "0.9rem" }}>
-          {"Are you sure you want to delete this meeting?"}
+      {/* דיאלוג אישור מחיקה */}
+      <Dialog
+        open={deleteDialogOpen}
+        onClose={handleDeleteCancel}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title" sx={{ color: "error.main" }}>
+          {"האם אתה בטוח שברצונך למחוק את הפגישה?"}
         </DialogTitle>
         <DialogContent>
-          <Typography variant="body2" sx={{ fontSize: "0.75rem" }}>
-            This action cannot be undone. All data related to this meeting will be permanently deleted.
+          <Typography variant="body1" id="alert-dialog-description">
+            פעולה זו אינה ניתנת לביטול. כל הנתונים הקשורים לפגישה זו יימחקו לצמיתות.
           </Typography>
         </DialogContent>
-        <DialogActions sx={{ p: 1.5 }}>
-          <Button onClick={handleDeleteCancel} color="inherit" sx={{ fontSize: "0.75rem" }}>
-            Cancel
+        <DialogActions>
+          <Button onClick={handleDeleteCancel} color="inherit">
+            ביטול
           </Button>
-          <Button
-            onClick={handleDeleteConfirm}
-            variant="contained"
-            color="error"
-            startIcon={<DeleteIcon sx={{ fontSize: 14 }} />}
-            sx={{ fontSize: "0.75rem" }}
-          >
-            Delete Meeting
+          <Button onClick={handleDeleteConfirm} variant="contained" color="error" autoFocus startIcon={<DeleteIcon />}>
+            מחק פגישה
           </Button>
         </DialogActions>
       </Dialog>
 
-      {/* Update Dialog */}
+      {/* דיאלוג עדכון פגישה */}
       {selectedMeeting && (
         <UpdateMeetingDialog
           open={Boolean(selectedMeeting)}
@@ -1146,15 +555,15 @@ export default function MeetingList({ meetings: meetingsFromProps }: MeetingList
         />
       )}
 
-      {/* Snackbar */}
+      {/* הודעת Snackbar */}
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={5000}
         onClose={handleCloseSnackbar}
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
-        <Alert onClose={handleCloseSnackbar} severity={snackbarMessage.includes("Error") ? "error" : "success"}>
-          <Typography sx={{ fontSize: "0.75rem" }}>{snackbarMessage}</Typography>
+        <Alert onClose={handleCloseSnackbar} severity={snackbarMessage.includes("שגיאה") ? "error" : "success"}>
+          {snackbarMessage}
         </Alert>
       </Snackbar>
     </Box>

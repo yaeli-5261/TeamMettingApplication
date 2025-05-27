@@ -205,8 +205,6 @@
 //   )
 // }
 
-
-
 "use client"
 
 import type React from "react"
@@ -262,7 +260,7 @@ export default function UpdateMeetingDialog({ open, handleClose, meeting, onUpda
         handleClose()
       }
     } catch (err) {
-      setError("Error updating meeting. Please try again.")
+      setError("שגיאה בעדכון הפגישה. אנא נסה שוב.")
       console.error("Error updating meeting:", err)
     } finally {
       setIsSubmitting(false)
@@ -277,9 +275,8 @@ export default function UpdateMeetingDialog({ open, handleClose, meeting, onUpda
       maxWidth="sm"
       PaperProps={{
         sx: {
-          borderRadius: 1,
-          boxShadow: "0 4px 16px rgba(0,0,0,0.12)",
-          height: "500px",
+          borderRadius: 2,
+          boxShadow: "0 8px 32px rgba(0,0,0,0.12)",
         },
       }}
     >
@@ -290,137 +287,116 @@ export default function UpdateMeetingDialog({ open, handleClose, meeting, onUpda
           justifyContent: "space-between",
           pb: 1,
           background: "rgba(248, 250, 252, 0.8)",
-          height: "60px",
         }}
       >
         <Box>
-          <Typography variant="subtitle1" fontWeight={600} sx={{ fontSize: "0.9rem" }}>
-            Update Meeting
+          <Typography variant="h6" fontWeight={600}>
+            עדכון פגישה
           </Typography>
-          <Typography variant="caption" color="text.secondary" sx={{ fontSize: "0.7rem" }}>
-            Edit meeting details
+          <Typography variant="body2" color="text.secondary">
+            ערוך את פרטי הפגישה
           </Typography>
         </Box>
-        <IconButton edge="end" color="inherit" onClick={handleClose} aria-label="close" size="small">
-          <CloseIcon sx={{ fontSize: 16 }} />
+        <IconButton edge="end" color="inherit" onClick={handleClose} aria-label="close">
+          <CloseIcon />
         </IconButton>
       </DialogTitle>
 
       <Divider />
 
-      <DialogContent sx={{ pt: 1.5, pb: 1, height: "calc(100% - 120px)", overflow: "auto" }}>
+      <DialogContent sx={{ pt: 2, pb: 1 }}>
         {error && (
-          <Alert severity="error" sx={{ mb: 1.5, borderRadius: 1, fontSize: "0.7rem" }}>
+          <Alert severity="error" sx={{ mb: 2, borderRadius: 1 }}>
             {error}
           </Alert>
         )}
 
-        <Box sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}>
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
           <TextField
-            label="Meeting Name"
+            label="שם הפגישה"
             name="name"
             fullWidth
             value={formData.name}
             onChange={handleChange}
             required
-            size="small"
             sx={{
               "& .MuiOutlinedInput-root": {
                 borderRadius: 1,
-                height: 36,
-                fontSize: "0.75rem",
-              },
-              "& .MuiInputLabel-root": {
-                fontSize: "0.75rem",
+                height: 48,
               },
             }}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
-                  <TitleIcon sx={{ fontSize: 12 }} />
+                  <TitleIcon fontSize="small" />
                 </InputAdornment>
               ),
             }}
           />
 
           <TextField
-            label="Meeting Date"
+            label="תאריך הפגישה"
             name="date"
             type="datetime-local"
             fullWidth
             value={formData.date}
             onChange={handleChange}
             required
-            size="small"
             InputLabelProps={{ shrink: true }}
             sx={{
               "& .MuiOutlinedInput-root": {
                 borderRadius: 1,
-                height: 36,
-                fontSize: "0.75rem",
-              },
-              "& .MuiInputLabel-root": {
-                fontSize: "0.75rem",
+                height: 48,
               },
             }}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
-                  <CalendarTodayIcon sx={{ fontSize: 12 }} />
+                  <CalendarTodayIcon fontSize="small" />
                 </InputAdornment>
               ),
             }}
           />
 
           <TextField
-            label="Transcript File Link"
+            label="קישור לקובץ תמלול"
             name="linkTranscriptFile"
             fullWidth
             value={formData.linkTranscriptFile || ""}
             onChange={handleChange}
             placeholder="https://example.com/transcript.txt"
-            size="small"
             sx={{
               "& .MuiOutlinedInput-root": {
                 borderRadius: 1,
-                height: 36,
-                fontSize: "0.75rem",
-              },
-              "& .MuiInputLabel-root": {
-                fontSize: "0.75rem",
+                height: 48,
               },
             }}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
-                  <LinkIcon sx={{ fontSize: 12 }} />
+                  <LinkIcon fontSize="small" />
                 </InputAdornment>
               ),
             }}
           />
 
           <TextField
-            label="Original File Link"
+            label="קישור לקובץ מקור"
             name="linkOrinignFile"
             fullWidth
             value={formData.linkOrinignFile || ""}
             onChange={handleChange}
             placeholder="https://example.com/original.docx"
-            size="small"
             sx={{
               "& .MuiOutlinedInput-root": {
                 borderRadius: 1,
-                height: 36,
-                fontSize: "0.75rem",
-              },
-              "& .MuiInputLabel-root": {
-                fontSize: "0.75rem",
+                height: 48,
               },
             }}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
-                  <AttachFileIcon sx={{ fontSize: 12 }} />
+                  <AttachFileIcon fontSize="small" />
                 </InputAdornment>
               ),
             }}
@@ -428,7 +404,7 @@ export default function UpdateMeetingDialog({ open, handleClose, meeting, onUpda
         </Box>
       </DialogContent>
 
-      <DialogActions sx={{ px: 2, py: 1.5, background: "rgba(248, 250, 252, 0.5)", height: "60px" }}>
+      <DialogActions sx={{ px: 3, py: 2, background: "rgba(248, 250, 252, 0.5)" }}>
         <Button
           onClick={handleClose}
           color="inherit"
@@ -437,30 +413,28 @@ export default function UpdateMeetingDialog({ open, handleClose, meeting, onUpda
             fontWeight: 500,
             borderRadius: 1,
             px: 2,
-            fontSize: "0.75rem",
           }}
         >
-          Cancel
+          ביטול
         </Button>
         <Button
           onClick={handleSubmit}
           variant="contained"
           disabled={isSubmitting}
-          startIcon={isSubmitting ? <CircularProgress size={12} /> : <SaveIcon sx={{ fontSize: 12 }} />}
+          startIcon={isSubmitting ? <CircularProgress size={16} /> : <SaveIcon />}
           sx={{
             background: "linear-gradient(135deg, #10a37f 0%, #0ea5e9 100%)",
             color: "white",
             textTransform: "none",
             fontWeight: 600,
             borderRadius: 1,
-            px: 2.5,
-            fontSize: "0.75rem",
+            px: 3,
             "&:hover": {
               background: "linear-gradient(135deg, #0e8a6c 0%, #0284c7 100%)",
             },
           }}
         >
-          {isSubmitting ? "Updating..." : "Update Meeting"}
+          {isSubmitting ? "מעדכן..." : "עדכן פגישה"}
         </Button>
       </DialogActions>
     </Dialog>
