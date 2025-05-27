@@ -39,6 +39,7 @@ interface ChatStats {
 }
 
 export default function TeamChat() {
+  // Fix: Remove /api from the URL since it's already in VITE_API_URL
   const apiUrl = import.meta.env.VITE_API_URL
   const { user } = useSelector((state: RootState) => state.auth)
 
@@ -63,22 +64,26 @@ export default function TeamChat() {
   // Fetch messages from API
   const fetchMessages = async () => {
     try {
-      const response = await axios.get(`${apiUrl}/api/chat/messages/${teamId}`)
+      console.log(`Fetching messages from: ${apiUrl}/chat/messages/${teamId}`)
+      const response = await axios.get(`${apiUrl}/chat/messages/${teamId}`)
       setMessages(response.data)
       setError(null)
-    } catch (err) {
+    } catch (err: any) {
       console.error("Error fetching messages:", err)
-      setError("Failed to load messages")
+      console.error("URL attempted:", `${apiUrl}/chat/messages/${teamId}`)
+      setError(`Failed to load messages: ${err.response?.status || err.message}`)
     }
   }
 
   // Fetch chat statistics
   const fetchStats = async () => {
     try {
-      const response = await axios.get(`${apiUrl}/api/chat/stats/${teamId}`)
+      console.log(`Fetching stats from: ${apiUrl}/chat/stats/${teamId}`)
+      const response = await axios.get(`${apiUrl}/chat/stats/${teamId}`)
       setStats(response.data)
-    } catch (err) {
+    } catch (err: any) {
       console.error("Error fetching stats:", err)
+      console.error("URL attempted:", `${apiUrl}/chat/stats/${teamId}`)
     }
   }
 
@@ -94,16 +99,20 @@ export default function TeamChat() {
         teamId,
       }
 
-      await axios.post(`${apiUrl}/api/chat/send`, messageData)
+      console.log(`Sending message to: ${apiUrl}/chat/send`)
+      console.log("Message data:", messageData)
+
+      await axios.post(`${apiUrl}/chat/send`, messageData)
       setNewMessage("")
       setError(null)
 
       // Immediately fetch new messages
       await fetchMessages()
       await fetchStats()
-    } catch (err) {
+    } catch (err: any) {
       console.error("Error sending message:", err)
-      setError("Failed to send message")
+      console.error("URL attempted:", `${apiUrl}/chat/send`)
+      setError(`Failed to send message: ${err.response?.status || err.message}`)
     } finally {
       setSending(false)
     }
@@ -114,13 +123,15 @@ export default function TeamChat() {
     if (!window.confirm("Are you sure you want to clear all messages?")) return
 
     try {
-      await axios.delete(`${apiUrl}/api/chat/clear/${teamId}`)
+      console.log(`Clearing chat: ${apiUrl}/chat/clear/${teamId}`)
+      await axios.delete(`${apiUrl}/chat/clear/${teamId}`)
       setMessages([])
       setStats({ messageCount: 0, activeUsers: 0 })
       setError(null)
-    } catch (err) {
+    } catch (err: any) {
       console.error("Error clearing chat:", err)
-      setError("Failed to clear chat")
+      console.error("URL attempted:", `${apiUrl}/chat/clear/${teamId}`)
+      setError(`Failed to clear chat: ${err.response?.status || err.message}`)
     }
   }
 
@@ -151,6 +162,10 @@ export default function TeamChat() {
 
   // Initialize and start polling
   useEffect(() => {
+    console.log("API URL:", apiUrl)
+    console.log("Team ID:", teamId)
+    console.log("User Name:", userName)
+
     setLoading(true)
 
     // Initial load
@@ -158,11 +173,11 @@ export default function TeamChat() {
       setLoading(false)
     })
 
-    // Start polling every 2 seconds
+    // Start polling every 3 seconds (increased from 2 to reduce server load)
     pollIntervalRef.current = setInterval(() => {
       fetchMessages()
       fetchStats()
-    }, 2000)
+    }, 3000)
 
     return () => {
       if (pollIntervalRef.current) {
@@ -241,6 +256,13 @@ export default function TeamChat() {
         </Box>
       </Paper>
 
+      {/* Debug Info */}
+      {process.env.NODE_ENV === "development" && (
+        <Alert severity="info" sx={{ mb: 2, fontSize: "0.7rem" }}>
+          API: {apiUrl} | Team: {teamId} | User: {userName}
+        </Alert>
+      )}
+
       {/* Messages Area */}
       <Paper
         elevation={0}
@@ -274,6 +296,17 @@ export default function TeamChat() {
           ) : error ? (
             <Alert severity="error" sx={{ borderRadius: 1, fontSize: "0.75rem" }}>
               {error}
+              <Button
+                size="small"
+                onClick={() => {
+                  setError(null)
+                  fetchMessages()
+                  fetchStats()
+                }}
+                sx={{ mt: 1, fontSize: "0.7rem" }}
+              >
+                Retry
+              </Button>
             </Alert>
           ) : messages.length === 0 ? (
             <Box sx={{ textAlign: "center", py: 4, color: "text.secondary" }}>
