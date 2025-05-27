@@ -1635,5 +1635,6 @@ export default function TeamChat() {
         </Box>
       )}
     </Box> */}
-  )
+    </Box>
+  ) 
 }
