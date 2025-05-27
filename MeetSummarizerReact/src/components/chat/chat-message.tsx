@@ -1100,18 +1100,18 @@ export default function TeamChat() {
   }, [teamId])
 
   // Add scroll listener to messages area
-  useEffect(() => {
-    const messagesArea = messagesAreaRef.current
-    if (messagesArea) {
-      messagesArea.addEventListener("scroll", checkIfAtBottom)
-      // Check initial position
-      checkIfAtBottom()
+  // useEffect(() => {
+  //   const messagesArea = messagesAreaRef.current
+  //   if (messagesArea) {
+  //     messagesArea.addEventListener("scroll", checkIfAtBottom)
+  //     // Check initial position
+  //     checkIfAtBottom()
 
-      return () => {
-        messagesArea.removeEventListener("scroll", checkIfAtBottom)
-      }
-    }
-  }, [])
+  //     return () => {
+  //       messagesArea.removeEventListener("scroll", checkIfAtBottom)
+  //     }
+  //   }
+  // }, [])
 
   return (
     <Box
