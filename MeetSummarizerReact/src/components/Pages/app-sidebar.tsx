@@ -645,10 +645,13 @@ import type { RootState, AppDispatch } from "../../store/store"
 import { logout } from "../../store/authSlice"
 import { fetchMeetingsByTeam } from "../../store/meetingSlice"
 import { getCookie } from "../../services/meetingService"
+import TeamChat from "../chat/chat-message"
 
 const navItems = [
   { name: "Dashboard", path: "/", icon: <HomeIcon /> },
   { name: "Meetings", path: "/meetings", icon: <CalendarIcon /> },
+  { name: "Chat", path: "/chat", icon: <TeamChat /> },
+
 ]
 
 interface RecentFile {
