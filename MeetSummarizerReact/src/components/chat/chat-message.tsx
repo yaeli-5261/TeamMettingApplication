@@ -925,9 +925,9 @@ export default function TeamChat() {
   // Check if user is at bottom of messages
   const checkIfAtBottom = () => {
     if (messagesAreaRef.current) {
-      const { scrollTop, scrollHeight, clientHeight } = messagesAreaRef.current
-      const isBottom = scrollTop + clientHeight >= scrollHeight - 50 // 50px threshold
-      setIsAtBottom(isBottom)
+      // const { scrollTop, scrollHeight, clientHeight } = messagesAreaRef.current
+      // const isBottom = scrollTop + clientHeight >= scrollHeight - 50 // 50px threshold
+      // setIsAtBottom(isBottom)
     }
   }
 
@@ -1100,18 +1100,18 @@ export default function TeamChat() {
   }, [teamId])
 
   // Add scroll listener to messages area
-  useEffect(() => {
-    const messagesArea = messagesAreaRef.current
-    if (messagesArea) {
-      messagesArea.addEventListener("scroll", checkIfAtBottom)
-      // Check initial position
-      checkIfAtBottom()
+  // useEffect(() => {
+  //   const messagesArea = messagesAreaRef.current
+  //   if (messagesArea) {
+  //     // messagesArea.addEventListener("scroll", checkIfAtBottom)
+    
+  //     // checkIfAtBottom()
 
-      return () => {
-        messagesArea.removeEventListener("scroll", checkIfAtBottom)
-      }
-    }
-  }, [])
+  //     return () => {
+  //       messagesArea.removeEventListener("scroll", checkIfAtBottom)
+  //     }
+  //   }
+  // }, [])
 
   return (
     <Box
@@ -1636,5 +1636,4 @@ export default function TeamChat() {
       )}
     </Box> */}
     </Box>
-  ) 
-}
+  ) }
