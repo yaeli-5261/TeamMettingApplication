@@ -318,6 +318,8 @@ const SignIn = () => {
     <Box
       sx={{
         minHeight: "100vh",
+        //todo
+        minWidth: "100vw",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
