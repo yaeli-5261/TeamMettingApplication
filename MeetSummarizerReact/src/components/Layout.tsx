@@ -34,9 +34,8 @@ export default function Layout({ children }: LayoutProps) {
           component="main"
           sx={{
             flexGrow: 1,
-            width: "calc(100% - 280px)", // גודל המסך מלבד התפריט צד
-            // width: "100vh",
-            //todo
+            // width: "calc(100% - 280px)", // גודל המסך מלבד התפריט צד
+            width: "100vh",
             ml: { xs: 0, md: "280px" },
             display: "flex",
             flexDirection: "column",
@@ -48,11 +47,8 @@ export default function Layout({ children }: LayoutProps) {
           <Box
             sx={{
               flexGrow: 1,
-              p: { xs: 2, md: 4 },
-          pb: { xs: 10, md: 12 },
-          width: "100%",
-          //todo
-              // width: "100vh",
+          
+              width: "100vh",
               // maxWidth: "100vh",
               boxSizing: "border-box",
             }}
