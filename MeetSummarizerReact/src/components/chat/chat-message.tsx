@@ -912,7 +912,7 @@ export default function TeamChat() {
   const [formatAnchor, setFormatAnchor] = useState<null | HTMLElement>(null)
   const [moreAnchor, setMoreAnchor] = useState<null | HTMLElement>(null)
   const [isTyping, setIsTyping] = useState(false)
-  // const [isAtBottom, setIsAtBottom] = useState(false)
+  const [isAtBottom, setIsAtBottom] = useState(false)
 
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const messagesAreaRef = useRef<HTMLDivElement>(null)
@@ -942,7 +942,7 @@ const scrollToLastMessage = () => {
     lastMessageRef.scrollIntoView({ behavior: "smooth" });
   }
   
-//TODO
+};
 // const scrollToLastMessage = () => {
 //   setTimeout(() => {
 //     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
