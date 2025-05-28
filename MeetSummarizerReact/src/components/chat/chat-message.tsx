@@ -935,7 +935,13 @@ export default function TeamChat() {
   // const scrollToBottom = () => {
   //   messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
   // }
-
+// Scroll to the last message in the chat
+const scrollToLastMessage = () => {
+  const lastMessageRef = document.querySelector(".last-message");
+  if (lastMessageRef) {
+    lastMessageRef.scrollIntoView({ behavior: "smooth" });
+  }
+};
   // Fetch messages from API
   const fetchMessages = async () => {
     try {
@@ -987,6 +993,7 @@ export default function TeamChat() {
       await fetchMessages()
       await fetchStats()
       // scrollToBottom()
+      scrollToLastMessage(); // גלילה לסוף השיחה
     } catch (err: any) {
       console.error("Error sending message:", err)
       console.error("URL attempted:", `${apiUrl}/chat/send`)
