@@ -282,6 +282,19 @@ export function AppFooter() {
                 <Typography variant="body2" sx={{ opacity: 0.7 }}>
                   © {new Date().getFullYear()} All Rights Reserved
                 </Typography>
+                
+                <p><a
+          href="https://mail.google.com/mail/?view=cm&fs=1&to=yaelina5261@gmail.com&su=פנייה%20מאתר%20EduShare&body=שלום%20רציתי%20לפנות%20בנוגע%20ל..."
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ color: '#0077cc', textDecoration: 'none', marginLeft: '5px' }}
+        >
+          support@meetingSummerizer.co.il
+        </a></p>
+
+
+
+
               </Box>
             </Box>
           </Grid>
