@@ -1,95 +1,27 @@
-// "use client"
+"use client"
 
-import { useMediaQuery, CssBaseline } from "@mui/material";
-import Box from "@mui/material/Box/Box";
-import { LayoutProps as MotionLayoutProps } from "framer-motion";
+import type React from "react"
+import { Box, CssBaseline, useMediaQuery, useTheme } from "@mui/material"
+import { useState } from "react"
+import AppFooter from "./Pages/app-footer"
+import AppSidebar from "./Pages/app-sidebar"
 
-interface LayoutProps extends MotionLayoutProps {
-  children: React.ReactNode;
+
+interface LayoutProps {
+  children: React.ReactNode
 }
-import { useState } from "react";
-import { useTheme } from "styled-components";
-import AppFooter from "./Pages/app-footer";
-import AppSidebar from "./Pages/app-sidebar";
-
-// import type React from "react"
-// import { Box, CssBaseline, useMediaQuery, useTheme } from "@mui/material"
-// import { useState } from "react"
-// import AppFooter from "./Pages/app-footer"
-// import AppSidebar from "./Pages/app-sidebar"
-
-
-// interface LayoutProps {
-//   children: React.ReactNode
-// }
-
-// export default function Layout({ children }: LayoutProps) {
-//   const theme = useTheme()
-//   const isMobile = useMediaQuery(theme.breakpoints.down("md"))
-//   const [mobileOpen, setMobileOpen] = useState(false)
-
-//   const handleDrawerToggle = () => {
-//     setMobileOpen(!mobileOpen)
-//   }
-
-//   return (
-//     <Box sx={{ display: "flex",width:'100vh' ,minHeight: "100vh", flexDirection: "column" }}>
-//       <CssBaseline />
-
-//       {/* Main layout container */}
-//       <Box sx={{ display: "flex", flexGrow: 1 }}>
-//         {/* Sidebar */}
-//         <AppSidebar mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
-
-//         {/* Main content */}
-//         <Box
-//           component="main"
-//           sx={{
-//             flexGrow: 1,
-//             width: "100vh",
-//             ml: { xs: 0, md: "280px" },
-//             display: "flex",
-//             flexDirection: "column",
-//             minHeight: "100vh",
-//             background: "linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)",
-//           }}
-//         >
-//           {/* Content wrapper - Full width for all components */}
-//           <Box
-//             sx={{
-//               flexGrow: 1,
-//               width: "100vh",
-//               // maxWidth: "100vh",
-//               boxSizing: "border-box",
-//             }}
-//           >
-//             {children}
-//           </Box>
-
-//           <AppFooter />
-//         </Box>
-//       </Box>
-//     </Box>
-//   )
-// }
-
-
-
-
-
-
 
 export default function Layout({ children }: LayoutProps) {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"))
+  const [mobileOpen, setMobileOpen] = useState(false)
 
   const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
+    setMobileOpen(!mobileOpen)
+  }
 
   return (
-    <Box sx={{ display: "flex", minHeight: "100vh", flexDirection: "column" }}>
+    <Box sx={{ display: "flex",width:'100vh' ,minHeight: "100vh", flexDirection: "column" }}>
       <CssBaseline />
 
       {/* Main layout container */}
@@ -102,31 +34,29 @@ export default function Layout({ children }: LayoutProps) {
           component="main"
           sx={{
             flexGrow: 1,
-            width: "calc(100% - 280px)", // גודל המסך מלבד התפריט צד (280px)
-            ml: { xs: 0, md: "280px" }, // מרווח לתפריט צד
+            width: "100vh",
+            ml: { xs: 0, md: "280px" },
             display: "flex",
             flexDirection: "column",
             minHeight: "100vh",
             background: "linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)",
           }}
         >
-          {/* Content wrapper */}
+          {/* Content wrapper - Full width for all components */}
           <Box
             sx={{
               flexGrow: 1,
-              p: { xs: 2, md: 4 },
-              pb: { xs: 10, md: 12 },
-              width: "100%",
+              width: "100vh",
+              // maxWidth: "100vh",
               boxSizing: "border-box",
             }}
           >
             {children}
           </Box>
 
-          {/* Footer */}
           <AppFooter />
         </Box>
       </Box>
     </Box>
-  );
+  )
 }
