@@ -94,7 +94,7 @@ export default function Layout({ children }: LayoutProps) {
   }
 
   return (
-    <Box sx={{ display: "flex", minHeight: "100vh", flexDirection: "column" }}>
+    <Box sx={{ display: "flex",width:'100vh' ,minHeight: "100vh", flexDirection: "column" }}>
       <CssBaseline />
 
       {/* Main layout container */}
@@ -107,7 +107,7 @@ export default function Layout({ children }: LayoutProps) {
           component="main"
           sx={{
             flexGrow: 1,
-            width: "100%",
+            width: "100vh",
             ml: { xs: 0, md: "280px" },
             display: "flex",
             flexDirection: "column",
@@ -119,15 +119,14 @@ export default function Layout({ children }: LayoutProps) {
           <Box
             sx={{
               flexGrow: 1,
-              width: "100%",
-              maxWidth: "100%",
+              width: "100vh",
+              // maxWidth: "100vh",
               boxSizing: "border-box",
             }}
           >
             {children}
           </Box>
 
-          {/* Footer */}
           <AppFooter />
         </Box>
       </Box>
