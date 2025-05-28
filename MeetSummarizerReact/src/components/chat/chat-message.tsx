@@ -936,12 +936,18 @@ export default function TeamChat() {
   //   messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
   // }
 // Scroll to the last message in the chat
-const scrollToLastMessage = () => {
-  const lastMessageRef = document.querySelector(".last-message");
-  if (lastMessageRef) {
-    lastMessageRef.scrollIntoView({ behavior: "smooth" });
-  }
+// const scrollToLastMessage = () => {
+//   const lastMessageRef = document.querySelector(".last-message");
+//   if (lastMessageRef) {
+//     lastMessageRef.scrollIntoView({ behavior: "smooth" });
+//   }
   
+// };
+
+const scrollToLastMessage = () => {
+  if (messagesEndRef.current) {
+    messagesEndRef.current.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
 };
 // const scrollToLastMessage = () => {
 //   setTimeout(() => {
@@ -999,7 +1005,8 @@ const scrollToLastMessage = () => {
       await fetchMessages()
       await fetchStats()
       // scrollToBottom()
-      scrollToLastMessage(); // גלילה לסוף השיחה
+      // scrollToLastMessage(); // גלילה לסוף השיחה
+      scrollToLastMessage(); //לתוכן האחרון בלבד
     } catch (err: any) {
       console.error("Error sending message:", err)
       console.error("URL attempted:", `${apiUrl}/chat/send`)
