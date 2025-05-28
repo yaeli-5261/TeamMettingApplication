@@ -912,7 +912,7 @@ export default function TeamChat() {
   const [formatAnchor, setFormatAnchor] = useState<null | HTMLElement>(null)
   const [moreAnchor, setMoreAnchor] = useState<null | HTMLElement>(null)
   const [isTyping, setIsTyping] = useState(false)
-  const [isAtBottom, setIsAtBottom] = useState(false)
+  // const [isAtBottom, setIsAtBottom] = useState(false)
 
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const messagesAreaRef = useRef<HTMLDivElement>(null)
@@ -923,31 +923,31 @@ export default function TeamChat() {
   const userName = user?.userName || "Anonymous"
 
   // Check if user is at bottom of messages
-  const checkIfAtBottom = () => {
-    if (messagesAreaRef.current) {
-      // const { scrollTop, scrollHeight, clientHeight } = messagesAreaRef.current
-      // const isBottom = scrollTop + clientHeight >= scrollHeight - 50 // 50px threshold
-      // setIsAtBottom(isBottom)
-    }
-  }
+  // const checkIfAtBottom = () => {
+  //   if (messagesAreaRef.current) {
+  //     // const { scrollTop, scrollHeight, clientHeight } = messagesAreaRef.current
+  //     // const isBottom = scrollTop + clientHeight >= scrollHeight - 50 // 50px threshold
+  //     // setIsAtBottom(isBottom)
+  //   }
+  // }
 
   // Scroll to bottom of messages (only used when sending a message)
   // const scrollToBottom = () => {
   //   messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
   // }
 // Scroll to the last message in the chat
-// const scrollToLastMessage = () => {
-//   const lastMessageRef = document.querySelector(".last-message");
-//   if (lastMessageRef) {
-//     lastMessageRef.scrollIntoView({ behavior: "smooth" });
-//   }
-  
-// };
 const scrollToLastMessage = () => {
-  setTimeout(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, 100);
-};
+  const lastMessageRef = document.querySelector(".last-message");
+  if (lastMessageRef) {
+    lastMessageRef.scrollIntoView({ behavior: "smooth" });
+  }
+  
+//TODO
+// const scrollToLastMessage = () => {
+//   setTimeout(() => {
+//     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+//   }, 100);
+// };
   // Fetch messages from API
   const fetchMessages = async () => {
     try {
