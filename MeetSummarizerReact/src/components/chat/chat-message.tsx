@@ -842,9 +842,6 @@ import {
   Search as SearchIcon,
   MoreVert as MoreIcon,
   FormatBold as BoldIcon,
-  FormatItalic as ItalicIcon,
-  FormatUnderlined as UnderlineIcon,
-  Link as LinkIcon,
 } from "@mui/icons-material"
 import { useSelector } from "react-redux"
 import type { RootState } from "../../store/store"
@@ -912,7 +909,6 @@ export default function TeamChat() {
   const [formatAnchor, setFormatAnchor] = useState<null | HTMLElement>(null)
   const [moreAnchor, setMoreAnchor] = useState<null | HTMLElement>(null)
   const [isTyping, setIsTyping] = useState(false)
-  const [isAtBottom, setIsAtBottom] = useState(false)
 
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const messagesAreaRef = useRef<HTMLDivElement>(null)
@@ -922,38 +918,11 @@ export default function TeamChat() {
   const teamId = user?.teamId || 1
   const userName = user?.userName || "Anonymous"
 
-  // Check if user is at bottom of messages
-  // const checkIfAtBottom = () => {
-  //   if (messagesAreaRef.current) {
-  //     // const { scrollTop, scrollHeight, clientHeight } = messagesAreaRef.current
-  //     // const isBottom = scrollTop + clientHeight >= scrollHeight - 50 // 50px threshold
-  //     // setIsAtBottom(isBottom)
-  //   }
-  // }
-
-  // Scroll to bottom of messages (only used when sending a message)
-  // const scrollToBottom = () => {
-  //   messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
-  // }
-// Scroll to the last message in the chat
-// const scrollToLastMessage = () => {
-//   const lastMessageRef = document.querySelector(".last-message");
-//   if (lastMessageRef) {
-//     lastMessageRef.scrollIntoView({ behavior: "smooth" });
-//   }
-  
-// };
-
 const scrollToLastMessage = () => {
   if (messagesEndRef.current) {
     messagesEndRef.current.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }
 };
-// const scrollToLastMessage = () => {
-//   setTimeout(() => {
-//     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-//   }, 100);
-// };
   // Fetch messages from API
   const fetchMessages = async () => {
     try {
@@ -1004,8 +973,6 @@ const scrollToLastMessage = () => {
       // Immediately fetch new messages and scroll to bottom only when user sends a message
       await fetchMessages()
       await fetchStats()
-      // scrollToBottom()
-      // scrollToLastMessage(); // גלילה לסוף השיחה
       scrollToLastMessage(); //לתוכן האחרון בלבד
     } catch (err: any) {
       console.error("Error sending message:", err)
@@ -1115,20 +1082,6 @@ const scrollToLastMessage = () => {
       }
     }
   }, [teamId])
-
-  // Add scroll listener to messages area
-  // useEffect(() => {
-  //   const messagesArea = messagesAreaRef.current
-  //   if (messagesArea) {
-  //     // messagesArea.addEventListener("scroll", checkIfAtBottom)
-    
-  //     // checkIfAtBottom()
-
-  //     return () => {
-  //       messagesArea.removeEventListener("scroll", checkIfAtBottom)
-  //     }
-  //   }
-  // }, [])
 
   return (
     <Box
@@ -1635,22 +1588,5 @@ const scrollToLastMessage = () => {
         </Box>
       </Paper>
 
-      {/* Hidden Footer - Only shows when at bottom */}
-      {/* {isAtBottom && (
-        <Box
-          sx={{
-            p: 1,
-            bgcolor: "#f8f9fa",
-            borderTop: "1px solid #e8eaed",
-            textAlign: "center",
-            transition: "all 0.3s ease",
-          }}
-        >
-          <Typography variant="caption" sx={{ color: "#5f6368" }}>
-            End of conversation
-          </Typography>
-        </Box>
-      )}
-    </Box> */}
     </Box>
   ) }
