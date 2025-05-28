@@ -932,9 +932,9 @@ export default function TeamChat() {
   }
 
   // Scroll to bottom of messages (only used when sending a message)
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
-  }
+  // const scrollToBottom = () => {
+  //   messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+  // }
 
   // Fetch messages from API
   const fetchMessages = async () => {
@@ -986,7 +986,7 @@ export default function TeamChat() {
       // Immediately fetch new messages and scroll to bottom only when user sends a message
       await fetchMessages()
       await fetchStats()
-      scrollToBottom()
+      // scrollToBottom()
     } catch (err: any) {
       console.error("Error sending message:", err)
       console.error("URL attempted:", `${apiUrl}/chat/send`)
@@ -1075,10 +1075,7 @@ export default function TeamChat() {
 
   // Initialize and start polling
   useEffect(() => {
-    console.log("API URL:", apiUrl)
-    console.log("Team ID:", teamId)
-    console.log("User Name:", userName)
-
+  
     setLoading(true)
 
     // Initial load
