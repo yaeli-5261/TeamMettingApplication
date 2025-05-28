@@ -936,11 +936,17 @@ export default function TeamChat() {
   //   messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
   // }
 // Scroll to the last message in the chat
+// const scrollToLastMessage = () => {
+//   const lastMessageRef = document.querySelector(".last-message");
+//   if (lastMessageRef) {
+//     lastMessageRef.scrollIntoView({ behavior: "smooth" });
+//   }
+  
+// };
 const scrollToLastMessage = () => {
-  const lastMessageRef = document.querySelector(".last-message");
-  if (lastMessageRef) {
-    lastMessageRef.scrollIntoView({ behavior: "smooth" });
-  }
+  setTimeout(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, 100);
 };
   // Fetch messages from API
   const fetchMessages = async () => {
@@ -1122,7 +1128,7 @@ const scrollToLastMessage = () => {
       sx={{
         height: "100vh",
         display: "flex",
-        flexDirection: "column",
+        // flexDirection: "column",
         bgcolor: "#f8f9fa",
         fontFamily: "'Google Sans', 'Roboto', sans-serif",
       }}
