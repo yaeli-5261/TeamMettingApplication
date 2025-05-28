@@ -229,7 +229,7 @@ export function AppFooter() {
       component="footer"
       sx={{
         width: "100%",
-        background: "linear-gradient(135deg, #1e293b 0%, #334155 100%)",
+        background: "linear-gradient(135deg,rgb(112, 123, 141) 0%,rgb(77, 87, 100) 100%)",
         color: "white",
         py: 6,
         px: 2,
@@ -284,7 +284,7 @@ export function AppFooter() {
                 </Typography>
                 
                 <p><a
-          href="https://mail.google.com/mail/?view=cm&fs=1&to=yaelina5261@gmail.com&su=פנייה%20מאתר%20EduShare&body=שלום%20רציתי%20לפנות%20בנוגע%20ל..."
+          href="https://mail.google.com/mail/?view=cm&fs=1&to=yaelina5261@gmail.com&su=פנייה%20מאתר%MEETING&body=שלום%20רציתי%20לפנות%20בנוגע%20ל..."
           target="_blank"
           rel="noopener noreferrer"
           style={{ color: '#0077cc', textDecoration: 'none', marginLeft: '5px' }}
