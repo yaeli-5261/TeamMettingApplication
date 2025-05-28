@@ -1128,7 +1128,7 @@ const scrollToLastMessage = () => {
       sx={{
         height: "100vh",
         display: "flex",
-        // flexDirection: "column",
+        flexDirection: "column",
         bgcolor: "#f8f9fa",
         fontFamily: "'Google Sans', 'Roboto', sans-serif",
       }}
