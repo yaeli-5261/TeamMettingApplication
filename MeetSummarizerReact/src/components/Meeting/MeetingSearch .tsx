@@ -39,7 +39,7 @@ export default function MeetingSearch({ onSearch }: MeetingSearchProps) {
             sx={{
               display: "flex",
               alignItems: "center",
-              width: "70vw",
+              width: "30vw",
               borderRadius: 4,
               border: "2px solid transparent",
               overflow: "hidden",

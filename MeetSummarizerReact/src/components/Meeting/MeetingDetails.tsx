@@ -484,15 +484,15 @@ export default function MeetingDetails() {
 
   if (loading) {
     return (
-      //todo%
-      <Box sx={{ width: "100vw", p: 3 }}>
-        <Skeleton variant="rectangular" width="100vw" height={120} sx={{ borderRadius: 2, mb: 3 }} />
+      
+      <Box sx={{ width: "70vw", p: 3 }}>
+        <Skeleton variant="rectangular" width="70vw" height={120} sx={{ borderRadius: 2, mb: 3 }} />
         <Grid container spacing={3}>
           <Grid item xs={12} md={8}>
-            <Skeleton variant="rectangular" width="100vw" height={200} sx={{ borderRadius: 2 }} />
+            <Skeleton variant="rectangular" width="70vw" height={200} sx={{ borderRadius: 2 }} />
           </Grid>
           <Grid item xs={12} md={4}>
-            <Skeleton variant="rectangular" width="100vw" height={200} sx={{ borderRadius: 2 }} />
+            <Skeleton variant="rectangular" width="70vw" height={200} sx={{ borderRadius: 2 }} />
           </Grid>
         </Grid>
       </Box>
@@ -501,7 +501,7 @@ export default function MeetingDetails() {
 
   if (error) {
     return (
-      <Box sx={{ width: "100vw", p: 3, display: "flex", justifyContent: "center" }}>
+      <Box sx={{ width: "70vw", p: 3, display: "flex", justifyContent: "center" }}>
         <Alert severity="error" sx={{ borderRadius: 2 }}>
           {error}
         </Alert>
@@ -511,7 +511,7 @@ export default function MeetingDetails() {
 
   if (!meeting) {
     return (
-      <Box sx={{ width: "100vw", p: 3, display: "flex", justifyContent: "center" }}>
+      <Box sx={{ width: "70vw", p: 3, display: "flex", justifyContent: "center" }}>
         <Alert severity="warning" sx={{ borderRadius: 2 }}>
           לא נמצאה פגישה עם המזהה המבוקש
         </Alert>
@@ -520,7 +520,7 @@ export default function MeetingDetails() {
   }
 
   return (
-    <Box sx={{ width: "100vw", p: 3 }}>
+    <Box sx={{ width: "70vw", p: 3 }}>
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
         {/* Header */}
         <Box sx={{ mb: 3 }}>
