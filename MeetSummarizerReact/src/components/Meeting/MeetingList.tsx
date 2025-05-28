@@ -201,7 +201,7 @@ export default function MeetingList({ meetings: meetingsFromProps }: MeetingList
   return (
     <Box
       sx={{
-        width: "100%",
+        width: "100vw",
         height: "100%",
         boxSizing: "border-box",
       }}

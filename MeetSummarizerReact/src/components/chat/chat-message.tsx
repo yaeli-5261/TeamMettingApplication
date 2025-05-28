@@ -1324,7 +1324,7 @@ const scrollToLastMessage = () => {
                             bgcolor: isOwn ? "#1a73e8" : "white",
                             color: isOwn ? "white" : "#202124",
                             border: isOwn ? "none" : "1px solid #e8eaed",
-                            maxWidth: "100%",
+                            maxWidth: "100vw",
                             wordBreak: "break-word",
                             position: "relative",
                             "&:hover": {
@@ -1405,8 +1405,8 @@ const scrollToLastMessage = () => {
                             animation: "pulse 1.4s ease-in-out infinite",
                             animationDelay: `${i * 0.2}s`,
                             "@keyframes pulse": {
-                              "0%, 80%, 100%": { opacity: 0.3 },
-                              "40%": { opacity: 1 },
+                              "0vw, 80vw, 100vw": { opacity: 0.3 },
+                              "40vw": { opacity: 1 },
                             },
                           }}
                         />

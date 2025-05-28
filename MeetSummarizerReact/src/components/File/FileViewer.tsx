@@ -302,12 +302,12 @@ const FileViewer = ({ filePath, fileName, isAiGenerated = false }: FileViewerPro
     if (!fileUrl) return null
 
     if (fileType === "pdf") {
-      return <iframe src={fileUrl} width="100%" height="100%" title="PDF Preview" style={{ border: "none" }} />
+      return <iframe src={fileUrl} width="100vw" height="100%" title="PDF Preview" style={{ border: "none" }} />
     } else if (fileType === "docx" && docxHtml) {
       return (
         <div
           dangerouslySetInnerHTML={{ __html: docxHtml }}
-          style={{ width: "100%", height: "auto", overflow: "auto", padding: "16px" }}
+          style={{ width: "100vw", height: "auto", overflow: "auto", padding: "16px" }}
         />
       )
     } else if (["jpg", "jpeg", "png", "gif"].includes(fileType)) {
@@ -316,7 +316,7 @@ const FileViewer = ({ filePath, fileName, isAiGenerated = false }: FileViewerPro
           src={fileUrl || "/placeholder.svg"}
           alt={fileName}
           style={{
-            maxWidth: "100%",
+            maxWidth: "100vw",
             maxHeight: "calc(100% - 40px)",
             objectFit: "contain",
             margin: "0 auto",
@@ -373,7 +373,7 @@ const FileViewer = ({ filePath, fileName, isAiGenerated = false }: FileViewerPro
         <Alert
           severity={error.startsWith("✅") ? "success" : "error"}
           className="message-box"
-          sx={{ width: "100%", mt: 1 }}
+          sx={{ width: "100vw", mt: 1 }}
         >
           {error}
         </Alert>

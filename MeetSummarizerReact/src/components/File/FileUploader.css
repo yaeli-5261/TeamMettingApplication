@@ -1,6 +1,6 @@
 .file-uploader-container {
-  width: 100%;
-  max-width: 100%;
+  width: 100vw;
+  max-width: 100vw;
   margin: 0 auto;
   direction: rtl;
 }
@@ -33,8 +33,8 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
 }
 
 .progress-container {
