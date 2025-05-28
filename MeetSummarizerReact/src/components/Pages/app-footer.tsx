@@ -228,7 +228,7 @@ export function AppFooter() {
     <Box
       component="footer"
       sx={{
-        width: "100vw",
+        width: "750vw",
         background: "linear-gradient(135deg,rgb(112, 123, 141) 0%,rgb(77, 87, 100) 100%)",
         color: "white",
         py: 6,
