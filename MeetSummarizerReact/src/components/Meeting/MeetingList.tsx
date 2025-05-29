@@ -200,11 +200,11 @@ export default function MeetingList({ meetings: meetingsFromProps }: MeetingList
 
   return (
     <Box
-      sx={{
-        width: "70vw",
-        height: "100%",
-        boxSizing: "border-box",
-      }}
+      // sx={{
+      //   width: "70vw",
+      //   height: "100%",
+      //   boxSizing: "border-box",
+      // }}
     >
       <Paper
         elevation={0}

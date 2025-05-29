@@ -458,7 +458,17 @@ export default function AddMeetingForm() {
   }
 
   return (
-    <Box sx={{ width: "65vw",height:"70vh", p: 3 }}>
+    <Box sx={{
+    // {{ width: "55vw", height:"50vh", pl: 20,}}
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "space-between", // מבטיח שהפוטר יהיה בתחתית
+    width: "100%",
+    height: "100%", // גובה מלא של המסך
+    boxSizing: "border-box",
+    p: { xs: 2, md: 3 },
+    }}>
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
         {/* Header */}
         <Box sx={{ mb: 3 }}>
