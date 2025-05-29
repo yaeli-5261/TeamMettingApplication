@@ -394,7 +394,7 @@ import {
 } from "@mui/icons-material"
 import { motion } from "framer-motion"
 import UpdateMeetingDialog from "./UpdateMeetingDialog"
-import axios from "axios"
+// import axios from "axios"
 import type { MeetingDTO } from "../../models/meetingTypes"
 import { fetchMeetingById } from "../../services/meetingService"
 import FileUploader from "../File/FileUploader"
@@ -433,23 +433,23 @@ export default function MeetingDetails() {
     setMeeting(updatedMeeting)
   }
 
-  const fetchFileContent = async (fileUrl: string) => {
-    try {
-      const response = await axios.get(`${apiUrl}/upload/download-url`, {
-        params: { fileName: fileUrl },
-        headers: { Authorization: `Bearer ${getCookie("auth_token")}` },
-      })
+  // const fetchFileContent = async (fileUrl: string) => {
+  //   try {
+  //     const response = await axios.get(`${apiUrl}/upload/download-url`, {
+  //       params: { fileName: fileUrl },
+  //       headers: { Authorization: `Bearer ${getCookie("auth_token")}` },
+  //     })
 
-      const downloadUrl = response.data.downloadUrl
-      const fileResponse = await axios.get(downloadUrl, { responseType: "text" })
-      setFileContent(fileResponse.data)
-      setIsFileDialogOpen(true)
-    } catch (error) {
-      console.error("❌ שגיאה בטעינת תוכן הקובץ:", error)
-      setFileContent("⚠️ שגיאה בטעינת הקובץ")
-      setIsFileDialogOpen(true)
-    }
-  }
+  //     const downloadUrl = response.data.downloadUrl
+  //     const fileResponse = await axios.get(downloadUrl, { responseType: "text" })
+  //     setFileContent(fileResponse.data)
+  //     setIsFileDialogOpen(true)
+  //   } catch (error) {
+  //     console.error("❌ שגיאה בטעינת תוכן הקובץ:", error)
+  //     setFileContent("⚠️ שגיאה בטעינת הקובץ")
+  //     setIsFileDialogOpen(true)
+  //   }
+  // }
 
   const formatDate = (dateString: string) => {
     try {
@@ -485,14 +485,14 @@ export default function MeetingDetails() {
   if (loading) {
     return (
       
-      <Box sx={{ width: "80vw", p: 3 }}>
-        <Skeleton variant="rectangular" width="80vw" height={120} sx={{ borderRadius: 2, mb: 3 }} />
+      <Box sx={{ width: "70vw", p: 3 }}>
+        <Skeleton variant="rectangular" width="60vw" height={120} sx={{ borderRadius: 2, mb: 3 }} />
         <Grid container spacing={3}>
           <Grid item xs={12} md={8}>
-            <Skeleton variant="rectangular" width="80vw" height={200} sx={{ borderRadius: 2 }} />
+            <Skeleton variant="rectangular" width="60vw" height={200} sx={{ borderRadius: 2 }} />
           </Grid>
           <Grid item xs={12} md={4}>
-            <Skeleton variant="rectangular" width="80vw" height={200} sx={{ borderRadius: 2 }} />
+            <Skeleton variant="rectangular" width="60vw" height={200} sx={{ borderRadius: 2 }} />
           </Grid>
         </Grid>
       </Box>
@@ -501,7 +501,7 @@ export default function MeetingDetails() {
 
   if (error) {
     return (
-      <Box sx={{ width: "50vw", p: 3, display: "flex", justifyContent: "center" }}>
+      <Box sx={{ width: "70vw", p: 3, display: "flex", justifyContent: "center" }}>
         <Alert severity="error" sx={{ borderRadius: 2 }}>
           {error}
         </Alert>
