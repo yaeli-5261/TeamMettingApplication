@@ -2,8 +2,20 @@
 
 // import { useState, useEffect } from "react"
 // import axios from "axios"
-// import { Box, Button, Typography, Alert, CircularProgress, Dialog, alpha } from "@mui/material"
+// import {
+//   Box,
+//   Button,
+//   Typography,
+//   Alert,
+//   CircularProgress,
+//   Dialog,
+//   alpha,
+//   Container,
+//   useMediaQuery,
+//   useTheme,
+// } from "@mui/material"
 // import { Eye, Download, X, FileText } from "lucide-react"
+// import { getCookie } from "../../services/meetingService"
 
 // interface FileViewerProps {
 //   filePath: string
@@ -12,6 +24,8 @@
 // }
 
 // const FileViewer = ({ filePath, fileName, isAiGenerated = false }: FileViewerProps) => {
+//   const theme = useTheme()
+//   const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
 //   const apiUrl = import.meta.env.VITE_API_URL
 
 //   const [fileUrl, setFileUrl] = useState<string | null>(null)
@@ -42,7 +56,7 @@
 //       }
 
 //       if (!filePath) {
-//         setError("נתיב קובץ חסר")
+//         setError("File path is missing")
 //         setIsLoading(false)
 //         return
 //       }
@@ -55,14 +69,14 @@
 //       setDownloadUrl(response.data.downloadUrl)
 //       setIsLoading(false)
 //     } catch (error) {
-//       setError("שגיאה בקבלת קישור להורדה")
+//       setError("Error getting download link")
 //       setIsLoading(false)
 //     }
 //   }
 
 //   const downloadAndShowFile = async () => {
 //     if (!downloadUrl) {
-//       setError("כתובת URL לא מוגדרת")
+//       setError("URL is not defined")
 //       return
 //     }
 
@@ -81,7 +95,7 @@
 //           const { value } = await mammoth.convertToHtml({ arrayBuffer: fileResponse.data })
 //           setDocxHtml(value)
 //         } catch {
-//           setError("שגיאה בהמרת קובץ DOCX")
+//           setError("Error converting DOCX file")
 //         }
 //       }
 
@@ -94,7 +108,7 @@
 //       setFileUrl(blobUrl)
 //       setIsViewerOpen(true)
 //     } catch {
-//       setError("שגיאה בטעינת הקובץ")
+//       setError("Error loading file")
 //     } finally {
 //       setIsLoading(false)
 //     }
@@ -106,7 +120,7 @@
 
 //   const downloadFile = async () => {
 //     if (!downloadUrl) {
-//       setError("כתובת URL לא מוגדרת")
+//       setError("URL is not defined")
 //       return
 //     }
 
@@ -129,10 +143,10 @@
 //       link.remove()
 //       window.URL.revokeObjectURL(blobUrl)
 
-//       setError("✅ הקובץ הורד בהצלחה")
+//       setError("✅ File downloaded successfully")
 //       setTimeout(() => setError(null), 3000)
 //     } catch {
-//       setError("שגיאה בהורדת הקובץ")
+//       setError("Error downloading the file")
 //     } finally {
 //       setIsLoading(false)
 //     }
@@ -183,7 +197,6 @@
 //       return (
 //         <Box
 //           sx={{
-//             width:"15vw",
 //             display: "flex",
 //             flexDirection: "column",
 //             alignItems: "center",
@@ -194,8 +207,8 @@
 //         >
 //           <Box
 //             sx={{
-//               width:"15vw",
-//               height: "15vh",
+//               width: "80px",
+//               height: "80px",
 //               borderRadius: "50%",
 //               backgroundColor: alpha("#10a37f", 0.1),
 //               display: "flex",
@@ -214,7 +227,6 @@
 //             download={fileName}
 //             variant="outlined"
 //             sx={{
-//               width:"15vw",
 //               color: "#10a37f",
 //               borderColor: "#10a37f",
 //               "&:hover": {
@@ -226,7 +238,7 @@
 //               fontWeight: 500,
 //             }}
 //           >
-//             הורד לצפייה
+//             Download to view
 //           </Button>
 //         </Box>
 //       )
@@ -234,14 +246,21 @@
 //   }
 
 //   return (
-//     <Box sx={{ direction: "rtl" }}>
+//     <Container
+//       maxWidth="lg"
+//       sx={{
+//         px: { xs: 1, sm: 2, md: 3 },
+//         py: 2,
+//         direction: "rtl",
+//       }}
+//     >
 //       <Box
 //         sx={{
-//           width:"80vw",
 //           display: "flex",
 //           flexDirection: { xs: "column", sm: "row" },
 //           gap: 2,
 //           mb: 2,
+//           width: "100%",
 //         }}
 //       >
 //         <Button
@@ -250,21 +269,22 @@
 //           startIcon={isLoading ? <CircularProgress size={18} /> : <Eye size={18} />}
 //           variant="outlined"
 //           sx={{
-//             width:"15vw",
 //             flex: 1,
+//             minHeight: "48px",
 //             borderColor: "#10a37f",
 //             color: "#10a37f",
 //             "&:hover": {
 //               borderColor: "#0e8a6c",
 //               bgcolor: alpha("#10a37f", 0.04),
 //             },
-//             borderRadius: "10px",
+//             borderRadius: "12px",
 //             py: 1.5,
 //             fontWeight: 500,
 //             textTransform: "none",
+//             fontSize: { xs: "0.875rem", sm: "1rem" },
 //           }}
 //         >
-//           {isLoading ? "טוען..." : "צפה בקובץ"}
+//           {isLoading ? "Loading..." : "View File"}
 //         </Button>
 //         <Button
 //           onClick={downloadFile}
@@ -272,18 +292,19 @@
 //           startIcon={isLoading ? <CircularProgress size={18} /> : <Download size={18} />}
 //           variant="contained"
 //           sx={{
-//             width:"15vw",
 //             flex: 1,
+//             minHeight: "48px",
 //             bgcolor: "#10a37f",
 //             "&:hover": { bgcolor: "#0e8a6c" },
-//             borderRadius: "10px",
+//             borderRadius: "12px",
 //             py: 1.5,
 //             fontWeight: 500,
 //             textTransform: "none",
 //             boxShadow: "0 4px 14px rgba(16, 163, 127, 0.3)",
+//             fontSize: { xs: "0.875rem", sm: "1rem" },
 //           }}
 //         >
-//           {isLoading ? "טוען..." : "הורד קובץ"}
+//           {isLoading ? "Loading..." : "Download File"}
 //         </Button>
 //       </Box>
 
@@ -344,25 +365,13 @@
 //               textTransform: "none",
 //             }}
 //           >
-//             סגור
+//             Close
 //           </Button>
 //         </Box>
 //         <Box sx={{ flex: 1, overflow: "auto", p: 0 }}>{renderFilePreview()}</Box>
 //       </Dialog>
-//     </Box>
+//     </Container>
 //   )
-// }
-
-// // Helper function to get cookie value
-// function getCookie(name: string): string | null {
-//   const cookies = document.cookie.split("; ")
-//   for (const cookie of cookies) {
-//     const [key, value] = cookie.split("=")
-//     if (key === name) {
-//       return decodeURIComponent(value)
-//     }
-//   }
-//   return null
 // }
 
 // export default FileViewer
@@ -380,18 +389,7 @@
 
 import { useState, useEffect } from "react"
 import axios from "axios"
-import {
-  Box,
-  Button,
-  Typography,
-  Alert,
-  CircularProgress,
-  Dialog,
-  alpha,
-  Container,
-  useMediaQuery,
-  useTheme,
-} from "@mui/material"
+import { Box, Button, Typography, Alert, CircularProgress, Dialog, alpha } from "@mui/material"
 import { Eye, Download, X, FileText } from "lucide-react"
 import { getCookie } from "../../services/meetingService"
 
@@ -402,8 +400,6 @@ interface FileViewerProps {
 }
 
 const FileViewer = ({ filePath, fileName, isAiGenerated = false }: FileViewerProps) => {
-  const theme = useTheme()
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
   const apiUrl = import.meta.env.VITE_API_URL
 
   const [fileUrl, setFileUrl] = useState<string | null>(null)
@@ -611,9 +607,11 @@ const FileViewer = ({ filePath, fileName, isAiGenerated = false }: FileViewerPro
                 borderColor: "#0e8a6c",
                 backgroundColor: alpha("#10a37f", 0.04),
               },
-              borderRadius: "8px",
+              borderRadius: "12px",
               textTransform: "none",
               fontWeight: 500,
+              py: 1.5,
+              px: 4,
             }}
           >
             Download to view
@@ -624,21 +622,13 @@ const FileViewer = ({ filePath, fileName, isAiGenerated = false }: FileViewerPro
   }
 
   return (
-    <Container
-      maxWidth="lg"
-      sx={{
-        px: { xs: 1, sm: 2, md: 3 },
-        py: 2,
-        direction: "rtl",
-      }}
-    >
+    <Box sx={{ direction: "rtl" }}>
       <Box
         sx={{
           display: "flex",
           flexDirection: { xs: "column", sm: "row" },
           gap: 2,
           mb: 2,
-          width: "100%",
         }}
       >
         <Button
@@ -692,7 +682,7 @@ const FileViewer = ({ filePath, fileName, isAiGenerated = false }: FileViewerPro
           sx={{
             width: "100%",
             mb: 2,
-            borderRadius: "10px",
+            borderRadius: "12px",
             "& .MuiAlert-icon": { alignItems: "center" },
           }}
         >
@@ -748,20 +738,8 @@ const FileViewer = ({ filePath, fileName, isAiGenerated = false }: FileViewerPro
         </Box>
         <Box sx={{ flex: 1, overflow: "auto", p: 0 }}>{renderFilePreview()}</Box>
       </Dialog>
-    </Container>
+    </Box>
   )
 }
-
-// Helper function to get cookie value
-// function getCookie(name: string): string | null {
-//   const cookies = document.cookie.split("; ")
-//   for (const cookie of cookies) {
-//     const [key, value] = cookie.split("=")
-//     if (key === name) {
-//       return decodeURIComponent(value)
-//     }
-//   }
-//   return null
-// }
 
 export default FileViewer

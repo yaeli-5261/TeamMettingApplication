@@ -32,7 +32,7 @@ const getUserTeamId = (): number | null => {
 }
 
 // שליפת פגישות לפי teamId
-export const fetchMeetingsByTeam = async (): Promise<MeetingDTO[]> => {
+export const fetchMeetingsByTeam = async (p0: { teamId: number; }): Promise<MeetingDTO[]> => {
   const teamId = getUserTeamId()
   if (!teamId) {
     console.error("❌ No TeamId found for the user.")
