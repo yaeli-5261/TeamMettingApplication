@@ -708,7 +708,7 @@ export default function MeetingDetails() {
                 boxShadow: "0 4px 16px rgba(0, 0, 0, 0.08)",
               }}
             >
-              <CardContent sx={{ p: 3 }}>
+              <CardContent sx={{ p: 3 ,width:"80vw" }}>
                 <Typography variant="h6" fontWeight={600} gutterBottom>
                   העלאת קבצים
                 </Typography>
