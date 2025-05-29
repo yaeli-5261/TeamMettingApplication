@@ -332,6 +332,8 @@ interface LoginResponse {
 })
 export class AuthService {
   private baseApiUrl = `${environment.apiUrl}/api`
+  usersCache: any
+  teamsCache: any
 
   constructor(private http: HttpClient) {}
 

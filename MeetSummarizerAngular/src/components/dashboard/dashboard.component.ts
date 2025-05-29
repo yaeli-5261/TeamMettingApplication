@@ -6,10 +6,17 @@ import { AuthService } from "../../Service/auth.service"
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner"
 import { UserRoleChartComponent } from "../../user-role-chart/user-role-chart.component";
 import { environment } from "../../environments/environment.prod"
+import { Team } from "../../Service/team.service"
 
 interface TeamMeetingData {
   name: string
   value: number
+}
+
+interface User {
+  id: number
+  name: string
+  email: string
 }
 
 interface RecentActivity {
@@ -49,15 +56,31 @@ export class DashboardComponent implements OnInit {
     domain: ["#10a37f", "#3498db", "#9b59b6", "#e74c3c", "#f1c40f", "#1abc9c"],
   }
  
-
+  private usersCache: User[] | null = null;
+  private teamsCache: Team[] | null = null;
   constructor(
     private authService: AuthService,
     private router: Router
   ) {}
 
+  // ngOnInit(): void {
+  //   this.loadDashboardData()
+  // }
   ngOnInit(): void {
-    this.loadDashboardData()
+    if (!this.authService.usersCache || !this.authService.teamsCache) {
+      this.loadDashboardData();
+    } else {
+      this.totalUsers = this.authService.usersCache.length;
+      this.totalTeams = this.authService.teamsCache.length;
+      this.meetingsPerTeam = this.authService.teamsCache.map((team: { name: any }) => ({
+        name: team.name,
+        value: Math.floor(Math.random() * 12) + 3
+      }));
+      this.totalMeetings = this.meetingsPerTeam.reduce((acc, curr) => acc + curr.value, 0);
+      this.isLoading = false;
+    }
   }
+  
 
   loadDashboardData(): void {
     this.isLoading = true
