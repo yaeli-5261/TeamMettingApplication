@@ -250,22 +250,24 @@ export default function MeetingDetails() {
 {/* למחוק עכשיו אם לא טוב!! */}
             <Card
               sx={{
-                borderRadius: 2,
+                borderRadius: 3,
                 background: "rgba(255, 255, 255, 0.9)",
                 border: "1px solid rgba(255, 255, 255, 0.2)",
                 boxShadow: "0 4px 16px rgba(0, 0, 0, 0.08)",
-                mb: 3,
-                width: "80vw",
+                mb: 4,
+                width: "60vw",
+                justifyContent: "center",
+                alignItems: "center",
               }}
             >
-              <CardContent sx={{ width:"80vw",position:"center",justifyContent: "center", alignItems: "center"}}>
+              <CardContent sx={{ width:"75vw",position:"center",justifyContent: "center", alignItems: "center"}}>
                 <Typography variant="h6" fontWeight={600} gutterBottom>
                   פרטי הפגישה
                 </Typography>
                 <Divider sx={{ mb: 2 }} />
 
-                <Grid container spacing={2}  sx={{width:"50vw"}}>
-                  <Grid item xs={12} md={6}  sx={{width:"50vw"}}>
+                <Grid container spacing={2}  sx={{width:"50vw",  justifyContent: "center", alignItems: "center",}}>
+                  <Grid item xs={12} md={6}  sx={{width:"50vw",  justifyContent: "center",alignItems: "center",}}>
                     <Box sx={{ mb: 2 ,width:"10vw"}}>
                       <Typography variant="body2" color="text.secondary" gutterBottom fontWeight={600}>
                         תאריך ושעה

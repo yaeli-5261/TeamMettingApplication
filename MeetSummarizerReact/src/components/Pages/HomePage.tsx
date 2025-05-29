@@ -222,22 +222,37 @@ export default function HomePage() {
       return String(dateString)
     }
   }
-
+  
   const getRelativeTime = (date: Date) => {
-    const now = new Date()
-    const diffMs = now.getTime() - date.getTime()
-    const diffMins = Math.floor(diffMs / 60000)
-    const diffHours = Math.floor(diffMins / 60)
-    const diffDays = Math.floor(diffHours / 24)
-
-    if (diffMins < 60) {
-      return `${diffMins}m ago`
-    } else if (diffHours < 24) {
-      return `${diffHours}h ago`
+    const now = new Date();
+    const diffMs = now.getTime() - date.getTime();
+    const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+    const diffDays = Math.floor(diffHours / 24);
+  
+    if (diffDays > 0) {
+      return `${diffDays} days ago`;
+    } else if (diffHours > 0) {
+      return `${diffHours} hours ago`;
     } else {
-      return `${diffDays}d ago`
+      return `Just now`;
     }
-  }
+  };
+
+  // const getRelativeTime = (date: Date) => {
+  //   const now = new Date()
+  //   const diffMs = now.getTime() - date.getTime()
+  //   const diffMins = Math.floor(diffMs / 60000)
+  //   const diffHours = Math.floor(diffMins / 60)
+  //   const diffDays = Math.floor(diffHours / 24)
+
+  //   if (diffMins < 60) {
+  //     return `${diffMins}m ago`
+  //   } else if (diffHours < 24) {
+  //     return `${diffHours}h ago`
+  //   } else {
+  //     return `${diffDays}d ago`
+  //   }
+  // }
 
   return (
     <Box sx={{ minHeight: "100vh" }}>
