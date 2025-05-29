@@ -7,17 +7,26 @@
 // import { useParams } from "react-router-dom"
 // import type { AppDispatch, RootState } from "../../store/store"
 // import { fetchMeetingsByTeam } from "../../store/meetingSlice"
-// import { Box, Button, Typography, Paper, CircularProgress, Alert, Divider, Chip } from "@mui/material"
-// import { CloudUpload, Delete } from "@mui/icons-material"
-// import "./FileUploader.css"
+// import {
+//   Box,
+//   Button,
+//   Typography,
+//   CircularProgress,
+//   Alert,
+//   Chip,
+//   Container,
+//   Card,
+//   CardContent,
+//   alpha,
+// } from "@mui/material"
+// import { CloudUpload, Delete, FileText } from "lucide-react"
 // import FileShare from "./FileShare"
 // import FileViewer from "./FileViewer"
 
+
 // export const FileUploader = () => {
-
-//   const apiUrl = import.meta.env.VITE_API_URL;
-//   const apiUrlAI = import.meta.env.VITE_API_URL_AI;
-
+//   const apiUrl = import.meta.env.VITE_API_URL
+//   const apiUrlAI = import.meta.env.VITE_API_URL_AI
 
 //   const [file, setFile] = useState<File | null>(null)
 //   const [progress, setProgress] = useState<number>(0)
@@ -87,20 +96,18 @@
 //     try {
 //       console.log("Sending file for AI processing:", fileUrl)
 
-//       console.log("Using API URL:", apiUrlAI) ;
-//       console.log("yaeli!!!");
-      
-      
-//   console.log("API URL for AI processing:", `${apiUrlAI}/generate`) ;
-  
+//       console.log("Using API URL:", apiUrlAI)
+//       console.log("yaeli!!!")
+
+//       console.log("API URL for AI processing:", `${apiUrlAI}/generate`)
+
 //       const response = await fetch(`${apiUrlAI}/generate`, {
 //         method: "POST",
 //         headers: {
 //           "Content-Type": "application/json",
 //           Authorization: `Bearer ${token}`,
 //         },
-//           body: JSON.stringify({ file_url: fileUrl }),
-
+//         body: JSON.stringify({ file_url: fileUrl }),
 //       })
 
 //       if (!response.ok) {
@@ -109,14 +116,14 @@
 //       }
 //       const text = await response.text()
 //       console.log("Raw response:", text)
-      
+
 //       let result
 //       try {
 //         result = JSON.parse(text)
 //       } catch (err) {
 //         throw new Error("Server did not return valid JSON: " + text)
 //       }
-      
+
 //       console.log("Generated file URL from AI:", result.s3_url)
 
 //       // Make sure we have a valid S3 URL
@@ -154,7 +161,7 @@
 //       setIsProcessing(false)
 //     }
 //   }
- 
+
 //   const handleUpload = async () => {
 //     if (!file || !meetingId) {
 //       setError("יש לבחור קובץ ולהיות בתוך פגישה.")
@@ -184,7 +191,6 @@
 //           setProgress(Math.round((progressEvent.loaded * 100) / (progressEvent.total || 1)))
 //         },
 //       })
-
 
 //       // Update meeting with file metadata
 //       const fileMetadata = {
@@ -236,179 +242,311 @@
 //   }
 
 //   return (
-//     <Paper elevation={0} className="file-uploader-container" sx={{ p: 3, mb: 4 }}>
-//       {error && (
-//         <Alert severity={error.startsWith("✅") ? "success" : "error"} sx={{ mb: 2 }}>
-//           {error}
-//         </Alert>
-//       )}
-
-//       {!downloadUrl && !hasExistingFile ? (
-//         <Box className="upload-section">
-//           <Box
-//             className="file-drop-area"
-//             sx={{
-//               width: "60vw",
-//               height: "30vh", 
-//               border: "2px dashed #e0e0e0",
-//               borderRadius: 2,
-//               p: 3,
-//               textAlign: "center",
-//               transition: "all 0.2s",
-//               "&:hover": { borderColor: "#10a37f" },
-//             }}
-//           >
-//             <input type="file" onChange={handleFileChange} className="file-input" id="file-upload" />
-//             <label htmlFor="file-upload" className="file-drop-label" style={{ width: "30vw" }}>
-//               <CloudUpload sx={{ fontSize: 40, mb: 1, color: "#10a37f" }} />
-//               <Typography variant="body1" fontWeight={500} sx={{width:"30vw"}}>
-//                 {file ? file.name : "גרור ושחרר או לחץ לבחירת קובץ"}
-//               </Typography>
-//               <Typography variant="caption" color="text.secondary"sx={{width:"30px"}}>
-//                 פורמטים נתמכים: PDF, DOCX, TXT
-//               </Typography>
-//             </label>
-//           </Box>
-
-//           <Button
-//             onClick={handleUpload}
-//             disabled={!file || isUploading}
-//             variant="contained"
-//             startIcon={isUploading ? <CircularProgress size={20} color="inherit" /> : <CloudUpload />}
-//             sx={{
-//               width:"30vw",
-//               bgcolor: "#10a37f",
-//               "&:hover": { bgcolor: "#0e8a6c" },
-//               mt: 2,
-//               textTransform: "none",
-//               fontWeight: 500,
-//             }}
-//           >
-//             {isUploading ? `מעלה... ${progress}%` : "העלה קובץ"}
-//           </Button>
-
-//           {progress > 0 && progress < 100 && (
-//             <Box
-//               className="progress-container"
-//               sx={{ mt: 2, height: 8, bgcolor: "#f0f0f0", borderRadius: 1, overflow: "hidden" }}
+//     <Container maxWidth="lg" sx={{ py: 3 }}>
+//       <Card
+//         elevation={0}
+//         sx={{
+//           borderRadius: "16px",
+//           border: "1px solid",
+//           borderColor: "rgba(0, 0, 0, 0.08)",
+//           boxShadow: "0 4px 24px rgba(0, 0, 0, 0.04)",
+//           overflow: "hidden",
+//           direction: "rtl",
+//           mb: 4,
+//         }}
+//       >
+//         <CardContent sx={{ p: { xs: 2, sm: 4 } }}>
+//           {error && (
+//             <Alert
+//               severity={error.startsWith("✅") ? "success" : "error"}
+//               sx={{
+//                 mb: 3,
+//                 borderRadius: "12px",
+//                 "& .MuiAlert-icon": { alignItems: "center" },
+//               }}
 //             >
-//               <Box
-//                 className="progress-bar"
-//                 sx={{width:"25vw", height: "100%", bgcolor: "#10a37f" }}
-//                 style={{ width: `${progress}%` }}
-//               ></Box>
-//             </Box>
+//               {error}
+//             </Alert>
 //           )}
-//         </Box>
-//       ) : (
-//         <Box>
-//           <Box className="file-info-card" sx={{ border: "1px solid #e0e0e0", borderRadius: 2, p: 2 }}>
-//             <Box
-//               className="file-info-header"
-//               sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}
-//             >
-//               <Box sx={{ display: "flex", alignItems: "center" }}>
-//                 <Box className="file-icon" sx={{ fontSize: 24, mr: 1 }}>
-//                   {getFileIcon(fileName.split(".").pop()?.toLowerCase() || "")}
-//                 </Box>
-//                 <Box>
-//                   <Typography variant="subtitle1" fontWeight={500}>
-//                     {fileName}
+
+//           {!downloadUrl && !hasExistingFile ? (
+//             <Box sx={{ textAlign: "center" }}>
+//               <Box
+//                 sx={{
+//                   border: "2px dashed",
+//                   borderColor: "rgba(0, 0, 0, 0.1)",
+//                   borderRadius: "16px",
+//                   p: { xs: 3, md: 6 },
+//                   mb: 3,
+//                   transition: "all 0.2s ease",
+//                   backgroundColor: "rgba(0, 0, 0, 0.01)",
+//                   cursor: "pointer",
+//                   "&:hover": {
+//                     borderColor: "#10a37f",
+//                     backgroundColor: alpha("#10a37f", 0.03),
+//                   },
+//                   display: "flex",
+//                   flexDirection: "column",
+//                   alignItems: "center",
+//                   justifyContent: "center",
+//                   minHeight: "240px",
+//                 }}
+//               >
+//                 <input
+//                   type="file"
+//                   onChange={handleFileChange}
+//                   id="file-upload"
+//                   style={{
+//                     position: "absolute",
+//                     width: "0.1px",
+//                     height: "0.1px",
+//                     opacity: 0,
+//                     overflow: "hidden",
+//                     zIndex: -1,
+//                   }}
+//                 />
+//                 <label
+//                   htmlFor="file-upload"
+//                   style={{
+//                     display: "flex",
+//                     flexDirection: "column",
+//                     alignItems: "center",
+//                     cursor: "pointer",
+//                     width: "100%",
+//                   }}
+//                 >
+//                   <Box
+//                     sx={{
+//                       width: "80px",
+//                       height: "80px",
+//                       borderRadius: "50%",
+//                       backgroundColor: alpha("#10a37f", 0.1),
+//                       display: "flex",
+//                       alignItems: "center",
+//                       justifyContent: "center",
+//                       mb: 3,
+//                     }}
+//                   >
+//                     <CloudUpload size={36} color="#10a37f" />
+//                   </Box>
+//                   <Typography variant="h6" fontWeight={600} sx={{ mb: 1 }}>
+//                     {file ? file.name : "גרור ושחרר או לחץ לבחירת קובץ"}
 //                   </Typography>
-//                   <Typography variant="caption" color="text.secondary">
-//                     {getFileTypeLabel(fileName.split(".").pop()?.toLowerCase() || "")}
+//                   <Typography variant="body2" color="text.secondary" sx={{ maxWidth: "400px", mx: "auto" }}>
+//                     פורמטים נתמכים: PDF, DOCX, TXT
 //                   </Typography>
-//                 </Box>
+//                 </label>
 //               </Box>
 
-//               {!hasExistingFile && (
-//                 <Button
-//                   onClick={resetFileUpload}
-//                   variant="outlined"
-//                   color="error"
-//                   size="small"
-//                   startIcon={<Delete />}
-//                   sx={{ textTransform: "none" }}
+//               <Button
+//                 onClick={handleUpload}
+//                 disabled={!file || isUploading}
+//                 variant="contained"
+//                 startIcon={isUploading ? <CircularProgress size={20} color="inherit" /> : <CloudUpload size={18} />}
+//                 sx={{
+//                   bgcolor: "#10a37f",
+//                   "&:hover": { bgcolor: "#0e8a6c" },
+//                   borderRadius: "12px",
+//                   py: 1.5,
+//                   px: 4,
+//                   textTransform: "none",
+//                   fontWeight: 600,
+//                   fontSize: "1rem",
+//                   boxShadow: "0 4px 14px rgba(16, 163, 127, 0.3)",
+//                   minWidth: { xs: "100%", sm: "240px" },
+//                 }}
+//               >
+//                 {isUploading ? `מעלה... ${progress}%` : "העלה קובץ"}
+//               </Button>
+
+//               {progress > 0 && progress < 100 && (
+//                 <Box
+//                   sx={{
+//                     mt: 3,
+//                     height: 6,
+//                     bgcolor: alpha("#10a37f", 0.1),
+//                     borderRadius: 3,
+//                     overflow: "hidden",
+//                     maxWidth: "400px",
+//                     mx: "auto",
+//                   }}
 //                 >
-//                   הסר
-//                 </Button>
+//                   <Box sx={{ height: "100%", bgcolor: "#10a37f" }} style={{ width: `${progress}%` }}></Box>
+//                 </Box>
 //               )}
 //             </Box>
+//           ) : (
+//             <Box>
+//               <Card
+//                 elevation={0}
+//                 sx={{
+//                   mb: 4,
+//                   border: "1px solid",
+//                   borderColor: "rgba(0, 0, 0, 0.08)",
+//                   borderRadius: "12px",
+//                   overflow: "hidden",
+//                 }}
+//               >
+//                 <CardContent sx={{ p: 0 }}>
+//                   <Box
+//                     sx={{
+//                       display: "flex",
+//                       justifyContent: "space-between",
+//                       alignItems: "center",
+//                       p: 3,
+//                       borderBottom: "1px solid",
+//                       borderColor: "rgba(0, 0, 0, 0.06)",
+//                       flexWrap: { xs: "wrap", sm: "nowrap" },
+//                       gap: { xs: 2, sm: 0 },
+//                     }}
+//                   >
+//                     <Box sx={{ display: "flex", alignItems: "center" }}>
+//                       <Box
+//                         sx={{
+//                           width: "48px",
+//                           height: "48px",
+//                           borderRadius: "12px",
+//                           backgroundColor: alpha("#10a37f", 0.1),
+//                           display: "flex",
+//                           alignItems: "center",
+//                           justifyContent: "center",
+//                           mr: 2,
+//                         }}
+//                       >
+//                         <FileText size={24} color="#10a37f" />
+//                       </Box>
+//                       <Box>
+//                         <Typography variant="subtitle1" fontWeight={600}>
+//                           {fileName}
+//                         </Typography>
+//                         <Typography variant="caption" color="text.secondary">
+//                           {getFileTypeLabel(fileName.split(".").pop()?.toLowerCase() || "")}
+//                         </Typography>
+//                       </Box>
+//                     </Box>
 
-//             <Divider sx={{ my: 2 }} />
+//                     {!hasExistingFile && (
+//                       <Button
+//                         onClick={resetFileUpload}
+//                         variant="outlined"
+//                         color="error"
+//                         size="small"
+//                         startIcon={<Delete size={16} />}
+//                         sx={{
+//                           textTransform: "none",
+//                           borderRadius: "8px",
+//                           fontWeight: 500,
+//                         }}
+//                       >
+//                         הסר
+//                       </Button>
+//                     )}
+//                   </Box>
 
-//             {/* Original File Viewer */}
-//             <Box sx={{ mb: 3 }}>
-//               <Typography variant="subtitle2" fontWeight={500} sx={{ mb: 1 }}>
-//                 קובץ מקורי
-//               </Typography>
-//               <FileViewer filePath={meeting?.linkOrinignFile || ""} fileName={fileName} isAiGenerated={false} />
+//                   <Box sx={{ p: 3 }}>
+//                     <Typography variant="subtitle2" fontWeight={600} sx={{ mb: 2 }}>
+//                       קובץ מקורי
+//                     </Typography>
+//                     <FileViewer filePath={meeting?.linkOrinignFile || ""} fileName={fileName} isAiGenerated={false} />
+//                   </Box>
+//                 </CardContent>
+//               </Card>
+
+//               {/* AI Processing Status */}
+//               <Card
+//                 elevation={0}
+//                 sx={{
+//                   mb: 4,
+//                   border: "1px solid",
+//                   borderColor: "rgba(0, 0, 0, 0.08)",
+//                   borderRadius: "12px",
+//                   overflow: "hidden",
+//                 }}
+//               >
+//                 <CardContent sx={{ p: 3 }}>
+//                   <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", mb: 2 }}>
+//                     <Typography variant="subtitle2" fontWeight={600}>
+//                       סטטוס סיכום AI
+//                     </Typography>
+//                     <Chip
+//                       label={
+//                         aiProcessingStatus === "processing"
+//                           ? "מעבד"
+//                           : aiProcessingStatus === "idle"
+//                             ? "מעובד"
+//                             : aiProcessingStatus === "success"
+//                               ? "הושלם"
+//                               : "נכשל"
+//                       }
+//                       color={
+//                         aiProcessingStatus === "success"
+//                           ? "success"
+//                           : aiProcessingStatus === "error"
+//                             ? "error"
+//                             : aiProcessingStatus === "processing"
+//                               ? "primary"
+//                               : "default"
+//                       }
+//                       size="small"
+//                       sx={{
+//                         borderRadius: "8px",
+//                         fontWeight: 500,
+//                         px: 1,
+//                       }}
+//                     />
+//                   </Box>
+
+//                   {aiProcessingStatus === "processing" && (
+//                     <Box
+//                       sx={{
+//                         display: "flex",
+//                         alignItems: "center",
+//                         p: 3,
+//                         borderRadius: "12px",
+//                         backgroundColor: alpha("#10a37f", 0.05),
+//                       }}
+//                     >
+//                       <CircularProgress size={20} sx={{ mr: 2, color: "#10a37f" }} />
+//                       <Typography variant="body2">מייצר סיכום AI, אנא המתן...</Typography>
+//                     </Box>
+//                   )}
+
+//                   {aiProcessingStatus === "success" && aiDownloadUrl && (
+//                     <Box sx={{ mt: 2 }}>
+//                       <Typography variant="body2" sx={{ mb: 2 }}>
+//                         סיכום AI מוכן לצפייה והורדה
+//                       </Typography>
+//                       <FileViewer
+//                         filePath={aiDownloadUrl}
+//                         fileName={`AI_Summary_${fileName.split(".")[0]}.pdf`}
+//                         isAiGenerated={true}
+//                       />
+//                     </Box>
+//                   )}
+
+//                   {aiProcessingStatus === "error" && (
+//                     <Box
+//                       sx={{
+//                         p: 3,
+//                         borderRadius: "12px",
+//                         backgroundColor: alpha("#ff4d4f", 0.05),
+//                       }}
+//                     >
+//                       <Typography variant="body2" color="error">
+//                         אירעה שגיאה בייצור סיכום ה-AI. אנא נסה שוב.
+//                       </Typography>
+//                     </Box>
+//                   )}
+//                 </CardContent>
+//               </Card>
+
+//               {/* File Sharing */}
+//               <FileShare fileUrl={downloadUrl || ""} fileName={fileName} />
 //             </Box>
-//           </Box>
-
-//           {/* AI Processing Status */}
-//           <Box sx={{ mt: 3, p: 2, border: "1px solid #e0e0e0", borderRadius: 1 }}>
-//             <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", mb: 1 }}>
-//               {/* <Typography variant="subtitle2" fontWeight={500}>
-//                 סטטוס סיכום AI
-//               </Typography> */}
-//               <Chip
-//                 label={
-//                   aiProcessingStatus === "processing"
-//                       ? "מעבד"
-//                       :
-//                   aiProcessingStatus === "idle"
-//                     ? "לא התחיל"
-                  
-//                       : aiProcessingStatus === "success"
-//                         ? "הושלם"
-//                         : "נכשל"
-//                 }
-//                 color={
-//                   aiProcessingStatus === "success"
-//                     ? "success"
-//                     : aiProcessingStatus === "error"
-//                       ? "error"
-//                       : aiProcessingStatus === "processing"
-//                         ? "primary"
-//                         : "default"
-//                 }
-//                 size="small"
-//               />
-//             </Box>
-
-//             {aiProcessingStatus === "processing" && (
-//               <Box sx={{ display: "flex", alignItems: "center", mt: 1,width:"25vw" }}>
-//                 <CircularProgress size={20} sx={{ mr: 1 }} />
-//                 <Typography variant="body2">מייצר סיכום AI, אנא המתן...</Typography>
-//               </Box>
-//             )}
-
-//             {aiProcessingStatus === "success" && aiDownloadUrl && (
-//               <Box sx={{ mt: 1 }}>
-//                 <Typography variant="body2" sx={{ mb: 1 }}>
-//                   סיכום AI מוכן לצפייה והורדה
-//                 </Typography>
-//                 <FileViewer
-//                   filePath={aiDownloadUrl}
-//                   fileName={`AI_Summary_${fileName.split(".")[0]}.pdf`}
-//                   isAiGenerated={true}
-//                 />
-//               </Box>
-//             )}
-
-//             {aiProcessingStatus === "error" && (
-//               <Typography variant="body2" color="error" sx={{ mt: 1 ,width:"30vw"}}>
-//                 אירעה שגיאה בייצור סיכום ה-AI. אנא נסה שוב.
-//               </Typography>
-//             )}
-//           </Box>
-
-//           {/* File Sharing */}
-//           <FileShare fileUrl={downloadUrl || ""} fileName={fileName} />
-//         </Box>
-//       )}
-//     </Paper>
+//           )}
+//         </CardContent>
+//       </Card>
+//     </Container>
 //   )
 // }
 
@@ -465,7 +603,6 @@
 // }
 
 // export default FileUploader
-
 
 
 
@@ -804,10 +941,10 @@ export const FileUploader = () => {
                     <CloudUpload size={36} color="#10a37f" />
                   </Box>
                   <Typography variant="h6" fontWeight={600} sx={{ mb: 1 }}>
-                    {file ? file.name : "גרור ושחרר או לחץ לבחירת קובץ"}
+                    {file ? file.name : "Drag and drop or click to select file"}
                   </Typography>
                   <Typography variant="body2" color="text.secondary" sx={{ maxWidth: "400px", mx: "auto" }}>
-                    פורמטים נתמכים: PDF, DOCX, TXT
+                    Supported formats: PDF, DOCX, TXT
                   </Typography>
                 </label>
               </Box>
@@ -830,7 +967,7 @@ export const FileUploader = () => {
                   minWidth: { xs: "100%", sm: "240px" },
                 }}
               >
-                {isUploading ? `מעלה... ${progress}%` : "העלה קובץ"}
+                {isUploading ? `Uploading... ${progress}%` : "Upload File"}
               </Button>
 
               {progress > 0 && progress < 100 && (
@@ -912,14 +1049,14 @@ export const FileUploader = () => {
                           fontWeight: 500,
                         }}
                       >
-                        הסר
+                        Remove
                       </Button>
                     )}
                   </Box>
 
                   <Box sx={{ p: 3 }}>
                     <Typography variant="subtitle2" fontWeight={600} sx={{ mb: 2 }}>
-                      קובץ מקורי
+                      Original File
                     </Typography>
                     <FileViewer filePath={meeting?.linkOrinignFile || ""} fileName={fileName} isAiGenerated={false} />
                   </Box>
@@ -940,17 +1077,17 @@ export const FileUploader = () => {
                 <CardContent sx={{ p: 3 }}>
                   <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", mb: 2 }}>
                     <Typography variant="subtitle2" fontWeight={600}>
-                      סטטוס סיכום AI
+                      AI Summary Status
                     </Typography>
                     <Chip
                       label={
                         aiProcessingStatus === "processing"
-                          ? "מעבד"
+                          ? "Processing"
                           : aiProcessingStatus === "idle"
-                            ? "לא התחיל"
+                            ? "Not Started"
                             : aiProcessingStatus === "success"
-                              ? "הושלם"
-                              : "נכשל"
+                              ? "Completed"
+                              : "Failed"
                       }
                       color={
                         aiProcessingStatus === "success"
@@ -981,14 +1118,14 @@ export const FileUploader = () => {
                       }}
                     >
                       <CircularProgress size={20} sx={{ mr: 2, color: "#10a37f" }} />
-                      <Typography variant="body2">מייצר סיכום AI, אנא המתן...</Typography>
+                      <Typography variant="body2">Generating AI summary, please wait...</Typography>
                     </Box>
                   )}
 
                   {aiProcessingStatus === "success" && aiDownloadUrl && (
                     <Box sx={{ mt: 2 }}>
                       <Typography variant="body2" sx={{ mb: 2 }}>
-                        סיכום AI מוכן לצפייה והורדה
+                        AI summary ready for viewing and download
                       </Typography>
                       <FileViewer
                         filePath={aiDownloadUrl}
@@ -1007,7 +1144,7 @@ export const FileUploader = () => {
                       }}
                     >
                       <Typography variant="body2" color="error">
-                        אירעה שגיאה בייצור סיכום ה-AI. אנא נסה שוב.
+                        An error occurred generating the AI summary. Please try again.
                       </Typography>
                     </Box>
                   )}
@@ -1058,22 +1195,22 @@ function getFileIcon(fileType: string): string {
 
 function getFileTypeLabel(fileType: string): string {
   const labels: Record<string, string> = {
-    pdf: "מסמך PDF",
-    docx: "מסמך Word",
-    doc: "מסמך Word",
-    jpg: "תמונה",
-    jpeg: "תמונה",
-    png: "תמונה",
-    gif: "תמונה",
-    txt: "קובץ טקסט",
-    csv: "גיליון נתונים",
-    xlsx: "גיליון Excel",
-    xls: "גיליון Excel",
-    pptx: "מצגת PowerPoint",
-    ppt: "מצגת PowerPoint",
+    pdf: "PDF Document",
+    docx: "Word Document",
+    doc: "Word Document",
+    jpg: "Image",
+    jpeg: "Image",
+    png: "Image",
+    gif: "Image",
+    txt: "Text File",
+    csv: "Data Sheet",
+    xlsx: "Excel Sheet",
+    xls: "Excel Sheet",
+    pptx: "PowerPoint Presentation",
+    ppt: "PowerPoint Presentation",
   }
 
-  return labels[fileType] || "קובץ"
+  return labels[fileType] || "File"
 }
 
 export default FileUploader

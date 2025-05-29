@@ -2,9 +2,8 @@
 
 // import { useState, useEffect } from "react"
 // import axios from "axios"
-// import { Box, Button, Typography, Alert, CircularProgress, Dialog } from "@mui/material"
-// import { Visibility, Download, Close } from "@mui/icons-material"
-// import "./FileViewer.css"
+// import { Box, Button, Typography, Alert, CircularProgress, Dialog, alpha } from "@mui/material"
+// import { Eye, Download, X, FileText } from "lucide-react"
 
 // interface FileViewerProps {
 //   filePath: string
@@ -182,32 +181,83 @@
 //       )
 //     } else {
 //       return (
-//         <div className="generic-file-preview">
-//           <div className="file-icon">📄</div>
-//           <div className="file-name">{fileName}</div>
-//           <a href={fileUrl} download={fileName} className="download-link">
+//         <Box
+//           sx={{
+//             display: "flex",
+//             flexDirection: "column",
+//             alignItems: "center",
+//             justifyContent: "center",
+//             p: 6,
+//             textAlign: "center",
+//           }}
+//         >
+//           <Box
+//             sx={{
+//               width: "80px",
+//               height: "80px",
+//               borderRadius: "50%",
+//               backgroundColor: alpha("#10a37f", 0.1),
+//               display: "flex",
+//               alignItems: "center",
+//               justifyContent: "center",
+//               mb: 3,
+//             }}
+//           >
+//             <FileText size={36} color="#10a37f" />
+//           </Box>
+//           <Typography variant="h6" fontWeight={600} sx={{ mb: 2 }}>
+//             {fileName}
+//           </Typography>
+//           <Button
+//             href={fileUrl}
+//             download={fileName}
+//             variant="outlined"
+//             sx={{
+//               color: "#10a37f",
+//               borderColor: "#10a37f",
+//               "&:hover": {
+//                 borderColor: "#0e8a6c",
+//                 backgroundColor: alpha("#10a37f", 0.04),
+//               },
+//               borderRadius: "8px",
+//               textTransform: "none",
+//               fontWeight: 500,
+//             }}
+//           >
 //             הורד לצפייה
-//           </a>
-//         </div>
+//           </Button>
+//         </Box>
 //       )
 //     }
 //   }
 
 //   return (
-//     <Box className="file-viewer-container" sx={{ width: "40vw", margin: "0 auto", padding: 2 }}>
-//       <Box sx={{ display: "flex", justifyContent: "space-between", gap: 2, marginBottom: 2 ,width: "35vw"}}>
+//     <Box sx={{ direction: "rtl" }}>
+//       <Box
+//         sx={{
+//           display: "flex",
+//           flexDirection: { xs: "column", sm: "row" },
+//           gap: 2,
+//           mb: 2,
+//         }}
+//       >
 //         <Button
 //           onClick={downloadAndShowFile}
 //           disabled={isLoading || !downloadUrl}
-//           startIcon={isLoading ? <CircularProgress size={20} /> : <Visibility />}
+//           startIcon={isLoading ? <CircularProgress size={18} /> : <Eye size={18} />}
 //           variant="outlined"
-//           className="view-file-button"
 //           sx={{
-//             width: "35vw",
-//             flex: "1 1 auto",
+//             flex: 1,
 //             borderColor: "#10a37f",
 //             color: "#10a37f",
-//             "&:hover": { borderColor: "#0e8a6c", bgcolor: "rgba(16, 163, 127, 0.04)" },
+//             "&:hover": {
+//               borderColor: "#0e8a6c",
+//               bgcolor: alpha("#10a37f", 0.04),
+//             },
+//             borderRadius: "10px",
+//             py: 1.5,
+//             fontWeight: 500,
+//             textTransform: "none",
 //           }}
 //         >
 //           {isLoading ? "טוען..." : "צפה בקובץ"}
@@ -215,14 +265,17 @@
 //         <Button
 //           onClick={downloadFile}
 //           disabled={isLoading || !downloadUrl}
-//           startIcon={isLoading ? <CircularProgress size={20} /> : <Download />}
+//           startIcon={isLoading ? <CircularProgress size={18} /> : <Download size={18} />}
 //           variant="contained"
-//           className="download-file-button"
 //           sx={{
-//             width: "35vw",
-//             flex: "1 1 auto",
+//             flex: 1,
 //             bgcolor: "#10a37f",
 //             "&:hover": { bgcolor: "#0e8a6c" },
+//             borderRadius: "10px",
+//             py: 1.5,
+//             fontWeight: 500,
+//             textTransform: "none",
+//             boxShadow: "0 4px 14px rgba(16, 163, 127, 0.3)",
 //           }}
 //         >
 //           {isLoading ? "טוען..." : "הורד קובץ"}
@@ -232,8 +285,12 @@
 //       {error && (
 //         <Alert
 //           severity={error.startsWith("✅") ? "success" : "error"}
-//           className="message-box"
-//           sx={{ width: "100%", marginBottom: 2 }}
+//           sx={{
+//             width: "100%",
+//             mb: 2,
+//             borderRadius: "10px",
+//             "& .MuiAlert-icon": { alignItems: "center" },
+//           }}
 //         >
 //           {error}
 //         </Alert>
@@ -250,29 +307,42 @@
 //             maxHeight: "90vh",
 //             display: "flex",
 //             flexDirection: "column",
+//             borderRadius: "16px",
+//             overflow: "hidden",
 //           },
 //         }}
 //       >
 //         <Box
-//           className="file-preview-header"
 //           sx={{
 //             display: "flex",
 //             justifyContent: "space-between",
 //             alignItems: "center",
-//             padding: 2,
-//             borderBottom: "1px solid #e0e0e0",
+//             p: 2,
+//             borderBottom: "1px solid",
+//             borderColor: "rgba(0, 0, 0, 0.08)",
+//             direction: "rtl",
 //           }}
 //         >
-//           <Typography variant="h6" className="file-name">
-//             📄 {fileName}
-//           </Typography>
-//           <Button onClick={closeViewer} className="close-button" startIcon={<Close />} variant="text">
+//           <Box sx={{ display: "flex", alignItems: "center" }}>
+//             <FileText size={20} style={{ marginLeft: "8px" }} />
+//             <Typography variant="h6" fontWeight={600}>
+//               {fileName}
+//             </Typography>
+//           </Box>
+//           <Button
+//             onClick={closeViewer}
+//             variant="text"
+//             startIcon={<X size={18} />}
+//             sx={{
+//               color: "text.secondary",
+//               "&:hover": { backgroundColor: alpha("#000", 0.04) },
+//               textTransform: "none",
+//             }}
+//           >
 //             סגור
 //           </Button>
 //         </Box>
-//         <Box className="file-preview-content" sx={{ flex: 1, overflow: "auto", padding: 2 }}>
-//           {renderFilePreview()}
-//         </Box>
+//         <Box sx={{ flex: 1, overflow: "auto", p: 0 }}>{renderFilePreview()}</Box>
 //       </Dialog>
 //     </Box>
 //   )
@@ -300,15 +370,13 @@
 
 
 
-
-
-
 "use client"
 
 import { useState, useEffect } from "react"
 import axios from "axios"
 import { Box, Button, Typography, Alert, CircularProgress, Dialog, alpha } from "@mui/material"
 import { Eye, Download, X, FileText } from "lucide-react"
+import { getCookie } from "@/utils/cookies" // Import getCookie function from utils/cookies
 
 interface FileViewerProps {
   filePath: string
@@ -347,7 +415,7 @@ const FileViewer = ({ filePath, fileName, isAiGenerated = false }: FileViewerPro
       }
 
       if (!filePath) {
-        setError("נתיב קובץ חסר")
+        setError("File path is missing")
         setIsLoading(false)
         return
       }
@@ -360,14 +428,14 @@ const FileViewer = ({ filePath, fileName, isAiGenerated = false }: FileViewerPro
       setDownloadUrl(response.data.downloadUrl)
       setIsLoading(false)
     } catch (error) {
-      setError("שגיאה בקבלת קישור להורדה")
+      setError("Error getting download link")
       setIsLoading(false)
     }
   }
 
   const downloadAndShowFile = async () => {
     if (!downloadUrl) {
-      setError("כתובת URL לא מוגדרת")
+      setError("URL is not defined")
       return
     }
 
@@ -386,7 +454,7 @@ const FileViewer = ({ filePath, fileName, isAiGenerated = false }: FileViewerPro
           const { value } = await mammoth.convertToHtml({ arrayBuffer: fileResponse.data })
           setDocxHtml(value)
         } catch {
-          setError("שגיאה בהמרת קובץ DOCX")
+          setError("Error converting DOCX file")
         }
       }
 
@@ -399,7 +467,7 @@ const FileViewer = ({ filePath, fileName, isAiGenerated = false }: FileViewerPro
       setFileUrl(blobUrl)
       setIsViewerOpen(true)
     } catch {
-      setError("שגיאה בטעינת הקובץ")
+      setError("Error loading file")
     } finally {
       setIsLoading(false)
     }
@@ -411,7 +479,7 @@ const FileViewer = ({ filePath, fileName, isAiGenerated = false }: FileViewerPro
 
   const downloadFile = async () => {
     if (!downloadUrl) {
-      setError("כתובת URL לא מוגדרת")
+      setError("URL is not defined")
       return
     }
 
@@ -434,10 +502,10 @@ const FileViewer = ({ filePath, fileName, isAiGenerated = false }: FileViewerPro
       link.remove()
       window.URL.revokeObjectURL(blobUrl)
 
-      setError("✅ הקובץ הורד בהצלחה")
+      setError("✅ File downloaded successfully")
       setTimeout(() => setError(null), 3000)
     } catch {
-      setError("שגיאה בהורדת הקובץ")
+      setError("Error downloading the file")
     } finally {
       setIsLoading(false)
     }
@@ -529,7 +597,7 @@ const FileViewer = ({ filePath, fileName, isAiGenerated = false }: FileViewerPro
               fontWeight: 500,
             }}
           >
-            הורד לצפייה
+            Download to view
           </Button>
         </Box>
       )
@@ -565,7 +633,7 @@ const FileViewer = ({ filePath, fileName, isAiGenerated = false }: FileViewerPro
             textTransform: "none",
           }}
         >
-          {isLoading ? "טוען..." : "צפה בקובץ"}
+          {isLoading ? "Loading..." : "View File"}
         </Button>
         <Button
           onClick={downloadFile}
@@ -583,7 +651,7 @@ const FileViewer = ({ filePath, fileName, isAiGenerated = false }: FileViewerPro
             boxShadow: "0 4px 14px rgba(16, 163, 127, 0.3)",
           }}
         >
-          {isLoading ? "טוען..." : "הורד קובץ"}
+          {isLoading ? "Loading..." : "Download File"}
         </Button>
       </Box>
 
@@ -644,7 +712,7 @@ const FileViewer = ({ filePath, fileName, isAiGenerated = false }: FileViewerPro
               textTransform: "none",
             }}
           >
-            סגור
+            Close
           </Button>
         </Box>
         <Box sx={{ flex: 1, overflow: "auto", p: 0 }}>{renderFilePreview()}</Box>
@@ -654,15 +722,15 @@ const FileViewer = ({ filePath, fileName, isAiGenerated = false }: FileViewerPro
 }
 
 // Helper function to get cookie value
-function getCookie(name: string): string | null {
-  const cookies = document.cookie.split("; ")
-  for (const cookie of cookies) {
-    const [key, value] = cookie.split("=")
-    if (key === name) {
-      return decodeURIComponent(value)
-    }
-  }
-  return null
-}
+// function getCookie(name: string): string | null {
+//   const cookies = document.cookie.split("; ")
+//   for (const cookie of cookies) {
+//     const [key, value] = cookie.split("=")
+//     if (key === name) {
+//       return decodeURIComponent(value)
+//     }
+//   }
+//   return null
+// }
 
 export default FileViewer
