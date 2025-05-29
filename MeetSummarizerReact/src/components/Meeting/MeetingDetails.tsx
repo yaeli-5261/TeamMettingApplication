@@ -159,7 +159,7 @@ export default function MeetingDetails() {
 
   return (
     <Box sx={{ width: "70vw", p: 3 }}>
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+      {/* <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}> */}
         {/* Header */}
         <Box sx={{ mb: 3 }}>
           <Button
