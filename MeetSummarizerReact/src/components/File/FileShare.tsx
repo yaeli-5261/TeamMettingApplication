@@ -597,107 +597,169 @@ const FileShare = ({ fileUrl, fileName }: FileShareProps) => {
     }
   }
 
+  // const handleSendEmail = async () => {
+  //   if (!selectedUser) {
+  //     setMessage({
+  //       text: "נא לבחור משתמש מהרשימה",
+  //       type: "error",
+  //     })
+  //     return
+  //   }
+
+  //   if (!selectedUser.email) {
+  //     setMessage({
+  //       text: "למשתמש הנבחר אין כתובת אימייל",
+  //       type: "error",
+  //     })
+  //     return
+  //   }
+
+  //   setLoading(true)
+  //   setMessage(null)
+
+  //   try {
+  //     const token = getCookie("auth_token")
+
+  //     // Create email subject
+  //     const subject = customSubject || `שיתוף קובץ: ${fileName}`
+
+  //     // Create email body with file information
+  //     const emailBody = `
+  //       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+  //         <div style="background: linear-gradient(135deg, #10a37f 0%, #0ea5e9 100%); padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+  //           <h2 style="color: white; margin: 0; text-align: center;">📎 שיתוף קובץ</h2>
+  //         </div>
+          
+  //         <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+  //           <h3 style="color: #333; margin-top: 0;">שלום ${selectedUser.firstName || selectedUser.userName},</h3>
+  //           <p style="color: #666; line-height: 1.6;">
+  //             ${currentUser?.userName || "משתמש"} שיתף איתך קובץ חשוב:
+  //           </p>
+            
+  //           <div style="background: white; padding: 15px; border-radius: 8px; border-left: 4px solid #10a37f; margin: 15px 0;">
+  //             <h4 style="margin: 0 0 10px 0; color: #10a37f;">📄 ${fileName}</h4>
+  //             <p style="margin: 0; color: #666;">
+  //               <strong>קישור להורדה:</strong><br>
+  //               <a href="${fileUrl}" style="color: #10a37f; text-decoration: none; word-break: break-all;">
+  //                 ${fileUrl}
+  //               </a>
+  //             </p>
+  //           </div>
+            
+  //           <div style="background: #e3f2fd; padding: 15px; border-radius: 8px; margin: 15px 0;">
+  //             <p style="margin: 0; color: #1976d2; font-size: 14px;">
+  //               💡 <strong>טיפ:</strong> לחץ על הקישור כדי להוריד את הקובץ ישירות למחשב שלך
+  //             </p>
+  //           </div>
+  //         </div>
+          
+  //         <div style="text-align: center; padding: 20px; border-top: 1px solid #eee;">
+  //           <p style="color: #999; font-size: 12px; margin: 0;">
+  //             נשלח מ-Meeting Manager | ${new Date().toLocaleDateString("he-IL")}
+  //           </p>
+  //         </div>
+  //       </div>
+  //     `
+
+  //     console.log(`📧 Sending email to user ID: ${selectedUser.id}`)
+
+  //     // Send email using your API endpoint
+  //     await axios.post(
+  //       `${apiUrl}/Email/send-to-user/${selectedUser.id}`,
+  //       {
+  //         Subject: subject,
+  //         Body: emailBody,
+  //       },
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //           "Content-Type": "application/json",
+  //         },
+  //       },
+  //     )
+
+  //     setMessage({
+  //       text: `הקובץ נשלח בהצלחה ל-${selectedUser.firstName || selectedUser.userName} (${selectedUser.email})!`,
+  //       type: "success",
+  //     })
+
+  //     // Reset form
+  //     setSelectedUser(null)
+  //     setCustomSubject("")
+  //     setSearchTerm("")
+  //   } catch (error: any) {
+  //     console.error("❌ Error sending email:", error)
+  //     const errorMessage = error.response?.data?.message || error.response?.data?.error || "שגיאה בשליחת האימייל"
+  //     setMessage({
+  //       text: `שגיאה בשליחת האימייל: ${errorMessage}`,
+  //       type: "error",
+  //     })
+  //   } finally {
+  //     setLoading(false)
+  //   }
+  // }
+
   const handleSendEmail = async () => {
     if (!selectedUser) {
       setMessage({
         text: "נא לבחור משתמש מהרשימה",
         type: "error",
-      })
-      return
+      });
+      return;
     }
-
+  
     if (!selectedUser.email) {
       setMessage({
         text: "למשתמש הנבחר אין כתובת אימייל",
         type: "error",
-      })
-      return
+      });
+      return;
     }
-
-    setLoading(true)
-    setMessage(null)
-
+  
+    setLoading(true);
+    setMessage(null);
+  
     try {
-      const token = getCookie("auth_token")
-
-      // Create email subject
-      const subject = customSubject || `שיתוף קובץ: ${fileName}`
-
-      // Create email body with file information
+      const token = getCookie("auth_token");
+  
+      const subject = customSubject || `שיתוף קובץ: ${fileName}`;
+  
       const emailBody = `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
-          <div style="background: linear-gradient(135deg, #10a37f 0%, #0ea5e9 100%); padding: 20px; border-radius: 12px; margin-bottom: 20px;">
-            <h2 style="color: white; margin: 0; text-align: center;">📎 שיתוף קובץ</h2>
-          </div>
-          
-          <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
-            <h3 style="color: #333; margin-top: 0;">שלום ${selectedUser.firstName || selectedUser.userName},</h3>
-            <p style="color: #666; line-height: 1.6;">
-              ${currentUser?.userName || "משתמש"} שיתף איתך קובץ חשוב:
-            </p>
-            
-            <div style="background: white; padding: 15px; border-radius: 8px; border-left: 4px solid #10a37f; margin: 15px 0;">
-              <h4 style="margin: 0 0 10px 0; color: #10a37f;">📄 ${fileName}</h4>
-              <p style="margin: 0; color: #666;">
-                <strong>קישור להורדה:</strong><br>
-                <a href="${fileUrl}" style="color: #10a37f; text-decoration: none; word-break: break-all;">
-                  ${fileUrl}
-                </a>
-              </p>
-            </div>
-            
-            <div style="background: #e3f2fd; padding: 15px; border-radius: 8px; margin: 15px 0;">
-              <p style="margin: 0; color: #1976d2; font-size: 14px;">
-                💡 <strong>טיפ:</strong> לחץ על הקישור כדי להוריד את הקובץ ישירות למחשב שלך
-              </p>
-            </div>
-          </div>
-          
-          <div style="text-align: center; padding: 20px; border-top: 1px solid #eee;">
-            <p style="color: #999; font-size: 12px; margin: 0;">
-              נשלח מ-Meeting Manager | ${new Date().toLocaleDateString("he-IL")}
-            </p>
-          </div>
+        <div>
+          <h3>שלום ${selectedUser.firstName || selectedUser.userName},</h3>
+          <p>${currentUser?.userName || "משתמש"} שיתף איתך קובץ חשוב:</p>
+          <p><strong>${fileName}</strong></p>
+          <p><a href="${fileUrl}">${fileUrl}</a></p>
         </div>
-      `
-
-      console.log(`📧 Sending email to user ID: ${selectedUser.id}`)
-
-      // Send email using your API endpoint
-      await axios.post(
-        `${apiUrl}/Email/send-to-user/${selectedUser.id}`,
+      `;
+  
+      const response = await axios.post(
+        `${apiUrl}/Email/send-to-user/${selectedUser.id}`, // משתמשים ב-id לצורך שליפת כתובת
         {
-          Subject: subject,
-          Body: emailBody,
+          subject: subject,
+          body: emailBody,
         },
         {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
-        },
-      )
-
-      setMessage({
-        text: `הקובץ נשלח בהצלחה ל-${selectedUser.firstName || selectedUser.userName} (${selectedUser.email})!`,
-        type: "success",
-      })
-
-      // Reset form
-      setSelectedUser(null)
-      setCustomSubject("")
-      setSearchTerm("")
+        }
+      );
+  
+      console.log("✅ Email sent successfully:", response.data);
+      setMessage({ text: "המייל נשלח בהצלחה", type: "success" });
     } catch (error: any) {
-      console.error("❌ Error sending email:", error)
-      const errorMessage = error.response?.data?.message || error.response?.data?.error || "שגיאה בשליחת האימייל"
+      console.error("❌ Error sending email:", error);
       setMessage({
-        text: `שגיאה בשליחת האימייל: ${errorMessage}`,
+        text: `שגיאה בשליחת המייל: ${error.response?.data?.message || error.message}`,
         type: "error",
-      })
+      });
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
+  
 
   const getUserDisplayName = (user: SharedUser): string => {
     try {
