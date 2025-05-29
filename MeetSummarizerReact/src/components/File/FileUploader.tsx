@@ -353,9 +353,9 @@ export const FileUploader = () => {
             }}
           >
             <input type="file" onChange={handleFileChange} className="file-input" id="file-upload" />
-            <label htmlFor="file-upload" className="file-drop-label">
+            <label htmlFor="file-upload" className="file-drop-label" style={{ width: "30vw" }}>
               <CloudUpload sx={{ fontSize: 40, mb: 1, color: "#10a37f" }} />
-              <Typography variant="body1" fontWeight={500} sx={{width:"30px"}}>
+              <Typography variant="body1" fontWeight={500} sx={{width:"30vw"}}>
                 {file ? file.name : "גרור ושחרר או לחץ לבחירת קובץ"}
               </Typography>
               <Typography variant="caption" color="text.secondary"sx={{width:"30px"}}>
@@ -370,7 +370,7 @@ export const FileUploader = () => {
             variant="contained"
             startIcon={isUploading ? <CircularProgress size={20} color="inherit" /> : <CloudUpload />}
             sx={{
-              width:"30px",
+              width:"30vw",
               bgcolor: "#10a37f",
               "&:hover": { bgcolor: "#0e8a6c" },
               mt: 2,
@@ -492,7 +492,7 @@ export const FileUploader = () => {
             )}
 
             {aiProcessingStatus === "error" && (
-              <Typography variant="body2" color="error" sx={{ mt: 1 ,width:"30px"}}>
+              <Typography variant="body2" color="error" sx={{ mt: 1 ,width:"30vw"}}>
                 אירעה שגיאה בייצור סיכום ה-AI. אנא נסה שוב.
               </Typography>
             )}

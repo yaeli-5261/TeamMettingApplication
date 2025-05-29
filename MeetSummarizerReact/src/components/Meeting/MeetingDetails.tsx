@@ -247,8 +247,8 @@ export default function MeetingDetails() {
         {/* <Grid container spacing={3} sx={{ width: "80vw" }}> */}
           {/* Meeting Details */}
           {/* <Grid item xs={12} lg={8} sx={{ width: "80vw" }}> */}
-
-            {/* <Card
+{/* למחוק עכשיו אם לא טוב!! */}
+            <Card
               sx={{
                 borderRadius: 2,
                 background: "rgba(255, 255, 255, 0.9)",
@@ -257,8 +257,8 @@ export default function MeetingDetails() {
                 mb: 3,
                 width: "80vw",
               }}
-            > */}
-              <CardContent sx={{ width:"80vw"}}>
+            >
+              <CardContent sx={{ width:"80vw",position:"center",justifyContent: "center", alignItems: "center"}}>
                 <Typography variant="h6" fontWeight={600} gutterBottom>
                   פרטי הפגישה
                 </Typography>
@@ -338,7 +338,7 @@ export default function MeetingDetails() {
                   )}
                 </Grid>
               </CardContent>
-            {/* </Card> */}
+            </Card>
 {/* TODO */}
             {/* File Upload Section */}
             {/* <Card
