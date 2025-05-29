@@ -67,8 +67,9 @@ export default function MeetingList({ meetings: meetingsFromProps }: MeetingList
   const user = useSelector((state: RootState) => state.auth.user)
 
   if (!user || !user.token) {
-    return <Navigate to="/login" />;
+    navigate("/login") 
   }
+
 
 
   useEffect(() => {
