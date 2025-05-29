@@ -4,8 +4,6 @@ import {  Provider, useDispatch } from "react-redux";
 import  store, { AppDispatch } from "./store/store";
 import { checkAuthState } from "./store/authSlice";
 import { useEffect } from "react";
-import AppLayout from "./components/Layout";
-import HomePage from "./components/Pages/HomePage";
 import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 
 const theme = createTheme({
