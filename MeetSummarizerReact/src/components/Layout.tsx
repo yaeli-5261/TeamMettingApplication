@@ -21,7 +21,7 @@ export default function Layout({ children }: LayoutProps) {
   }
 
   return (
-    <Box sx={{ display: "flex",width:'100vh' ,minHeight: "100vh", flexDirection: "column" }}>
+    <Box sx={{ display: "flex",width:'100vw' ,minHeight: "100vh", flexDirection: "column" }}>
       <CssBaseline />
 
       {/* Main layout container */}
@@ -36,7 +36,9 @@ export default function Layout({ children }: LayoutProps) {
             flexGrow: 1,
             // width: "calc(100% - 280px)", // גודל המסך מלבד התפריט צד
             width: "100vw",
-            ml: { xs: 0, md: "280px" },
+            pl: { xs: 0, md: "280px" },
+            // pr: { xs: 0, md: "10px" },
+
             display: "flex",
             flexDirection: "column",
             minHeight: "100vh",
@@ -48,8 +50,7 @@ export default function Layout({ children }: LayoutProps) {
             sx={{
               flexGrow: 1,
           
-              width: "100vh",
-              // maxWidth: "100vh",
+              width: "75vw",
               boxSizing: "border-box",
             }}
           >

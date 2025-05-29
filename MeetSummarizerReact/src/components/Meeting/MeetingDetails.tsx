@@ -485,14 +485,14 @@ export default function MeetingDetails() {
   if (loading) {
     return (
       
-      <Box sx={{ width: "85vw", p: 3 }}>
-        <Skeleton variant="rectangular" width="85vw" height={120} sx={{ borderRadius: 2, mb: 3 }} />
+      <Box sx={{ width: "80vw", p: 3 }}>
+        <Skeleton variant="rectangular" width="80vw" height={120} sx={{ borderRadius: 2, mb: 3 }} />
         <Grid container spacing={3}>
           <Grid item xs={12} md={8}>
-            <Skeleton variant="rectangular" width="85vw" height={200} sx={{ borderRadius: 2 }} />
+            <Skeleton variant="rectangular" width="80vw" height={200} sx={{ borderRadius: 2 }} />
           </Grid>
           <Grid item xs={12} md={4}>
-            <Skeleton variant="rectangular" width="85vw" height={200} sx={{ borderRadius: 2 }} />
+            <Skeleton variant="rectangular" width="80vw" height={200} sx={{ borderRadius: 2 }} />
           </Grid>
         </Grid>
       </Box>
@@ -501,7 +501,7 @@ export default function MeetingDetails() {
 
   if (error) {
     return (
-      <Box sx={{ width: "70vw", p: 3, display: "flex", justifyContent: "center" }}>
+      <Box sx={{ width: "50vw", p: 3, display: "flex", justifyContent: "center" }}>
         <Alert severity="error" sx={{ borderRadius: 2 }}>
           {error}
         </Alert>

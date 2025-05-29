@@ -317,9 +317,9 @@ const SignIn = () => {
   return (
     <Box
       sx={{
-        minHeight: "100vh",
+        height: "100vh",
         //todo
-        minWidth: "100vw",
+        width: "60vw",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
