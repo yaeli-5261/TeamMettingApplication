@@ -716,7 +716,7 @@ export default function MeetingDetails() {
                 <Divider sx={{ mb: 2 }} />
                 <FileUploader />
               </CardContent>
-            </Card>
+            {/* </Card> */}
           </Grid>
 
           {/* Sidebar - Additional Info */}
