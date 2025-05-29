@@ -68,29 +68,6 @@ export function AppFooter() {
                 <Typography variant="body2" sx={{ opacity: 0.7 }}>
                   © {new Date().getFullYear()} All Rights Reserved
                 </Typography>
-                
-                <p><a
-          href="https://mail.google.com/mail/?view=cm&fs=1&to=yaelina5261@gmail.com&su=פנייה%20מאתר%MEETING&body=שלום%20רציתי%20לפנות%20בנוגע%20ל..."
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{ color: '#0077cc', textDecoration: 'none', marginLeft: '5px' }}
-        >
-          support@meetingSummerizer.co.il
-        </a></p>
-              </Box>
-            </Box>
-          </Grid>
-
-          <Grid item xs={12} md={6}>
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: isMobile ? "center" : "flex-end",
-                gap: 3,
-              }}
-            >
-              <Box sx={{ display: "flex", gap: 2 }}>
                 <IconButton
                   size="medium"
                   aria-label="GitHub"
@@ -110,7 +87,48 @@ export function AppFooter() {
                 >
                   <GitHubIcon />
                 </IconButton>
+                <p><a
+                  href="https://mail.google.com/mail/?view=cm&fs=1&to=yaelina5261@gmail.com&su=פנייה%20מאתר%MEETING&body=שלום%20רציתי%20לפנות%20בנוגע%20ל..."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ color: '#0077cc', textDecoration: 'none', marginLeft: '5px' }}
+                >
+                  support@meetingSummerizer.co.il
+                </a></p>
               </Box>
+            </Box>
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: isMobile ? "center" : "flex-end",
+                gap: 3,
+              }}
+            >
+              {/* <Box sx={{ display: "flex", gap: 2 }}>
+                <IconButton
+                  size="medium"
+                  aria-label="GitHub"
+                  component="a"
+                  href="https://github.com/yaeli-5261"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  sx={{
+                    color: "rgba(255,255,255,0.8)",
+                    transition: "all 0.3s ease",
+                    "&:hover": {
+                      color: "#10a37f",
+                      transform: "translateY(-3px)",
+                      backgroundColor: "rgba(16, 163, 127, 0.1)",
+                    },
+                  }}
+                >
+                  <GitHubIcon />
+                </IconButton>
+              </Box> */}
 
               <Box
                 sx={{
