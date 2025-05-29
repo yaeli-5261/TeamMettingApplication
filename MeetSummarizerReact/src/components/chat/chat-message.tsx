@@ -927,12 +927,6 @@ const scrollToLastMessage = () => {
   }
 };
  
-useEffect(() => {
-  // Redirect to login if the user is not authenticated
-  if (!user || !user.token) {
-    navigate("/login");
-  }
-}, [user, navigate]);
   // Fetch messages from API
   const fetchMessages = async () => {
     try {

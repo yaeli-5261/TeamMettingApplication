@@ -355,7 +355,7 @@ export const FileUploader = () => {
             <input type="file" onChange={handleFileChange} className="file-input" id="file-upload" />
             <label htmlFor="file-upload" className="file-drop-label">
               <CloudUpload sx={{ fontSize: 40, mb: 1, color: "#10a37f" }} />
-              <Typography variant="body1" fontWeight={500}>
+              <Typography variant="body1" fontWeight={500} sx={{width:"30vw"}}>
                 {file ? file.name : "גרור ושחרר או לחץ לבחירת קובץ"}
               </Typography>
               <Typography variant="caption" color="text.secondary">

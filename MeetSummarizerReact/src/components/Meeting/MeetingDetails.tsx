@@ -701,15 +701,15 @@ export default function MeetingDetails() {
             </Card>
 
             {/* File Upload Section */}
-            <Card
+            {/* <Card
               sx={{
                 borderRadius: 2,
                 background: "rgba(255, 255, 255, 0.9)",
                 border: "1px solid rgba(255, 255, 255, 0.2)",
                 boxShadow: "0 4px 16px rgba(0, 0, 0, 0.08)",
               }}
-            >
-              <CardContent sx={{ p: 3 ,width:"80vw" }}>
+            > */}
+              <CardContent sx={{ p: 3 ,width:"60vw" }}>
                 <Typography variant="h6" fontWeight={600} gutterBottom>
                   העלאת קבצים
                 </Typography>
