@@ -1087,6 +1087,7 @@ const scrollToLastMessage = () => {
     <Box
       sx={{
         height: "100vh",
+        width: "80vw",
         display: "flex",
         flexDirection: "column",
         bgcolor: "#f8f9fa",

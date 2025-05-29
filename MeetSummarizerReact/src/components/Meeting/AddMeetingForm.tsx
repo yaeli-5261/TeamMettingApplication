@@ -458,7 +458,7 @@ export default function AddMeetingForm() {
   }
 
   return (
-    <Box sx={{ width: "100vw", p: 3 }}>
+    <Box sx={{ width: "65vw",height:"70vh", p: 3 }}>
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
         {/* Header */}
         <Box sx={{ mb: 3 }}>
