@@ -1109,8 +1109,6 @@ export const FileUploader = () => {
                       label={
                         aiProcessingStatus === "processing"
                           ? "Processing"
-                          : aiProcessingStatus === "idle"
-                            ? "Not Started"
                             : aiProcessingStatus === "success"
                               ? "Completed"
                               : "Failed"

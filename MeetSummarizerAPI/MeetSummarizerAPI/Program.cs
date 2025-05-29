@@ -108,17 +108,6 @@ builder.Services.AddAuthentication(options =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("JWT_KEY")))
     };
 });
-//todo
-
-
-// קריאה לאתחול מסד הנתונים
-//using (var scope = app.Services.CreateScope())
-//{
-//    var services = scope.ServiceProvider;
-//    DbInitializer.Initialize(services);
-//}
-
-//
 
 // הוספת הרשאות מבוססות-תפקידים
 builder.Services.AddAuthorization(options =>

@@ -63,7 +63,18 @@ def query_ai(text):
     )
     return response.choices[0].message.content.strip()
 
+def reverse_rtl_text(text: str) -> str:
+    reversed_lines = []
+    for line in text.split('\n'):
+        reversed_line = ''.join(reversed(line))
+        reversed_lines.append(reversed_line)
+    return '\n'.join(reversed_lines)
+
+text = reverse_rtl_text()  # הפוך את הטקסט מימין לשמאל
+
+
 def save_to_pdf(text, output_path=PDF_OUTPUT_PATH):
+ 
     pdf = FPDF()
     pdf.add_page()
     pdf.add_font("DejaVu", "", "DejaVuSans.ttf", uni=True)
