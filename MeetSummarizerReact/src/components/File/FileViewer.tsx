@@ -376,7 +376,8 @@ import { useState, useEffect } from "react"
 import axios from "axios"
 import { Box, Button, Typography, Alert, CircularProgress, Dialog, alpha } from "@mui/material"
 import { Eye, Download, X, FileText } from "lucide-react"
-import { getCookie } from "@/utils/cookies" // Import getCookie function from utils/cookies
+import { getCookie } from "../../services/meetingService"
+// import { getCookie } from "@/utils/cookies" // Import getCookie function from utils/cookies
 
 interface FileViewerProps {
   filePath: string
