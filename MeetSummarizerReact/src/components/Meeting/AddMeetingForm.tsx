@@ -613,7 +613,7 @@ export default function AddMeetingForm() {
                   </Typography>
                 </Grid>
 
-                <Grid item xs={12}>
+                <Grid item xs={12} >
                   <TextField
                     label="קישור לקובץ מקורי"
                     name="linkOrinignFile"

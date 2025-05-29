@@ -324,17 +324,17 @@ export default function MeetingDetails() {
 
       {meeting.linkOrinignFile && (
         <Grid item xs={12} md={6}>
-          <Box sx={{ mb: 2 }}>
+          <Box sx={{ mb: 2 ,p:3}} >
             <Typography variant="body2" color="text.secondary" gutterBottom fontWeight={600}>
               קובץ מקור
             </Typography>
-            <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
+            <Box sx={{p:3, display: "flex", alignItems: "center", mb: 1 }}>
               <DescriptionIcon sx={{ mr: 1, color: "#10a37f", fontSize: 18 }} />
               <Typography variant="body1" fontWeight={500}>
                 {getFileName(meeting.linkOrinignFile)}
               </Typography>
             </Box>
-            <FileViewer
+            <FileViewer 
               filePath={meeting.linkOrinignFile}
               fileName={getFileName(meeting.linkOrinignFile)}
             />
