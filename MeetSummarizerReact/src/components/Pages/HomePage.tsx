@@ -296,7 +296,7 @@ export default function HomePage() {
                 variant="contained"
                 size="large"
                 startIcon={<AddIcon />}
-                onClick={() => navigate("/add-meeting")}
+                onClick={() => navigate("/login")}
                 sx={{
                   px: 4,
                   py: 2,
@@ -314,7 +314,7 @@ export default function HomePage() {
                   transition: "all 0.3s ease",
                 }}
               >
-                Create New Meeting
+                Sign In
               </Button>
             </motion.div>
           </Box>
