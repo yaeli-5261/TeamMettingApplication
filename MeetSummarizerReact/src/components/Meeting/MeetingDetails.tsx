@@ -605,7 +605,8 @@ export default function MeetingDetails() {
         </Box>
 
         {/* Main Content */}
-        <Grid container spacing={3}>
+        {/* TODO nowww */}
+        <Grid container spacing={3} sx={{ width: "80vw" }}>
           {/* Meeting Details */}
           <Grid item xs={12} lg={8}>
             <Card
