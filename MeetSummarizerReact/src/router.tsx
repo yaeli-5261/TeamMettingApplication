@@ -8,6 +8,7 @@ import AddMeetingForm from "./components/Meeting/AddMeetingForm";
 import MeetingDetails from "./components/Meeting/MeetingDetails";
 import UpdateMeetingDialog from "./components/Meeting/UpdateMeetingDialog";
 import TeamChat from "./components/chat/chat-message";
+import ProtectedRoute from "./components/protected-route";
 // import { AppSidebar } from "./components/Pages/sideBar";
 
 
@@ -22,11 +23,20 @@ export const router = createBrowserRouter([
         children: [
             { path: "", element: <HomePage /> }, 
 
-            { path: "meetings", element: <MeetingsPage /> },
+            { path: "meetings", element: 
+             <ProtectedRoute>
+              <MeetingsPage />
+              </ProtectedRoute> 
+              },
             { path: "login", element: <SignIn /> },
             { path: "add-meeting", element: <AddMeetingForm /> },
             { path: "meeting-details/:meetingId", element: < MeetingDetails/> },
-            { path: "chat", element:  <TeamChat/>},
+          
+             { path: "chat", element: 
+               <ProtectedRoute>
+                <TeamChat />
+              </ProtectedRoute>
+              },
 
           
 

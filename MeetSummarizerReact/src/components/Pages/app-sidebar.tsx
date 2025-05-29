@@ -966,7 +966,8 @@ export function AppSidebar({ mobileOpen, handleDrawerToggle }: AppSidebarProps) 
       </Box>
 
       <List sx={{ px: 2, py: 1 }}>
-        {navItems.map((item) => (
+     
+         {navItems.map((item) => (
           <ListItem key={item.name} disablePadding sx={{ mb: 0.5 }}>
             <ListItemButton
               onClick={() => handleNavigation(item.path)}
@@ -1000,7 +1001,9 @@ export function AppSidebar({ mobileOpen, handleDrawerToggle }: AppSidebarProps) 
             </ListItemButton>
           </ListItem>
         ))}
+      
       </List>
+      
 
       <Box sx={{ flexGrow: 1, overflow: "auto", px: 2, py: 1 }}>
         <Typography
