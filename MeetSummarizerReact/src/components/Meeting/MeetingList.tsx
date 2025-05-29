@@ -66,12 +66,6 @@ export default function MeetingList({ meetings: meetingsFromProps }: MeetingList
   const dispatch = useDispatch<AppDispatch>()
   const user = useSelector((state: RootState) => state.auth.user)
 
-  if (!user || !user.token) {
-    navigate("/login") 
-  }
-
-
-
   useEffect(() => {
     if (!meetingsFromProps) {
       const getMeetings = async () => {
