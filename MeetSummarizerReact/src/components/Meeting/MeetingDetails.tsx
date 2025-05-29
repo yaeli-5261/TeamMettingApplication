@@ -608,7 +608,7 @@ export default function MeetingDetails() {
         {/* TODO nowww */}
         {/* <Grid container spacing={3} sx={{ width: "80vw" }}> */}
           {/* Meeting Details */}
-          <Grid item xs={12} lg={8}>
+          <Grid item xs={12} lg={8} sx={{ width: "80vw" }}>
             <Card
               sx={{
                 borderRadius: 2,

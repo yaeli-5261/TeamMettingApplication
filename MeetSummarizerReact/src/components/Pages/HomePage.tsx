@@ -29,6 +29,7 @@ import {
   TrendingUp as TrendingUpIcon,
   Schedule as ScheduleIcon,
   ArrowForward as ArrowForwardIcon,
+  Login,
 } from "@mui/icons-material"
 import { useSelector, useDispatch } from "react-redux"
 import type { RootState, AppDispatch } from "../../store/store"
@@ -295,7 +296,7 @@ export default function HomePage() {
               <Button
                 variant="contained"
                 size="large"
-                startIcon={<AddIcon />}
+                startIcon={<Login />}
                 onClick={() => navigate("/login")}
                 sx={{
                   px: 4,

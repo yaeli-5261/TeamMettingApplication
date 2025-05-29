@@ -846,6 +846,8 @@ import {
 import { useSelector } from "react-redux"
 import type { RootState } from "../../store/store"
 import axios from "axios"
+import { router } from "../../router"
+import { useNavigate } from "react-router-dom"
 
 interface ChatMessage {
   id: number
@@ -910,6 +912,7 @@ export default function TeamChat() {
   const [moreAnchor, setMoreAnchor] = useState<null | HTMLElement>(null)
   const [isTyping, setIsTyping] = useState(false)
 
+ const navigate = useNavigate()
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const messagesAreaRef = useRef<HTMLDivElement>(null)
   const pollIntervalRef = useRef<NodeJS.Timeout | null>(null)
@@ -923,6 +926,13 @@ const scrollToLastMessage = () => {
     messagesEndRef.current.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }
 };
+ 
+useEffect(() => {
+  // Redirect to login if the user is not authenticated
+  if (!user || !user.token) {
+    navigate("/login");
+  }
+}, [user, navigate]);
   // Fetch messages from API
   const fetchMessages = async () => {
     try {
@@ -1572,7 +1582,7 @@ const scrollToLastMessage = () => {
           </Menu>
 
           {/* Format Menu */}
-          <Menu
+          {/* <Menu
             anchorEl={formatAnchor}
             open={Boolean(formatAnchor)}
             onClose={() => setFormatAnchor(null)}
@@ -1583,9 +1593,9 @@ const scrollToLastMessage = () => {
                 border: "1px solid #e8eaed",
               },
             }}
-          >
+          > */}
            
-          </Menu>
+          {/* </Menu> */}
         </Box>
       </Paper>
 

@@ -65,9 +65,15 @@ export default function MeetingList({ meetings: meetingsFromProps }: MeetingList
   const navigate = useNavigate()
   const dispatch = useDispatch<AppDispatch>()
   const user = useSelector((state: RootState) => state.auth.user)
-  const theme = useTheme()
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"))
 
+
+
+  useEffect(() => {
+    // Redirect to login if the user is not authenticated
+    if (!user || !user.token) {
+      navigate("/login");
+    }
+  }, [user, navigate]);
   useEffect(() => {
     if (!meetingsFromProps) {
       const getMeetings = async () => {
@@ -200,11 +206,11 @@ export default function MeetingList({ meetings: meetingsFromProps }: MeetingList
 
   return (
     <Box
-      // sx={{
-      //   width: "70vw",
-      //   height: "100%",
-      //   boxSizing: "border-box",
-      // }}
+    // sx={{
+    //   width: "70vw",
+    //   height: "100%",
+    //   boxSizing: "border-box",
+    // }}
     >
       <Paper
         elevation={0}
