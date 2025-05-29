@@ -342,6 +342,8 @@ export const FileUploader = () => {
           <Box
             className="file-drop-area"
             sx={{
+              width: "60vw",
+              height: "30vh", 
               border: "2px dashed #e0e0e0",
               borderRadius: 2,
               p: 3,
