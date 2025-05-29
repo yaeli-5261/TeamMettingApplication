@@ -521,7 +521,7 @@ export default function MeetingDetails() {
 
   return (
     <Box sx={{ width: "70vw", p: 3 }}>
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+      {/* <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}> */}
         {/* Header */}
         <Box sx={{ mb: 3 }}>
           <Button
@@ -606,7 +606,7 @@ export default function MeetingDetails() {
 
         {/* Main Content */}
         {/* TODO nowww */}
-        <Grid container spacing={3} sx={{ width: "80vw" }}>
+        {/* <Grid container spacing={3} sx={{ width: "80vw" }}> */}
           {/* Meeting Details */}
           <Grid item xs={12} lg={8}>
             <Card
@@ -732,8 +732,8 @@ export default function MeetingDetails() {
               
             </Card>
           </Grid>
-        </Grid>
-      </motion.div>
+        {/* </Grid> */}
+      {/* </motion.div> */}
 
       {/* File Content Dialog */}
       <Dialog
