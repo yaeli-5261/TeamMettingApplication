@@ -3,7 +3,7 @@
 import type React from "react"
 
 import { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { Navigate, useNavigate } from "react-router-dom"
 import { motion } from "framer-motion"
 import {
   Typography,
@@ -66,14 +66,11 @@ export default function MeetingList({ meetings: meetingsFromProps }: MeetingList
   const dispatch = useDispatch<AppDispatch>()
   const user = useSelector((state: RootState) => state.auth.user)
 
+  if (!user || !user.token) {
+    return <Navigate to="/login" />;
+  }
 
 
-  useEffect(() => {
-    // Redirect to login if the user is not authenticated
-    if (!user || !user.token) {
-      navigate("/login");
-    }
-  }, [user, navigate]);
   useEffect(() => {
     if (!meetingsFromProps) {
       const getMeetings = async () => {
