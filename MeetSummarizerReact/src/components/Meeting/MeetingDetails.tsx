@@ -247,7 +247,7 @@ export default function MeetingDetails() {
         {/* <Grid container spacing={3} sx={{ width: "80vw" }}> */}
           {/* Meeting Details */}
           {/* <Grid item xs={12} lg={8} sx={{ width: "80vw" }}> */}
-          
+
             {/* <Card
               sx={{
                 borderRadius: 2,
@@ -338,7 +338,7 @@ export default function MeetingDetails() {
                   )}
                 </Grid>
               </CardContent>
-            </Card>
+            {/* </Card> */}
 {/* TODO */}
             {/* File Upload Section */}
             {/* <Card
