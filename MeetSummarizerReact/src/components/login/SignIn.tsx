@@ -318,32 +318,32 @@ const SignIn = () => {
     <Box
       sx={{
         height: "100vh",
-        //todo
         width: "60vw",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
         background: "linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)",
-        p: 2,
+        p: 1,
+        marginLeft:"160px"
       }}
     >
-      <Container maxWidth="md">
+      <Container maxWidth="sm">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
           <Paper
             elevation={0}
             sx={{
-              borderRadius: 6,
+              borderRadius: 4,
               overflow: "hidden",
-              boxShadow: "0 20px 60px rgba(0,0,0,0.1)",
+              boxShadow: "0 10px 30px rgba(0,0,0,0.1)",
               background: "rgba(255, 255, 255, 0.95)",
-              backdropFilter: "blur(20px)",
+              backdropFilter: "blur(10px)",
               border: "1px solid rgba(255, 255, 255, 0.2)",
             }}
           >
             {/* Header Section */}
             <Box
               sx={{
-                p: 6,
+                p: 3,
                 background: "linear-gradient(135deg, #10a37f 0%, #0ea5e9 100%)",
                 color: "white",
                 textAlign: "center",
@@ -354,22 +354,22 @@ const SignIn = () => {
                   bottom: 0,
                   left: 0,
                   right: 0,
-                  height: "2px",
+                  height: "1px",
                   background: "rgba(255,255,255,0.3)",
                 },
               }}
             >
               <Box
                 sx={{
-                  width: 100,
-                  height: 100,
+                  width: 60,
+                  height: 60,
                   borderRadius: "50%",
                   background: "rgba(255,255,255,0.2)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                   mx: "auto",
-                  mb: 3,
+                  mb: 2,
                   backdropFilter: "blur(10px)",
                 }}
               >
@@ -384,14 +384,14 @@ const SignIn = () => {
             </Box>
 
             {/* Form Section */}
-            <Box sx={{ p: 6 }}>
+            <Box sx={{ p: 3 }}>
               <Box
                 component="form"
                 onSubmit={handleSubmit}
                 sx={{
                   display: "flex",
                   flexDirection: "column",
-                  gap: 4,
+                  gap: 2,
                 }}
               >
                 <TextField
@@ -405,8 +405,8 @@ const SignIn = () => {
                   autoComplete="email"
                   sx={{
                     "& .MuiOutlinedInput-root": {
-                      borderRadius: 3,
-                      height: 64,
+                      borderRadius: 2,
+                      height: 48,
                       transition: "all 0.3s ease",
                       "&:hover": {
                         boxShadow: "0 4px 16px rgba(0,0,0,0.1)",
@@ -417,6 +417,7 @@ const SignIn = () => {
                     },
                     "& .MuiInputLabel-root": {
                       fontWeight: 600,
+                      fontSize: "1rem",
                     },
                   }}
                   InputProps={{
@@ -439,8 +440,8 @@ const SignIn = () => {
                   autoComplete="current-password"
                   sx={{
                     "& .MuiOutlinedInput-root": {
-                      borderRadius: 3,
-                      height: 64,
+                      borderRadius: 2,
+                      height: 48,
                       transition: "all 0.3s ease",
                       "&:hover": {
                         boxShadow: "0 4px 16px rgba(0,0,0,0.1)",
@@ -451,6 +452,7 @@ const SignIn = () => {
                     },
                     "& .MuiInputLabel-root": {
                       fontWeight: 600,
+                      fontSize: "0.9rem", // Reduced font size
                     },
                   }}
                   InputProps={{
@@ -474,13 +476,13 @@ const SignIn = () => {
                   variant="contained"
                   disabled={loading}
                   sx={{
-                    py: 3,
-                    borderRadius: 3,
+                    py: 2,
+                    borderRadius: 2,
                     background: "linear-gradient(135deg, #10a37f 0%, #0ea5e9 100%)",
                     boxShadow: "0 8px 24px rgba(16, 163, 127, 0.3)",
                     textTransform: "none",
-                    fontWeight: 700,
-                    fontSize: "1.2rem",
+                    fontWeight: 600,
+                    fontSize: "1rem",
                     "&:hover": {
                       background: "linear-gradient(135deg, #0e8a6c 0%, #0284c7 100%)",
                       boxShadow: "0 12px 32px rgba(16, 163, 127, 0.4)",
@@ -502,12 +504,13 @@ const SignIn = () => {
                       color="error"
                       textAlign="center"
                       sx={{
-                        p: 3,
-                        borderRadius: 3,
+                        p: 2,
+                        borderRadius: 2,
                         backgroundColor: "error.lighter",
                         border: "1px solid",
                         borderColor: "error.light",
                         fontWeight: 600,
+                        fontSize: "0.9rem",
                       }}
                     >
                       {error}
