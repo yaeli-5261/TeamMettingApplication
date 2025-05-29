@@ -670,7 +670,7 @@ export const FileUploader = () => {
 
   useEffect(() => {
     if (meetingId && (!meeting || meeting.id !== Number(meetingId))) {
-      fetchMeetingsByTeam({ teamId: meeting?.teamId || 0 }).then((meetings) => {
+      fetchMeetingsByTeam().then((meetings) => {
         dispatch({ type: 'SET_MEETINGS', payload: meetings });
       });
       const foundMeeting = meetings.find((m) => m.id === Number(meetingId))
@@ -765,7 +765,7 @@ export const FileUploader = () => {
       console.log("Summary file linked to meeting successfully:", fileMetadata)
 
       // Refresh meeting data to update the file link
-      fetchMeetingsByTeam({ teamId: meeting?.teamId || 0 }).then((meetings) => {
+      fetchMeetingsByTeam().then((meetings) => {
         dispatch({ type: 'SET_MEETINGS', payload: meetings });
       });
     } catch (error: any) {
@@ -830,7 +830,7 @@ export const FileUploader = () => {
       await handleSummarize(downloadResponse.data.downloadUrl)
 
       // Refresh meeting data to update the file link
-      fetchMeetingsByTeam({ teamId: meeting?.teamId || 0 }).then((meetings) => {
+      fetchMeetingsByTeam().then((meetings) => {
         dispatch({ type: 'SET_MEETINGS', payload: meetings });
       });
 
