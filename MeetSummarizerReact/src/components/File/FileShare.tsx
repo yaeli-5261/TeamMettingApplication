@@ -17,11 +17,19 @@
 //   Autocomplete,
 // } from "@mui/material"
 // import { Send, Mail, CheckCircle, Users } from "lucide-react"
-// import { RootState } from "../../store/store"
+// import type { RootState } from "../../store/store"
 
 // interface FileShareProps {
 //   fileUrl: string
 //   fileName: string
+// }
+
+// interface UserRole {
+//   id: number
+//   roleName: string
+//   description?: string
+//   createdAt?: string
+//   updatedAt?: string
 // }
 
 // interface SharedUser {
@@ -30,7 +38,7 @@
 //   email: string
 //   firstName?: string
 //   lastName?: string
-//   role?: string
+//   role?: UserRole | string // Can be either object or string
 // }
 
 // const FileShare = ({ fileUrl, fileName }: FileShareProps) => {
@@ -59,6 +67,14 @@
 //     return null
 //   }
 
+//   // Helper function to get role name safely
+//   const getRoleName = (role: UserRole | string | undefined): string => {
+//     if (!role) return ""
+//     if (typeof role === "string") return role
+//     if (typeof role === "object" && role.roleName) return role.roleName
+//     return ""
+//   }
+
 //   // Load all users when component mounts
 //   useEffect(() => {
 //     loadAllUsers()
@@ -69,19 +85,24 @@
 //     if (!searchTerm) {
 //       setFilteredUsers(allUsers)
 //     } else {
-//       const filtered = allUsers.filter(
-//         (user) =>
-//           user.userName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-//           user.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-//           user.firstName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-//           user.lastName?.toLowerCase().includes(searchTerm.toLowerCase()),
-//       )
+//       const filtered = allUsers.filter((user) => {
+//         const searchLower = searchTerm.toLowerCase()
+//         return (
+//           user.userName?.toLowerCase().includes(searchLower) ||
+//           user.email?.toLowerCase().includes(searchLower) ||
+//           user.firstName?.toLowerCase().includes(searchLower) ||
+//           user.lastName?.toLowerCase().includes(searchLower) ||
+//           getRoleName(user.role).toLowerCase().includes(searchLower)
+//         )
+//       })
 //       setFilteredUsers(filtered)
 //     }
 //   }, [searchTerm, allUsers])
 
 //   const loadAllUsers = async () => {
 //     setLoadingUsers(true)
+//     setMessage(null)
+
 //     try {
 //       const token = getCookie("auth_token")
 //       console.log("🔄 Loading all users from API...")
@@ -90,10 +111,29 @@
 //         headers: { Authorization: `Bearer ${token}` },
 //       })
 
-//       console.log("✅ Users loaded successfully:", response.data)
+//       console.log("✅ Raw API response:", response.data)
 
-//       // Filter users that have email addresses
-//       const usersWithEmail = response.data.filter((user: SharedUser) => user.email && user.email.trim() !== "")
+//       // Validate response data
+//       if (!Array.isArray(response.data)) {
+//         throw new Error("API response is not an array")
+//       }
+
+//       // Filter users that have email addresses and clean the data
+//       const usersWithEmail = response.data
+//         .filter((user: any) => {
+//           // Check if user has required fields
+//           return user && user.email && user.email.trim() !== "" && user.id && user.userName
+//         })
+//         .map((user: any) => ({
+//           id: user.id,
+//           userName: user.userName || "",
+//           email: user.email || "",
+//           firstName: user.firstName || "",
+//           lastName: user.lastName || "",
+//           role: user.role, // Keep as is, will handle in getRoleName
+//         }))
+
+//       console.log("✅ Processed users:", usersWithEmail)
 
 //       setAllUsers(usersWithEmail)
 //       setFilteredUsers(usersWithEmail)
@@ -110,116 +150,187 @@
 //         text: `שגיאה בטעינת רשימת המשתמשים: ${error.response?.data?.message || error.message}`,
 //         type: "error",
 //       })
+//       // Set empty arrays to prevent further errors
+//       setAllUsers([])
+//       setFilteredUsers([])
 //     } finally {
 //       setLoadingUsers(false)
 //     }
 //   }
+
+//   // const handleSendEmail = async () => {
+//   //   if (!selectedUser) {
+//   //     setMessage({
+//   //       text: "נא לבחור משתמש מהרשימה",
+//   //       type: "error",
+//   //     })
+//   //     return
+//   //   }
+
+//   //   if (!selectedUser.email) {
+//   //     setMessage({
+//   //       text: "למשתמש הנבחר אין כתובת אימייל",
+//   //       type: "error",
+//   //     })
+//   //     return
+//   //   }
+
+//   //   setLoading(true)
+//   //   setMessage(null)
+
+//   //   try {
+//   //     const token = getCookie("auth_token")
+
+//   //     // Create email subject
+//   //     const subject = customSubject || `שיתוף קובץ: ${fileName}`
+
+//   //     // Create email body with file information
+//   //     const emailBody = `
+//   //       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+//   //         <div style="background: linear-gradient(135deg, #10a37f 0%, #0ea5e9 100%); padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+//   //           <h2 style="color: white; margin: 0; text-align: center;">📎 שיתוף קובץ</h2>
+//   //         </div>
+          
+//   //         <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+//   //           <h3 style="color: #333; margin-top: 0;">שלום ${selectedUser.firstName || selectedUser.userName},</h3>
+//   //           <p style="color: #666; line-height: 1.6;">
+//   //             ${currentUser?.userName || "משתמש"} שיתף איתך קובץ חשוב:
+//   //           </p>
+            
+//   //           <div style="background: white; padding: 15px; border-radius: 8px; border-left: 4px solid #10a37f; margin: 15px 0;">
+//   //             <h4 style="margin: 0 0 10px 0; color: #10a37f;">📄 ${fileName}</h4>
+//   //             <p style="margin: 0; color: #666;">
+//   //               <strong>קישור להורדה:</strong><br>
+//   //               <a href="${fileUrl}" style="color: #10a37f; text-decoration: none; word-break: break-all;">
+//   //                 ${fileUrl}
+//   //               </a>
+//   //             </p>
+//   //           </div>
+            
+//   //           <div style="background: #e3f2fd; padding: 15px; border-radius: 8px; margin: 15px 0;">
+//   //             <p style="margin: 0; color: #1976d2; font-size: 14px;">
+//   //               💡 <strong>טיפ:</strong> לחץ על הקישור כדי להוריד את הקובץ ישירות למחשב שלך
+//   //             </p>
+//   //           </div>
+//   //         </div>
+          
+//   //         <div style="text-align: center; padding: 20px; border-top: 1px solid #eee;">
+//   //           <p style="color: #999; font-size: 12px; margin: 0;">
+//   //             נשלח מ-Meeting Manager | ${new Date().toLocaleDateString("he-IL")}
+//   //           </p>
+//   //         </div>
+//   //       </div>
+//   //     `
+
+//   //     console.log(`📧 Sending email to user ID: ${selectedUser.id}`)
+
+//   //     // Send email using your API endpoint
+//   //     await axios.post(
+//   //       `${apiUrl}/Email/send-to-user/${selectedUser.id}`,
+//   //       {
+//   //         Subject: subject,
+//   //         Body: emailBody,
+//   //       },
+//   //       {
+//   //         headers: {
+//   //           Authorization: `Bearer ${token}`,
+//   //           "Content-Type": "application/json",
+//   //         },
+//   //       },
+//   //     )
+
+//   //     setMessage({
+//   //       text: `הקובץ נשלח בהצלחה ל-${selectedUser.firstName || selectedUser.userName} (${selectedUser.email})!`,
+//   //       type: "success",
+//   //     })
+
+//   //     // Reset form
+//   //     setSelectedUser(null)
+//   //     setCustomSubject("")
+//   //     setSearchTerm("")
+//   //   } catch (error: any) {
+//   //     console.error("❌ Error sending email:", error)
+//   //     const errorMessage = error.response?.data?.message || error.response?.data?.error || "שגיאה בשליחת האימייל"
+//   //     setMessage({
+//   //       text: `שגיאה בשליחת האימייל: ${errorMessage}`,
+//   //       type: "error",
+//   //     })
+//   //   } finally {
+//   //     setLoading(false)
+//   //   }
+//   // }
 
 //   const handleSendEmail = async () => {
 //     if (!selectedUser) {
 //       setMessage({
 //         text: "נא לבחור משתמש מהרשימה",
 //         type: "error",
-//       })
-//       return
+//       });
+//       return;
 //     }
-
+  
 //     if (!selectedUser.email) {
 //       setMessage({
 //         text: "למשתמש הנבחר אין כתובת אימייל",
 //         type: "error",
-//       })
-//       return
+//       });
+//       return;
 //     }
-
-//     setLoading(true)
-//     setMessage(null)
-
+  
+//     setLoading(true);
+//     setMessage(null);
+  
 //     try {
-//       const token = getCookie("auth_token")
-
-//       // Create email subject
-//       const subject = customSubject || `שיתוף קובץ: ${fileName}`
-
-//       // Create email body with file information
+//       const token = getCookie("auth_token");
+  
+//       const subject = customSubject || `שיתוף קובץ: ${fileName}`;
+  
 //       const emailBody = `
-//         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
-//           <div style="background: linear-gradient(135deg, #10a37f 0%, #0ea5e9 100%); padding: 20px; border-radius: 12px; margin-bottom: 20px;">
-//             <h2 style="color: white; margin: 0; text-align: center;">📎 שיתוף קובץ</h2>
-//           </div>
-          
-//           <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
-//             <h3 style="color: #333; margin-top: 0;">שלום ${selectedUser.firstName || selectedUser.userName},</h3>
-//             <p style="color: #666; line-height: 1.6;">
-//               ${currentUser?.userName || "משתמש"} שיתף איתך קובץ חשוב:
-//             </p>
-            
-//             <div style="background: white; padding: 15px; border-radius: 8px; border-left: 4px solid #10a37f; margin: 15px 0;">
-//               <h4 style="margin: 0 0 10px 0; color: #10a37f;">📄 ${fileName}</h4>
-//               <p style="margin: 0; color: #666;">
-//                 <strong>קישור להורדה:</strong><br>
-//                 <a href="${fileUrl}" style="color: #10a37f; text-decoration: none; word-break: break-all;">
-//                   ${fileUrl}
-//                 </a>
-//               </p>
-//             </div>
-            
-//             <div style="background: #e3f2fd; padding: 15px; border-radius: 8px; margin: 15px 0;">
-//               <p style="margin: 0; color: #1976d2; font-size: 14px;">
-//                 💡 <strong>טיפ:</strong> לחץ על הקישור כדי להוריד את הקובץ ישירות למחשב שלך
-//               </p>
-//             </div>
-//           </div>
-          
-//           <div style="text-align: center; padding: 20px; border-top: 1px solid #eee;">
-//             <p style="color: #999; font-size: 12px; margin: 0;">
-//               נשלח מ-Meeting Manager | ${new Date().toLocaleDateString("he-IL")}
-//             </p>
-//           </div>
+//         <div>
+//           <h3>שלום ${selectedUser.firstName || selectedUser.userName},</h3>
+//           <p>${currentUser?.userName || "משתמש"} שיתף איתך קובץ חשוב:</p>
+//           <p><strong>${fileName}</strong></p>
+//           <p><a href="${fileUrl}">${fileUrl}</a></p>
 //         </div>
-//       `
-
-//       console.log(`📧 Sending email to user ID: ${selectedUser.id}`)
-
-//       // Send email using your API endpoint
-//       await axios.post(
-//         `${apiUrl}/Email/send-to-user/${selectedUser.id}`,
+//       `;
+  
+//       const response = await axios.post(
+//         `${apiUrl}/Email/send-to-user/${selectedUser.id}`, // משתמשים ב-id לצורך שליפת כתובת
 //         {
-//           Subject: subject,
-//           Body: emailBody,
+//           subject: subject,
+//           body: emailBody,
 //         },
 //         {
 //           headers: {
 //             Authorization: `Bearer ${token}`,
 //             "Content-Type": "application/json",
 //           },
-//         },
-//       )
-
-//       setMessage({
-//         text: `הקובץ נשלח בהצלחה ל-${selectedUser.firstName || selectedUser.userName} (${selectedUser.email})!`,
-//         type: "success",
-//       })
-
-//       // Reset form
-//       setSelectedUser(null)
-//       setCustomSubject("")
-//       setSearchTerm("")
+//         }
+//       );
+  
+//       console.log("✅ Email sent successfully:", response.data);
+//       setMessage({ text: "המייל נשלח בהצלחה", type: "success" });
 //     } catch (error: any) {
-//       console.error("❌ Error sending email:", error)
-//       const errorMessage = error.response?.data?.message || error.response?.data?.error || "שגיאה בשליחת האימייל"
+//       console.error("❌ Error sending email:", error);
 //       setMessage({
-//         text: `שגיאה בשליחת האימייל: ${errorMessage}`,
+//         text: `שגיאה בשליחת המייל: ${error.response?.data?.message || error.message}`,
 //         type: "error",
-//       })
+//       });
 //     } finally {
-//       setLoading(false)
+//       setLoading(false);
 //     }
-//   }
+//   };
+  
 
-//   const getUserDisplayName = (user: SharedUser) => {
-//     const name = user.firstName || user.userName
-//     return `${name} (${user.email})`
+//   const getUserDisplayName = (user: SharedUser): string => {
+//     try {
+//       const name = user.firstName || user.userName || "משתמש"
+//       const email = user.email || ""
+//       return `${name} (${email})`
+//     } catch (error) {
+//       console.error("Error in getUserDisplayName:", error)
+//       return "משתמש לא ידוע"
+//     }
 //   }
 
 //   return (
@@ -273,11 +384,28 @@
 //         <Box sx={{ mb: 3 }}>
 //           <Autocomplete
 //             options={filteredUsers}
-//             getOptionLabel={getUserDisplayName}
+//             getOptionLabel={(option) => {
+//               try {
+//                 return getUserDisplayName(option)
+//               } catch (error) {
+//                 console.error("Error in getOptionLabel:", error)
+//                 return "שגיאה בטעינת משתמש"
+//               }
+//             }}
 //             value={selectedUser}
-//             onChange={(_, newValue) => setSelectedUser(newValue)}
+//             onChange={(_, newValue) => {
+//               try {
+//                 setSelectedUser(newValue)
+//               } catch (error) {
+//                 console.error("Error in onChange:", error)
+//               }
+//             }}
 //             onInputChange={(_, newInputValue) => {
-//               setSearchTerm(newInputValue)
+//               try {
+//                 setSearchTerm(newInputValue)
+//               } catch (error) {
+//                 console.error("Error in onInputChange:", error)
+//               }
 //             }}
 //             loading={loadingUsers}
 //             disabled={loadingUsers || allUsers.length === 0}
@@ -319,23 +447,37 @@
 //                 }}
 //               />
 //             )}
-//             renderOption={(props, option) => (
-//               <Box component="li" {...props} sx={{ direction: "rtl" }}>
-//                 <Box>
-//                   <Typography variant="body1" fontWeight={500}>
-//                     {option.firstName || option.userName}
-//                   </Typography>
-//                   <Typography variant="caption" color="text.secondary">
-//                     {option.email}
-//                   </Typography>
-//                   {option.role && (
-//                     <Typography variant="caption" color="primary" sx={{ ml: 1 }}>
-//                       • {option.role}
+//             renderOption={(props, option) => {
+//               try {
+//                 const roleName = getRoleName(option.role)
+//                 return (
+//                   <Box component="li" {...props} sx={{ direction: "rtl" }}>
+//                     <Box>
+//                       <Typography variant="body1" fontWeight={500}>
+//                         {option.firstName || option.userName}
+//                       </Typography>
+//                       <Typography variant="caption" color="text.secondary">
+//                         {option.email}
+//                       </Typography>
+//                       {roleName && (
+//                         <Typography variant="caption" color="primary" sx={{ ml: 1 }}>
+//                           • {roleName}
+//                         </Typography>
+//                       )}
+//                     </Box>
+//                   </Box>
+//                 )
+//               } catch (error) {
+//                 console.error("Error in renderOption:", error)
+//                 return (
+//                   <Box component="li" {...props} sx={{ direction: "rtl" }}>
+//                     <Typography variant="body2" color="error">
+//                       שגיאה בטעינת משתמש
 //                     </Typography>
-//                   )}
-//                 </Box>
-//               </Box>
-//             )}
+//                   </Box>
+//                 )
+//               }
+//             }}
 //             noOptionsText={searchTerm ? "לא נמצאו משתמשים התואמים לחיפוש" : "לא נמצאו משתמשים"}
 //             loadingText="טוען משתמשים..."
 //           />
@@ -423,6 +565,14 @@
 // }
 
 // export default FileShare
+
+
+
+
+
+
+
+
 
 
 
@@ -597,169 +747,125 @@ const FileShare = ({ fileUrl, fileName }: FileShareProps) => {
     }
   }
 
-  // const handleSendEmail = async () => {
-  //   if (!selectedUser) {
-  //     setMessage({
-  //       text: "נא לבחור משתמש מהרשימה",
-  //       type: "error",
-  //     })
-  //     return
-  //   }
-
-  //   if (!selectedUser.email) {
-  //     setMessage({
-  //       text: "למשתמש הנבחר אין כתובת אימייל",
-  //       type: "error",
-  //     })
-  //     return
-  //   }
-
-  //   setLoading(true)
-  //   setMessage(null)
-
-  //   try {
-  //     const token = getCookie("auth_token")
-
-  //     // Create email subject
-  //     const subject = customSubject || `שיתוף קובץ: ${fileName}`
-
-  //     // Create email body with file information
-  //     const emailBody = `
-  //       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
-  //         <div style="background: linear-gradient(135deg, #10a37f 0%, #0ea5e9 100%); padding: 20px; border-radius: 12px; margin-bottom: 20px;">
-  //           <h2 style="color: white; margin: 0; text-align: center;">📎 שיתוף קובץ</h2>
-  //         </div>
-          
-  //         <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
-  //           <h3 style="color: #333; margin-top: 0;">שלום ${selectedUser.firstName || selectedUser.userName},</h3>
-  //           <p style="color: #666; line-height: 1.6;">
-  //             ${currentUser?.userName || "משתמש"} שיתף איתך קובץ חשוב:
-  //           </p>
-            
-  //           <div style="background: white; padding: 15px; border-radius: 8px; border-left: 4px solid #10a37f; margin: 15px 0;">
-  //             <h4 style="margin: 0 0 10px 0; color: #10a37f;">📄 ${fileName}</h4>
-  //             <p style="margin: 0; color: #666;">
-  //               <strong>קישור להורדה:</strong><br>
-  //               <a href="${fileUrl}" style="color: #10a37f; text-decoration: none; word-break: break-all;">
-  //                 ${fileUrl}
-  //               </a>
-  //             </p>
-  //           </div>
-            
-  //           <div style="background: #e3f2fd; padding: 15px; border-radius: 8px; margin: 15px 0;">
-  //             <p style="margin: 0; color: #1976d2; font-size: 14px;">
-  //               💡 <strong>טיפ:</strong> לחץ על הקישור כדי להוריד את הקובץ ישירות למחשב שלך
-  //             </p>
-  //           </div>
-  //         </div>
-          
-  //         <div style="text-align: center; padding: 20px; border-top: 1px solid #eee;">
-  //           <p style="color: #999; font-size: 12px; margin: 0;">
-  //             נשלח מ-Meeting Manager | ${new Date().toLocaleDateString("he-IL")}
-  //           </p>
-  //         </div>
-  //       </div>
-  //     `
-
-  //     console.log(`📧 Sending email to user ID: ${selectedUser.id}`)
-
-  //     // Send email using your API endpoint
-  //     await axios.post(
-  //       `${apiUrl}/Email/send-to-user/${selectedUser.id}`,
-  //       {
-  //         Subject: subject,
-  //         Body: emailBody,
-  //       },
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //           "Content-Type": "application/json",
-  //         },
-  //       },
-  //     )
-
-  //     setMessage({
-  //       text: `הקובץ נשלח בהצלחה ל-${selectedUser.firstName || selectedUser.userName} (${selectedUser.email})!`,
-  //       type: "success",
-  //     })
-
-  //     // Reset form
-  //     setSelectedUser(null)
-  //     setCustomSubject("")
-  //     setSearchTerm("")
-  //   } catch (error: any) {
-  //     console.error("❌ Error sending email:", error)
-  //     const errorMessage = error.response?.data?.message || error.response?.data?.error || "שגיאה בשליחת האימייל"
-  //     setMessage({
-  //       text: `שגיאה בשליחת האימייל: ${errorMessage}`,
-  //       type: "error",
-  //     })
-  //   } finally {
-  //     setLoading(false)
-  //   }
-  // }
-
   const handleSendEmail = async () => {
     if (!selectedUser) {
       setMessage({
         text: "נא לבחור משתמש מהרשימה",
         type: "error",
-      });
-      return;
+      })
+      return
     }
-  
+
     if (!selectedUser.email) {
       setMessage({
         text: "למשתמש הנבחר אין כתובת אימייל",
         type: "error",
-      });
-      return;
+      })
+      return
     }
-  
-    setLoading(true);
-    setMessage(null);
-  
+
+    setLoading(true)
+    setMessage(null)
+
     try {
-      const token = getCookie("auth_token");
-  
-      const subject = customSubject || `שיתוף קובץ: ${fileName}`;
-  
+      const token = getCookie("auth_token")
+
+      const subject = customSubject || `שיתוף קובץ: ${fileName}`
+
       const emailBody = `
-        <div>
-          <h3>שלום ${selectedUser.firstName || selectedUser.userName},</h3>
-          <p>${currentUser?.userName || "משתמש"} שיתף איתך קובץ חשוב:</p>
-          <p><strong>${fileName}</strong></p>
-          <p><a href="${fileUrl}">${fileUrl}</a></p>
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+          <div style="background: linear-gradient(135deg, #10a37f 0%, #0ea5e9 100%); padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+            <h2 style="color: white; margin: 0; text-align: center;">📎 שיתוף קובץ</h2>
+          </div>
+          
+          <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+            <h3 style="color: #333; margin-top: 0;">שלום ${selectedUser.firstName || selectedUser.userName},</h3>
+            <p style="color: #666; line-height: 1.6;">
+              ${currentUser?.userName || "משתמש"} שיתף איתך קובץ חשוב:
+            </p>
+            
+            <div style="background: white; padding: 15px; border-radius: 8px; border-left: 4px solid #10a37f; margin: 15px 0;">
+              <h4 style="margin: 0 0 10px 0; color: #10a37f;">📄 ${fileName}</h4>
+              <p style="margin: 0; color: #666;">
+                <strong>קישור להורדה:</strong><br>
+                <a href="${fileUrl}" style="color: #10a37f; text-decoration: none; word-break: break-all;">
+                  ${fileUrl}
+                </a>
+              </p>
+            </div>
+            
+            <div style="background: #e3f2fd; padding: 15px; border-radius: 8px; margin: 15px 0;">
+              <p style="margin: 0; color: #1976d2; font-size: 14px;">
+                💡 <strong>טיפ:</strong> לחץ על הקישור כדי להוריד את הקובץ ישירות למחשב שלך
+              </p>
+            </div>
+          </div>
+          
+          <div style="text-align: center; padding: 20px; border-top: 1px solid #eee;">
+            <p style="color: #999; font-size: 12px; margin: 0;">
+              נשלח מ-Meeting Manager | ${new Date().toLocaleDateString("he-IL")}
+            </p>
+          </div>
         </div>
-      `;
-  
+      `
+
+      console.log(`📧 Sending email to user ID: ${selectedUser.id}`)
+      console.log("📧 Request payload:", {
+        Subject: subject,
+        Body: emailBody,
+      })
+
+      // שים לב! שמות השדות חייבים להיות עם אות גדולה בהתחלה - Subject ו-Body
+      // זה בדיוק מה שה-API מצפה לקבל
       const response = await axios.post(
-        `${apiUrl}/Email/send-to-user/${selectedUser.id}`, // משתמשים ב-id לצורך שליפת כתובת
+        `${apiUrl}/Email/send-to-user/${selectedUser.id}`,
         {
-          subject: subject,
-          body: emailBody,
+          Subject: subject, // חשוב! עם S גדולה
+          Body: emailBody, // חשוב! עם B גדולה
         },
         {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
-        }
-      );
-  
-      console.log("✅ Email sent successfully:", response.data);
-      setMessage({ text: "המייל נשלח בהצלחה", type: "success" });
-    } catch (error: any) {
-      console.error("❌ Error sending email:", error);
+        },
+      )
+
+      console.log("✅ Email sent successfully:", response.data)
       setMessage({
-        text: `שגיאה בשליחת המייל: ${error.response?.data?.message || error.message}`,
+        text: `הקובץ נשלח בהצלחה ל-${selectedUser.firstName || selectedUser.userName} (${selectedUser.email})!`,
+        type: "success",
+      })
+
+      // Reset form
+      setSelectedUser(null)
+      setCustomSubject("")
+      setSearchTerm("")
+    } catch (error: any) {
+      console.error("❌ Error sending email:", error)
+
+      // הצגת מידע מפורט יותר על השגיאה
+      let errorDetails = ""
+      if (error.response) {
+        console.error("❌ Response data:", error.response.data)
+        console.error("❌ Response status:", error.response.status)
+        errorDetails = error.response.data?.message || error.response.data?.error || `שגיאה ${error.response.status}`
+      } else if (error.request) {
+        console.error("❌ No response received:", error.request)
+        errorDetails = "לא התקבלה תשובה מהשרת"
+      } else {
+        console.error("❌ Error message:", error.message)
+        errorDetails = error.message
+      }
+
+      setMessage({
+        text: `שגיאה בשליחת האימייל: ${errorDetails}`,
         type: "error",
-      });
+      })
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
-  
+  }
 
   const getUserDisplayName = (user: SharedUser): string => {
     try {
@@ -1004,3 +1110,4 @@ const FileShare = ({ fileUrl, fileName }: FileShareProps) => {
 }
 
 export default FileShare
+
