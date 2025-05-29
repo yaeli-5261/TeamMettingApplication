@@ -617,7 +617,7 @@ export default function MeetingDetails() {
                 mb: 3,
               }}
             >
-              <CardContent sx={{ p: 3 }}>
+              <CardContent sx={{ p: 3 ,width:"80vw"}}>
                 <Typography variant="h6" fontWeight={600} gutterBottom>
                   פרטי הפגישה
                 </Typography>
