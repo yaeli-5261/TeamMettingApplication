@@ -260,7 +260,7 @@ export default function MeetingDetails() {
                 alignItems: "center",
               }}
             >
-              <CardContent sx={{ width:"75vw",position:"center",justifyContent: "center", alignItems: "center"}}>
+              {/* <CardContent sx={{ width:"75vw",position:"center",justifyContent: "center", alignItems: "center"}}>
                 <Typography variant="h6" fontWeight={600} gutterBottom>
                   פרטי הפגישה
                 </Typography>
@@ -299,7 +299,52 @@ export default function MeetingDetails() {
                         />
                       </Box>
                     </Grid>
-                  )}
+                  )} */}
+                  <CardContent sx={{ width: "100%", display: "flex", justifyContent: "center" }}>
+  <Box sx={{ width: "75%", maxWidth: 1000 }}>
+    <Typography variant="h6" fontWeight={600} gutterBottom>
+      פרטי הפגישה
+    </Typography>
+    <Divider sx={{ mb: 2 }} />
+
+    <Grid container spacing={2}>
+      <Grid item xs={12} md={6}>
+        <Box sx={{ mb: 2 }}>
+          <Typography variant="body2" color="text.secondary" gutterBottom fontWeight={600}>
+            תאריך ושעה
+          </Typography>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <CalendarTodayIcon sx={{ mr: 1, color: "#10a37f", fontSize: 18 }} />
+            <Typography variant="body1" fontWeight={500}>
+              {formatDate(meeting.date)}
+            </Typography>
+          </Box>
+        </Box>
+      </Grid>
+
+      {meeting.linkOrinignFile && (
+        <Grid item xs={12} md={6}>
+          <Box sx={{ mb: 2 }}>
+            <Typography variant="body2" color="text.secondary" gutterBottom fontWeight={600}>
+              קובץ מקור
+            </Typography>
+            <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
+              <DescriptionIcon sx={{ mr: 1, color: "#10a37f", fontSize: 18 }} />
+              <Typography variant="body1" fontWeight={500}>
+                {getFileName(meeting.linkOrinignFile)}
+              </Typography>
+            </Box>
+            <FileViewer
+              filePath={meeting.linkOrinignFile}
+              fileName={getFileName(meeting.linkOrinignFile)}
+            />
+          </Box>
+        </Grid>
+      )}
+    </Grid>
+  </Box>
+</CardContent>
+
 
                   {meeting.linkTranscriptFile ? (
                     <Grid item xs={12}  sx={{width:"30vw"}}>
@@ -338,8 +383,9 @@ export default function MeetingDetails() {
                       </Box>
                     </Grid>
                   )}
-                </Grid>
-              </CardContent>
+                  {/* להוסיףף */}
+                {/* </Grid>
+              </CardContent> */}
             </Card>
 {/* TODO */}
             {/* File Upload Section */}
