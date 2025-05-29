@@ -635,8 +635,8 @@ const FileViewer = ({ filePath, fileName, isAiGenerated = false }: FileViewerPro
   }
 
   return (
-    <Box className="file-viewer-container" sx={{ width: "80vw", margin: "0 auto", padding: 2 }}>
-      <Box sx={{ display: "flex", justifyContent: "space-between", gap: 2, marginBottom: 2 }}>
+    <Box className="file-viewer-container" sx={{ width: "40vw", margin: "0 auto", padding: 2 }}>
+      <Box sx={{ display: "flex", justifyContent: "space-between", gap: 2, marginBottom: 2 ,width: "35vw"}}>
         <Button
           onClick={downloadAndShowFile}
           disabled={isLoading || !downloadUrl}
@@ -644,6 +644,7 @@ const FileViewer = ({ filePath, fileName, isAiGenerated = false }: FileViewerPro
           variant="outlined"
           className="view-file-button"
           sx={{
+            width: "35vw",
             flex: "1 1 auto",
             borderColor: "#10a37f",
             color: "#10a37f",
@@ -659,6 +660,7 @@ const FileViewer = ({ filePath, fileName, isAiGenerated = false }: FileViewerPro
           variant="contained"
           className="download-file-button"
           sx={{
+            width: "35vw",
             flex: "1 1 auto",
             bgcolor: "#10a37f",
             "&:hover": { bgcolor: "#0e8a6c" },

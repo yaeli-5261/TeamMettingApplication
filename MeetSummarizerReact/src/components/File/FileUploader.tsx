@@ -355,10 +355,10 @@ export const FileUploader = () => {
             <input type="file" onChange={handleFileChange} className="file-input" id="file-upload" />
             <label htmlFor="file-upload" className="file-drop-label">
               <CloudUpload sx={{ fontSize: 40, mb: 1, color: "#10a37f" }} />
-              <Typography variant="body1" fontWeight={500} sx={{width:"30vw"}}>
+              <Typography variant="body1" fontWeight={500} sx={{width:"30px"}}>
                 {file ? file.name : "גרור ושחרר או לחץ לבחירת קובץ"}
               </Typography>
-              <Typography variant="caption" color="text.secondary">
+              <Typography variant="caption" color="text.secondary"sx={{width:"30px"}}>
                 פורמטים נתמכים: PDF, DOCX, TXT
               </Typography>
             </label>
@@ -370,6 +370,7 @@ export const FileUploader = () => {
             variant="contained"
             startIcon={isUploading ? <CircularProgress size={20} color="inherit" /> : <CloudUpload />}
             sx={{
+              width:"30px",
               bgcolor: "#10a37f",
               "&:hover": { bgcolor: "#0e8a6c" },
               mt: 2,
@@ -387,7 +388,7 @@ export const FileUploader = () => {
             >
               <Box
                 className="progress-bar"
-                sx={{ height: "100%", bgcolor: "#10a37f" }}
+                sx={{width:"25vw", height: "100%", bgcolor: "#10a37f" }}
                 style={{ width: `${progress}%` }}
               ></Box>
             </Box>
@@ -442,15 +443,17 @@ export const FileUploader = () => {
           {/* AI Processing Status */}
           <Box sx={{ mt: 3, p: 2, border: "1px solid #e0e0e0", borderRadius: 1 }}>
             <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", mb: 1 }}>
-              <Typography variant="subtitle2" fontWeight={500}>
+              {/* <Typography variant="subtitle2" fontWeight={500}>
                 סטטוס סיכום AI
-              </Typography>
+              </Typography> */}
               <Chip
                 label={
+                  aiProcessingStatus === "processing"
+                      ? "מעבד"
+                      :
                   aiProcessingStatus === "idle"
                     ? "לא התחיל"
-                    : aiProcessingStatus === "processing"
-                      ? "מעבד"
+                  
                       : aiProcessingStatus === "success"
                         ? "הושלם"
                         : "נכשל"
@@ -469,7 +472,7 @@ export const FileUploader = () => {
             </Box>
 
             {aiProcessingStatus === "processing" && (
-              <Box sx={{ display: "flex", alignItems: "center", mt: 1 }}>
+              <Box sx={{ display: "flex", alignItems: "center", mt: 1,width:"25vw" }}>
                 <CircularProgress size={20} sx={{ mr: 1 }} />
                 <Typography variant="body2">מייצר סיכום AI, אנא המתן...</Typography>
               </Box>
@@ -489,7 +492,7 @@ export const FileUploader = () => {
             )}
 
             {aiProcessingStatus === "error" && (
-              <Typography variant="body2" color="error" sx={{ mt: 1 }}>
+              <Typography variant="body2" color="error" sx={{ mt: 1 ,width:"30px"}}>
                 אירעה שגיאה בייצור סיכום ה-AI. אנא נסה שוב.
               </Typography>
             )}
