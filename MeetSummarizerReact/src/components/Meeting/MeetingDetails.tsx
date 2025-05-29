@@ -624,9 +624,9 @@ export default function MeetingDetails() {
                 </Typography>
                 <Divider sx={{ mb: 2 }} />
 
-                <Grid container spacing={2}>
-                  <Grid item xs={12} md={6}>
-                    <Box sx={{ mb: 2 }}>
+                <Grid container spacing={2}  sx={{width:"50vw"}}>
+                  <Grid item xs={12} md={6}  sx={{width:"50vw"}}>
+                    <Box sx={{ mb: 2 ,width:"10vw"}}>
                       <Typography variant="body2" color="text.secondary" gutterBottom fontWeight={600}>
                         תאריך ושעה
                       </Typography>
@@ -640,8 +640,8 @@ export default function MeetingDetails() {
                   </Grid>
 
                   {meeting.linkOrinignFile && (
-                    <Grid item xs={12}>
-                      <Box sx={{ mb: 2 }}>
+                    <Grid item xs={12}  sx={{width:"30vw"}}>
+                      <Box sx={{ mb: 2 ,width:"10vw"}}>
                         <Typography variant="body2" color="text.secondary" gutterBottom fontWeight={600}>
                           קובץ מקור
                         </Typography>
@@ -660,8 +660,8 @@ export default function MeetingDetails() {
                   )}
 
                   {meeting.linkTranscriptFile ? (
-                    <Grid item xs={12}>
-                      <Box sx={{ mb: 2 }}>
+                    <Grid item xs={12}  sx={{width:"30vw"}}>
+                      <Box sx={{ mb: 2 , width:"10vw"}}>
                         <Typography variant="body2" color="text.secondary" gutterBottom fontWeight={600}>
                           קובץ תמלול
                         </Typography>
@@ -679,8 +679,8 @@ export default function MeetingDetails() {
                       </Box>
                     </Grid>
                   ) : (
-                    <Grid item xs={12}>
-                      <Box sx={{ mb: 2 }}>
+                    <Grid item xs={12} sx={{width:"30vw"}}>
+                      <Box sx={{ mb: 2 , width:"10vw" }}>
                         <Typography variant="body2" color="text.secondary" gutterBottom fontWeight={600}>
                           קובץ תמלול
                         </Typography>
@@ -699,7 +699,7 @@ export default function MeetingDetails() {
                 </Grid>
               </CardContent>
             </Card>
-
+{/* TODO */}
             {/* File Upload Section */}
             {/* <Card
               sx={{
@@ -709,7 +709,7 @@ export default function MeetingDetails() {
                 boxShadow: "0 4px 16px rgba(0, 0, 0, 0.08)",
               }}
             > */}
-              <CardContent sx={{ p: 3 ,width:"60vw" }}>
+              <CardContent sx={{ p: 3 ,width:"50vw" }}>
                 <Typography variant="h6" fontWeight={600} gutterBottom>
                   העלאת קבצים
                 </Typography>
