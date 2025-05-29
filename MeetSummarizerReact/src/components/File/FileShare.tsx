@@ -213,7 +213,7 @@
 
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import axios from "axios"
 import { useSelector } from "react-redux"
 import {
@@ -229,7 +229,7 @@ import {
   Fade,
   Autocomplete,
 } from "@mui/material"
-import { Send, Mail, CheckCircle } from "lucide-react"
+import { Send, Mail, CheckCircle, Users } from "lucide-react"
 import { RootState } from "../../store/store"
 
 interface FileShareProps {
@@ -243,16 +243,19 @@ interface SharedUser {
   email: string
   firstName?: string
   lastName?: string
+  role?: string
 }
 
 const FileShare = ({ fileUrl, fileName }: FileShareProps) => {
   const apiUrl = import.meta.env.VITE_API_URL
   const [selectedUser, setSelectedUser] = useState<SharedUser | null>(null)
-  const [users, setUsers] = useState<SharedUser[]>([])
+  const [allUsers, setAllUsers] = useState<SharedUser[]>([])
+  const [filteredUsers, setFilteredUsers] = useState<SharedUser[]>([])
   const [loading, setLoading] = useState(false)
   const [loadingUsers, setLoadingUsers] = useState(false)
   const [message, setMessage] = useState<{ text: string; type: "success" | "error" } | null>(null)
   const [customSubject, setCustomSubject] = useState("")
+  const [searchTerm, setSearchTerm] = useState("")
 
   // Get current user info for the email signature
   const currentUser = useSelector((state: RootState) => state.auth.user)
@@ -269,22 +272,55 @@ const FileShare = ({ fileUrl, fileName }: FileShareProps) => {
     return null
   }
 
-  // Load users when component mounts or when searching
-  const loadUsers = async (searchTerm = "") => {
-    if (loadingUsers) return
+  // Load all users when component mounts
+  useEffect(() => {
+    loadAllUsers()
+  }, [])
 
+  // Filter users based on search term
+  useEffect(() => {
+    if (!searchTerm) {
+      setFilteredUsers(allUsers)
+    } else {
+      const filtered = allUsers.filter(
+        (user) =>
+          user.userName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          user.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          user.firstName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          user.lastName?.toLowerCase().includes(searchTerm.toLowerCase()),
+      )
+      setFilteredUsers(filtered)
+    }
+  }, [searchTerm, allUsers])
+
+  const loadAllUsers = async () => {
     setLoadingUsers(true)
     try {
       const token = getCookie("auth_token")
-      const response = await axios.get(`${apiUrl}/User/search`, {
-        params: { searchTerm },
+      console.log("🔄 Loading all users from API...")
+
+      const response = await axios.get(`${apiUrl}/User/Admin`, {
         headers: { Authorization: `Bearer ${token}` },
       })
-      setUsers(response.data || [])
-    } catch (error) {
-      console.error("Error loading users:", error)
+
+      console.log("✅ Users loaded successfully:", response.data)
+
+      // Filter users that have email addresses
+      const usersWithEmail = response.data.filter((user: SharedUser) => user.email && user.email.trim() !== "")
+
+      setAllUsers(usersWithEmail)
+      setFilteredUsers(usersWithEmail)
+
+      if (usersWithEmail.length === 0) {
+        setMessage({
+          text: "לא נמצאו משתמשים עם כתובות אימייל במערכת",
+          type: "error",
+        })
+      }
+    } catch (error: any) {
+      console.error("❌ Error loading users:", error)
       setMessage({
-        text: "שגיאה בטעינת רשימת המשתמשים",
+        text: `שגיאה בטעינת רשימת המשתמשים: ${error.response?.data?.message || error.message}`,
         type: "error",
       })
     } finally {
@@ -296,6 +332,14 @@ const FileShare = ({ fileUrl, fileName }: FileShareProps) => {
     if (!selectedUser) {
       setMessage({
         text: "נא לבחור משתמש מהרשימה",
+        type: "error",
+      })
+      return
+    }
+
+    if (!selectedUser.email) {
+      setMessage({
+        text: "למשתמש הנבחר אין כתובת אימייל",
         type: "error",
       })
       return
@@ -348,6 +392,8 @@ const FileShare = ({ fileUrl, fileName }: FileShareProps) => {
         </div>
       `
 
+      console.log(`📧 Sending email to user ID: ${selectedUser.id}`)
+
       // Send email using your API endpoint
       await axios.post(
         `${apiUrl}/Email/send-to-user/${selectedUser.id}`,
@@ -364,15 +410,16 @@ const FileShare = ({ fileUrl, fileName }: FileShareProps) => {
       )
 
       setMessage({
-        text: `הקובץ נשלח בהצלחה ל-${selectedUser.firstName || selectedUser.userName}!`,
+        text: `הקובץ נשלח בהצלחה ל-${selectedUser.firstName || selectedUser.userName} (${selectedUser.email})!`,
         type: "success",
       })
 
       // Reset form
       setSelectedUser(null)
       setCustomSubject("")
+      setSearchTerm("")
     } catch (error: any) {
-      console.error("Error sending email:", error)
+      console.error("❌ Error sending email:", error)
       const errorMessage = error.response?.data?.message || error.response?.data?.error || "שגיאה בשליחת האימייל"
       setMessage({
         text: `שגיאה בשליחת האימייל: ${errorMessage}`,
@@ -381,6 +428,11 @@ const FileShare = ({ fileUrl, fileName }: FileShareProps) => {
     } finally {
       setLoading(false)
     }
+  }
+
+  const getUserDisplayName = (user: SharedUser) => {
+    const name = user.firstName || user.userName
+    return `${name} (${user.email})`
   }
 
   return (
@@ -421,22 +473,33 @@ const FileShare = ({ fileUrl, fileName }: FileShareProps) => {
           </Box>
         </Box>
 
+        {/* Users count indicator */}
+        {allUsers.length > 0 && (
+          <Box sx={{ mb: 2, display: "flex", alignItems: "center", gap: 1 }}>
+            <Users size={16} color="#10a37f" />
+            <Typography variant="caption" color="text.secondary">
+              {allUsers.length} משתמשים זמינים במערכת
+            </Typography>
+          </Box>
+        )}
+
         <Box sx={{ mb: 3 }}>
           <Autocomplete
-            options={users}
-            getOptionLabel={(option) => `${option.firstName || option.userName} (${option.email})`}
+            options={filteredUsers}
+            getOptionLabel={getUserDisplayName}
             value={selectedUser}
             onChange={(_, newValue) => setSelectedUser(newValue)}
             onInputChange={(_, newInputValue) => {
-              if (newInputValue.length > 0) {
-                loadUsers(newInputValue)
-              }
+              setSearchTerm(newInputValue)
             }}
             loading={loadingUsers}
+            disabled={loadingUsers || allUsers.length === 0}
             renderInput={(params) => (
               <TextField
                 {...params}
-                placeholder="חפש משתמש לשיתוף..."
+                placeholder={
+                  loadingUsers ? "טוען משתמשים..." : allUsers.length === 0 ? "לא נמצאו משתמשים" : "חפש משתמש לשיתוף..."
+                }
                 variant="outlined"
                 fullWidth
                 sx={{
@@ -457,7 +520,7 @@ const FileShare = ({ fileUrl, fileName }: FileShareProps) => {
                   ...params.InputProps,
                   startAdornment: (
                     <InputAdornment position="start">
-                      <img src="/user-icon.png" alt="User" width={20} height={20} style={{ marginRight: 8 }} />
+                      <Users size={20} color="#666" />
                     </InputAdornment>
                   ),
                   endAdornment: (
@@ -478,10 +541,15 @@ const FileShare = ({ fileUrl, fileName }: FileShareProps) => {
                   <Typography variant="caption" color="text.secondary">
                     {option.email}
                   </Typography>
+                  {option.role && (
+                    <Typography variant="caption" color="primary" sx={{ ml: 1 }}>
+                      • {option.role}
+                    </Typography>
+                  )}
                 </Box>
               </Box>
             )}
-            noOptionsText="לא נמצאו משתמשים"
+            noOptionsText={searchTerm ? "לא נמצאו משתמשים התואמים לחיפוש" : "לא נמצאו משתמשים"}
             loadingText="טוען משתמשים..."
           />
         </Box>
@@ -512,7 +580,7 @@ const FileShare = ({ fileUrl, fileName }: FileShareProps) => {
 
         <Button
           onClick={handleSendEmail}
-          disabled={loading || !selectedUser}
+          disabled={loading || !selectedUser || loadingUsers}
           variant="contained"
           startIcon={loading ? <CircularProgress size={20} color="inherit" /> : <Send size={18} />}
           fullWidth
