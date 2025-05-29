@@ -246,8 +246,9 @@ export default function MeetingDetails() {
         {/* TODO nowww */}
         {/* <Grid container spacing={3} sx={{ width: "80vw" }}> */}
           {/* Meeting Details */}
-          <Grid item xs={12} lg={8} sx={{ width: "80vw" }}>
-            <Card
+          {/* <Grid item xs={12} lg={8} sx={{ width: "80vw" }}> */}
+          
+            {/* <Card
               sx={{
                 borderRadius: 2,
                 background: "rgba(255, 255, 255, 0.9)",
@@ -256,7 +257,7 @@ export default function MeetingDetails() {
                 mb: 3,
                 width: "80vw",
               }}
-            >
+            > */}
               <CardContent sx={{ width:"80vw"}}>
                 <Typography variant="h6" fontWeight={600} gutterBottom>
                   פרטי הפגישה
@@ -356,7 +357,7 @@ export default function MeetingDetails() {
                 <FileUploader />
               </CardContent>
             {/* </Card> */}
-          </Grid>
+          {/* </Grid> */}
 
           {/* Sidebar - Additional Info */}
           <Grid item xs={12} lg={4}>
@@ -372,7 +373,7 @@ export default function MeetingDetails() {
             </Card>
           </Grid>
         {/* </Grid> */}
-      </motion.div>
+      {/* </motion.div> */}
 
       {/* File Content Dialog */}
       <Dialog
