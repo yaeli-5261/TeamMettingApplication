@@ -70,10 +70,11 @@ def reverse_rtl_text(text: str) -> str:
         reversed_lines.append(reversed_line)
     return '\n'.join(reversed_lines)
 
-text = reverse_rtl_text()  # הפוך את הטקסט מימין לשמאל
 
 
 def save_to_pdf(text, output_path=PDF_OUTPUT_PATH):
+
+    text = reverse_rtl_text(text)  # הפוך את הטקסט מימין לשמאל
  
     pdf = FPDF()
     pdf.add_page()
