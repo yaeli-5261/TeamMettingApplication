@@ -25,15 +25,15 @@ namespace MeetSummarizer.API.Controllers
         {
             try
             {
-                var user = await _userService.GetUserById(userId);
-                if (user == null)
-                    return NotFound(new { message = "User not found" });
+                //var user = await _userService.GetUserById(userId);
+                //if (user == null)
+                //    return NotFound(new { message = "User not found" });
 
-                if (string.IsNullOrWhiteSpace(user.Email))
+                //if (string.IsNullOrWhiteSpace(user.Email))
 
-                    return BadRequest(new { message = "User email is missing or empty" });
+                //    return BadRequest(new { message = "User email is missing or empty" });
 
-                Console.WriteLine($"📧 Will send email to: {user.Email}");
+                //Console.WriteLine($"📧 Will send email to: {user.Email}");
 
                 var smtpHost = _configuration["EmailSettings:SmtpServer"];
                 var smtpPort = int.Parse(_configuration["EmailSettings:SmtpPort"]);
@@ -41,13 +41,12 @@ namespace MeetSummarizer.API.Controllers
                 var senderPassword = _configuration["EmailSettings:SenderPassword"];
 
                 var senderName = _configuration["EmailSettings:SenderName"];
-                Console.WriteLine("smtpHost "+ smtpHost + " smtpPort "+ smtpPort+ "senderEmail "+ senderEmail+ " senderPassword"+ senderPassword+ " senderName"+ senderName);
+
                 using var client = new SmtpClient(smtpHost, smtpPort)
                 {
                     EnableSsl = true,
                     Credentials = new NetworkCredential(senderEmail, senderPassword)
                 };
-                Console.WriteLine("one");
                 var mailMessage = new MailMessage
                 {
                     From = new MailAddress(senderEmail, senderName),
@@ -59,8 +58,8 @@ namespace MeetSummarizer.API.Controllers
 
                 Console.WriteLine(mailMessage + "mailMessage");
                 //uvi
-                mailMessage.To.Add(user.Email);
-                //mailMessage.To.Add("yaelina5261@gmail.com");
+                //mailMessage.To.Add(user.Email);
+                mailMessage.To.Add("yaelina5261@gmail.com");
 
 
                 await client.SendMailAsync(mailMessage);
