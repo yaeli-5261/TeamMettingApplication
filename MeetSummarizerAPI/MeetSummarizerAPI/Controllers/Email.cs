@@ -25,15 +25,15 @@ namespace MeetSummarizer.API.Controllers
         {
             try
             {
-                //var user = await _userService.GetUserById(userId);
-                //if (user == null)
-                //    return NotFound(new { message = "User not found" });
+                var user = await _userService.GetUserById(userId);
+                if (user == null)
+                    return NotFound(new { message = "User not found" });
 
-                //if (string.IsNullOrWhiteSpace(user.Email))
+                if (string.IsNullOrWhiteSpace(user.Email))
 
-                //    return BadRequest(new { message = "User email is missing or empty" });
+                    return BadRequest(new { message = "User email is missing or empty" });
 
-                //Console.WriteLine($"📧 Will send email to: {user.Email}");
+                Console.WriteLine($"📧 Will send email to: {user.Email}");
 
                 var smtpHost = _configuration["EmailSettings:SmtpServer"];
                 var smtpPort = int.Parse(_configuration["EmailSettings:SmtpPort"]);
@@ -58,8 +58,9 @@ namespace MeetSummarizer.API.Controllers
                 Console.WriteLine("nhbgvfcd");
 
                 Console.WriteLine(mailMessage + "mailMessage");
-                //mailMessage.To.Add(user.Email);
-                mailMessage.To.Add("yaelina5261@gmail.com");
+                //uvi
+                mailMessage.To.Add(user.Email);
+                //mailMessage.To.Add("yaelina5261@gmail.com");
 
 
                 await client.SendMailAsync(mailMessage);
