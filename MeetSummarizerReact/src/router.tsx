@@ -9,6 +9,8 @@ import MeetingDetails from "./components/Meeting/MeetingDetails";
 import UpdateMeetingDialog from "./components/Meeting/UpdateMeetingDialog";
 import TeamChat from "./components/chat/chat-message";
 import ProtectedRoute from "./components/protected-route";
+import { Settings } from "lucide-react";
+import SettingsPage from "./components/Pages/setting";
 // import { AppSidebar } from "./components/Pages/sideBar";
 
 
@@ -31,6 +33,8 @@ export const router = createBrowserRouter([
             { path: "login", element: <SignIn /> },
             { path: "add-meeting", element: <AddMeetingForm /> },
             { path: "meeting-details/:meetingId", element: < MeetingDetails/> },
+            { path: "setting", element: < SettingsPage/> },
+
           
              { path: "chat", element: 
                <ProtectedRoute>

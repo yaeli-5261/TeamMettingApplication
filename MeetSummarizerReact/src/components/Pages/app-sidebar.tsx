@@ -27,7 +27,6 @@ import {
 import {
   Home as HomeIcon,
   CalendarMonth as CalendarIcon,
-  Settings as SettingsIcon,
   Add as AddIcon,
   Login as LoginIcon,
   Logout as LogoutIcon,
@@ -47,11 +46,15 @@ import type { RootState, AppDispatch } from "../../store/store"
 import { logout } from "../../store/authSlice"
 import { fetchMeetingsByTeam } from "../../store/meetingSlice"
 import { getCookie } from "../../services/meetingService"
+import { Settings } from "lucide-react"
 
 const navItems = [
   { name: "Dashboard", path: "/", icon: <HomeIcon /> },
   { name: "Meetings", path: "/meetings", icon: <CalendarIcon /> },
   { name: "Chat", path: "/chat", icon: <ChatIcon /> },
+  { name: "settings", path: "/setting", icon: <Settings /> },
+
+
 ]
 
 interface RecentFile {
@@ -501,7 +504,7 @@ export function AppSidebar({ mobileOpen, handleDrawerToggle }: AppSidebarProps) 
 
         <ListItem disablePadding>
           <ListItemButton
-            onClick={() => handleNavigation("/settings")}
+            onClick={() => handleNavigation("/setting")}
             sx={{
               borderRadius: 2,
               py: 1,
@@ -512,10 +515,7 @@ export function AppSidebar({ mobileOpen, handleDrawerToggle }: AppSidebarProps) 
               },
             }}
           >
-            <ListItemIcon sx={{ minWidth: 40 }}>
-              <SettingsIcon />
-            </ListItemIcon>
-            <ListItemText primary="Settings" />
+           
           </ListItemButton>
         </ListItem>
       </Box>
