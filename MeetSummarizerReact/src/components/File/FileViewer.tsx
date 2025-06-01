@@ -4,7 +4,6 @@ import { useState, useEffect } from "react"
 import axios from "axios"
 import { Box, Button, Typography, Alert, CircularProgress, Dialog, alpha } from "@mui/material"
 import { Eye, Download, X, FileText } from "lucide-react"
-import { getCookie } from "../../services/meetingService"
 
 interface FileViewerProps {
   filePath: string
@@ -25,6 +24,18 @@ const FileViewer = ({ filePath, fileName, isAiGenerated = false, getDownloadUrl 
 
   const fileType = fileName.split(".").pop()?.toLowerCase() || ""
 
+  // Helper function to get cookie
+  const getCookie = (name: string): string | null => {
+    const cookies = document.cookie.split("; ")
+    for (const cookie of cookies) {
+      const [key, value] = cookie.split("=")
+      if (key === name) {
+        return decodeURIComponent(value)
+      }
+    }
+    return null
+  }
+
   useEffect(() => {
     if (filePath) {
       getFileDownloadUrl()
@@ -36,9 +47,12 @@ const FileViewer = ({ filePath, fileName, isAiGenerated = false, getDownloadUrl 
       setIsLoading(true)
       setError(null)
 
+      console.log("🔍 FileViewer - Loading file:", { filePath, isAiGenerated, fileName })
+
       if (isAiGenerated && filePath && getDownloadUrl) {
-        // עבור קבצי AI, השתמש בפונקציה המותאמת אישית
+        console.log("📄 FileViewer - Processing AI file with custom getDownloadUrl")
         const validUrl = await getDownloadUrl(filePath)
+        console.log("✅ FileViewer - AI file URL received:", validUrl)
         setDownloadUrl(validUrl)
         setIsLoading(false)
         return
@@ -50,16 +64,17 @@ const FileViewer = ({ filePath, fileName, isAiGenerated = false, getDownloadUrl 
         return
       }
 
-      // עבור קבצים רגילים
+      console.log("📄 FileViewer - Processing regular file")
       const response = await axios.get(`${apiUrl}/upload/download-url`, {
         params: { fileName: filePath },
         headers: { Authorization: `Bearer ${getCookie("auth_token")}` },
       })
 
+      console.log("✅ FileViewer - Regular file URL received:", response.data.downloadUrl)
       setDownloadUrl(response.data.downloadUrl)
       setIsLoading(false)
     } catch (error) {
-      console.error("❌ Error getting download link:", error)
+      console.error("❌ FileViewer - Error getting download link:", error)
       setError("Error getting download link")
       setIsLoading(false)
     }
@@ -75,16 +90,21 @@ const FileViewer = ({ filePath, fileName, isAiGenerated = false, getDownloadUrl 
       setIsLoading(true)
       setError(null)
 
+      console.log("📥 FileViewer - Loading file content for viewing from:", downloadUrl)
+
       const fileResponse = await axios.get(downloadUrl, {
         responseType: "arraybuffer",
         timeout: 30000,
       })
+
+      console.log("✅ FileViewer - File content loaded for viewing")
 
       if (fileType === "docx") {
         try {
           const mammoth = await import("mammoth")
           const { value } = await mammoth.convertToHtml({ arrayBuffer: fileResponse.data })
           setDocxHtml(value)
+          console.log("✅ FileViewer - DOCX converted to HTML for viewing")
         } catch {
           setError("Error converting DOCX file")
         }
@@ -98,8 +118,9 @@ const FileViewer = ({ filePath, fileName, isAiGenerated = false, getDownloadUrl 
 
       setFileUrl(blobUrl)
       setIsViewerOpen(true)
+      console.log("✅ FileViewer - Viewer opened with blob URL:", blobUrl)
     } catch (error) {
-      console.error("❌ Error loading file:", error)
+      console.error("❌ FileViewer - Error loading file for viewing:", error)
       setError("Error loading file")
     } finally {
       setIsLoading(false)
@@ -120,6 +141,8 @@ const FileViewer = ({ filePath, fileName, isAiGenerated = false, getDownloadUrl 
       setIsLoading(true)
       setError(null)
 
+      console.log("📥 FileViewer - Downloading file from:", downloadUrl)
+
       // הורדה ישירה למחשב עם axios ו-blob
       const fileResponse = await axios.get(downloadUrl, {
         responseType: "blob",
@@ -136,10 +159,11 @@ const FileViewer = ({ filePath, fileName, isAiGenerated = false, getDownloadUrl 
       link.remove()
       window.URL.revokeObjectURL(blobUrl)
 
+      console.log("✅ FileViewer - File downloaded successfully")
       setError("✅ הקובץ הורד בהצלחה")
       setTimeout(() => setError(null), 3000)
     } catch (error) {
-      console.error("❌ Error downloading the file:", error)
+      console.error("❌ FileViewer - Error downloading the file:", error)
       setError("שגיאה בהורדת הקובץ")
     } finally {
       setIsLoading(false)

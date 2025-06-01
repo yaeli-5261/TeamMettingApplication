@@ -95,7 +95,7 @@ export const FileUploader = () => {
   // פונקציה לקבלת URL תקף לקבצי תמלול
   const getTranscriptDownloadUrl = async (s3Key: string): Promise<string> => {
     try {
-      const response = await axios.get(`https://teammettingapplication.onrender.com/api/upload/download-url`, {
+      const response = await axios.get(`https://ai-meeting-api.onrender.com/api/upload/download-url`, {
         params: { fileName: s3Key },
       })
       return response.data.downloadUrl || response.data.url || s3Key
@@ -547,7 +547,7 @@ export const FileUploader = () => {
               </Card>
 
               {/* File Sharing */}
-              { <FileShare fileUrl={downloadUrl || ""} fileName={fileName} />}
+              {<FileShare fileUrl={downloadUrl || ""} fileName={fileName} />}
             </Box>
           )}
         </CardContent>
