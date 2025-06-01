@@ -229,7 +229,7 @@ const FileShare = ({ fileUrl, fileName }: FileShareProps) => {
       // שים לב! שמות השדות חייבים להיות עם אות גדולה בהתחלה - Subject ו-Body
       // זה בדיוק מה שה-API מצפה לקבל
       const response = await axios.post(
-        `${apiUrl}/Email/send-to-user/${selectedUser.email}`,
+        `${apiUrl}/Email/send-to-user/${selectedUser.id}`,
         {
           email: selectedUser.email,
           Subject: subject, // חשוב! עם S גדולה
