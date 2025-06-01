@@ -51,6 +51,8 @@ const FileShare = ({ fileUrl, fileName }: FileShareProps) => {
   const [message, setMessage] = useState<{ text: string; type: "success" | "error" } | null>(null)
   const [customSubject, setCustomSubject] = useState("")
   const [searchTerm, setSearchTerm] = useState("")
+  
+  
 
   // Get current user info for the email signature
   const currentUser = useSelector((state: RootState) => state.auth.user)
