@@ -676,22 +676,6 @@ const scrollToLastMessage = () => {
                             <EmojiIcon />
                           </IconButton>
                         </Tooltip>
-
-                        <Tooltip title="Attach file">
-                          <IconButton size="small" sx={{ color: "#5f6368" }}>
-                            <AttachIcon />
-                          </IconButton>
-                        </Tooltip>
-
-                        <Tooltip title="Format text">
-                          <IconButton
-                            size="small"
-                            onClick={(e) => setFormatAnchor(e.currentTarget)}
-                            sx={{ color: "#5f6368" }}
-                          >
-                            <BoldIcon />
-                          </IconButton>
-                        </Tooltip>
                       </Box>
                     </InputAdornment>
                   ),

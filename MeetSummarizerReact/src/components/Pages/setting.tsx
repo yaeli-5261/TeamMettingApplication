@@ -52,29 +52,29 @@ export default function SettingsPage() {
   const features = [
     {
       icon: <UploadIcon />,
-      title: "העלאת קבצים חכמה",
-      description: "העלה קבצי PDF, Word ותמונות בקלות",
+      title: "Smart File Upload",
+      description: "Upload PDF, Word and image files easily",
       color: "#10a37f",
       bgColor: "#ecfdf5",
     },
     {
       icon: <AiIcon />,
-      title: "סיכומי AI מתקדמים",
-      description: "קבל סיכומים אוטומטיים של הפגישות",
+      title: "Advanced AI Summaries",
+      description: "Get automatic summaries of your meetings",
       color: "#3b82f6",
       bgColor: "#eff6ff",
     },
     {
       icon: <ShareIcon />,
-      title: "שיתוף מתקדם",
-      description: "שתף קבצים עם חברי הצוות באימייל",
+      title: "Advanced Sharing",
+      description: "Share files with team members via email",
       color: "#8b5cf6",
       bgColor: "#f3e8ff",
     },
     {
       icon: <ViewIcon />,
-      title: "תצוגה מקדימה",
-      description: "צפה בקבצים ישירות במערכת",
+      title: "Preview",
+      description: "View files directly in the system",
       color: "#f59e0b",
       bgColor: "#fef3c7",
     },
@@ -83,26 +83,26 @@ export default function SettingsPage() {
   const steps = [
     {
       step: 1,
-      title: "צור פגישה חדשה",
-      description: "לחץ על 'פגישה חדשה' בעמוד הבית או בתפריט הפגישות",
+      title: "Create New Meeting",
+      description: "Click on 'New Meeting' on the home page or in the meetings menu",
       icon: <PlayArrowIcon />,
     },
     {
       step: 2,
-      title: "העלה קבצים",
-      description: "גרור ושחרר קבצים או לחץ לבחירה. תומך ב-PDF, Word, תמונות",
+      title: "Upload Files",
+      description: "Drag and drop files or click to select. Supports PDF, Word, images",
       icon: <CloudUploadIcon />,
     },
     {
       step: 3,
-      title: "קבל סיכום AI",
-      description: "המערכת תייצר אוטומטית סיכום מפורט של הקובץ",
+      title: "Get AI Summary",
+      description: "The system will automatically generate a detailed summary of the file",
       icon: <AiIcon />,
     },
     {
       step: 4,
-      title: "שתף עם הצוות",
-      description: "שלח קישורי הורדה לחברי הצוות באימייל",
+      title: "Share with Team",
+      description: "Send download links to team members via email",
       icon: <ShareIcon />,
     },
   ]
@@ -124,7 +124,7 @@ export default function SettingsPage() {
                 "&:hover": { bgcolor: "#f3f4f6" },
               }}
             >
-              חזרה לעמוד הבית
+              Back to Home
             </Button>
 
             <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
@@ -133,10 +133,10 @@ export default function SettingsPage() {
               </Avatar>
               <Box>
                 <Typography variant="h4" fontWeight={700} color="#111827">
-                  הגדרות ומדריך שימוש
+                  Settings and User Guide
                 </Typography>
                 <Typography variant="body1" color="#6b7280">
-                  למד איך להשתמש במערכת בצורה המיטבית
+                  Learn how to use the system optimally
                 </Typography>
               </Box>
             </Box>
@@ -214,10 +214,10 @@ export default function SettingsPage() {
                           </Avatar>
                           <Box>
                             <Typography variant="h6" fontWeight={600}>
-                              תחילת עבודה
+                              Getting Started
                             </Typography>
                             <Typography variant="body2" color="#6b7280">
-                              המדריך המלא לשימוש במערכת
+                              Complete guide to using the system
                             </Typography>
                           </Box>
                         </Box>
@@ -278,10 +278,10 @@ export default function SettingsPage() {
                           </Avatar>
                           <Box>
                             <Typography variant="h6" fontWeight={600}>
-                              העלאת קבצים
+                              File Upload
                             </Typography>
                             <Typography variant="body2" color="#6b7280">
-                              איך להעלות ולנהל קבצים
+                              How to upload and manage files
                             </Typography>
                           </Box>
                         </Box>
@@ -289,36 +289,37 @@ export default function SettingsPage() {
                       <AccordionDetails sx={{ p: 3, pt: 0 }}>
                         <Stack spacing={2}>
                           <Typography variant="body1" fontWeight={600} color="#111827">
-                            פורמטים נתמכים:
+                            Supported formats:
                           </Typography>
                           <List dense>
                             <ListItem>
                               <ListItemIcon>
                                 <CheckCircleIcon sx={{ color: "#10a37f" }} />
                               </ListItemIcon>
-                              <ListItemText primary="PDF - מסמכים ודוחות" />
+                              <ListItemText primary="PDF - Documents and reports" />
                             </ListItem>
                             <ListItem>
                               <ListItemIcon>
                                 <CheckCircleIcon sx={{ color: "#10a37f" }} />
                               </ListItemIcon>
-                              <ListItemText primary="Word (DOC, DOCX) - מסמכי טקסט" />
+                              <ListItemText primary="Word (DOC, DOCX) - Text documents" />
                             </ListItem>
                             <ListItem>
                               <ListItemIcon>
                                 <CheckCircleIcon sx={{ color: "#10a37f" }} />
                               </ListItemIcon>
-                              <ListItemText primary="תמונות (JPG, PNG, GIF) - צילומי מסך ותמונות" />
+                              <ListItemText primary="Images (JPG, PNG, GIF) - Screenshots and images" />
                             </ListItem>
                             <ListItem>
                               <ListItemIcon>
                                 <CheckCircleIcon sx={{ color: "#10a37f" }} />
                               </ListItemIcon>
-                              <ListItemText primary="TXT - קבצי טקסט פשוטים" />
+                              <ListItemText primary="TXT - Plain text files" />
                             </ListItem>
                           </List>
                           <Typography variant="body2" color="#6b7280">
-                            <strong>טיפ:</strong> גרור ושחרר קבצים ישירות לאזור ההעלאה לחוויה מהירה יותר.
+                            <strong>Tip:</strong> Drag and drop files directly to the upload area for a faster
+                            experience.
                           </Typography>
                         </Stack>
                       </AccordionDetails>
@@ -339,10 +340,10 @@ export default function SettingsPage() {
                           </Avatar>
                           <Box>
                             <Typography variant="h6" fontWeight={600}>
-                              תכונות AI
+                              AI Features
                             </Typography>
                             <Typography variant="body2" color="#6b7280">
-                              סיכומים אוטומטיים וחכמים
+                              Automatic and smart summaries
                             </Typography>
                           </Box>
                         </Box>
@@ -350,26 +351,35 @@ export default function SettingsPage() {
                       <AccordionDetails sx={{ p: 3, pt: 0 }}>
                         <Stack spacing={2}>
                           <Typography variant="body1" color="#111827">
-                            המערכת מייצרת אוטומטית סיכומים מפורטים של הקבצים שלך:
+                            The system automatically generates detailed summaries of your files:
                           </Typography>
                           <List dense>
                             <ListItem>
                               <ListItemIcon>
                                 <AiIcon sx={{ color: "#8b5cf6" }} />
                               </ListItemIcon>
-                              <ListItemText primary="ניתוח תוכן" secondary="זיהוי נושאים עיקריים ונקודות חשובות" />
+                              <ListItemText
+                                primary="Content Analysis"
+                                secondary="Identifying main topics and important points"
+                              />
                             </ListItem>
                             <ListItem>
                               <ListItemIcon>
                                 <AiIcon sx={{ color: "#8b5cf6" }} />
                               </ListItemIcon>
-                              <ListItemText primary="סיכום מובנה" secondary="יצירת סיכום מסודר עם כותרות וסעיפים" />
+                              <ListItemText
+                                primary="Structured Summary"
+                                secondary="Creating organized summary with headings and sections"
+                              />
                             </ListItem>
                             <ListItem>
                               <ListItemIcon>
                                 <AiIcon sx={{ color: "#8b5cf6" }} />
                               </ListItemIcon>
-                              <ListItemText primary="המלצות פעולה" secondary="הצעות לצעדים הבאים על בסיס התוכן" />
+                              <ListItemText
+                                primary="Action Recommendations"
+                                secondary="Suggestions for next steps based on content"
+                              />
                             </ListItem>
                           </List>
                         </Stack>
@@ -391,10 +401,10 @@ export default function SettingsPage() {
                           </Avatar>
                           <Box>
                             <Typography variant="h6" fontWeight={600}>
-                              שיתוף קבצים
+                              File Sharing
                             </Typography>
                             <Typography variant="body2" color="#6b7280">
-                              שתף עם חברי הצוות בקלות
+                              Share with team members easily
                             </Typography>
                           </Box>
                         </Box>
@@ -402,7 +412,7 @@ export default function SettingsPage() {
                       <AccordionDetails sx={{ p: 3, pt: 0 }}>
                         <Stack spacing={2}>
                           <Typography variant="body1" color="#111827">
-                            דרכים לשתף קבצים:
+                            Ways to share files:
                           </Typography>
                           <List dense>
                             <ListItem>
@@ -410,21 +420,21 @@ export default function SettingsPage() {
                                 <EmailIcon sx={{ color: "#f59e0b" }} />
                               </ListItemIcon>
                               <ListItemText
-                                primary="שליחה באימייל"
-                                secondary="שלח קישור הורדה ישירות למשתמשים במערכת"
+                                primary="Send via Email"
+                                secondary="Send download link directly to users in the system"
                               />
                             </ListItem>
                             <ListItem>
                               <ListItemIcon>
                                 <ShareIcon sx={{ color: "#f59e0b" }} />
                               </ListItemIcon>
-                              <ListItemText primary="העתקת קישור" secondary="העתק קישור להדבקה בצ'אט או הודעה" />
+                              <ListItemText primary="Copy Link" secondary="Copy link to paste in chat or message" />
                             </ListItem>
                             <ListItem>
                               <ListItemIcon>
                                 <DownloadIcon sx={{ color: "#f59e0b" }} />
                               </ListItemIcon>
-                              <ListItemText primary="הורדה ישירה" secondary="הורד את הקובץ למחשב שלך" />
+                              <ListItemText primary="Direct Download" secondary="Download the file to your computer" />
                             </ListItem>
                           </List>
                         </Stack>
@@ -445,7 +455,7 @@ export default function SettingsPage() {
                 <Card sx={{ borderRadius: 3, border: "1px solid #e5e7eb", bgcolor: "white", mb: 3 }}>
                   <CardContent sx={{ p: 3 }}>
                     <Typography variant="h6" fontWeight={600} color="#111827" gutterBottom>
-                      פעולות מהירות
+                      Quick Actions
                     </Typography>
                     <Stack spacing={2}>
                       <Button
@@ -461,7 +471,7 @@ export default function SettingsPage() {
                           py: 1.5,
                         }}
                       >
-                        צור פגישה חדשה
+                        Create New Meeting
                       </Button>
                       <Button
                         variant="outlined"
@@ -477,7 +487,7 @@ export default function SettingsPage() {
                           py: 1.5,
                         }}
                       >
-                        צפה בפגישות קיימות
+                        View Existing Meetings
                       </Button>
                     </Stack>
                   </CardContent>
@@ -487,31 +497,31 @@ export default function SettingsPage() {
                 <Card sx={{ borderRadius: 3, border: "1px solid #e5e7eb", bgcolor: "white" }}>
                   <CardContent sx={{ p: 3 }}>
                     <Typography variant="h6" fontWeight={600} color="#111827" gutterBottom>
-                      טיפים שימושיים
+                      Useful Tips
                     </Typography>
                     <Stack spacing={2}>
                       <Paper sx={{ p: 2, bgcolor: "#f0fdf4", border: "1px solid #bbf7d0" }}>
                         <Typography variant="body2" fontWeight={600} color="#166534" gutterBottom>
-                          💡 טיפ מקצועי
+                          💡 Pro Tip
                         </Typography>
                         <Typography variant="caption" color="#166534">
-                          השתמש בשמות תיאוריים לפגישות כדי למצוא אותן בקלות מאוחר יותר
+                          Use descriptive names for meetings to find them easily later
                         </Typography>
                       </Paper>
                       <Paper sx={{ p: 2, bgcolor: "#eff6ff", border: "1px solid #bfdbfe" }}>
                         <Typography variant="body2" fontWeight={600} color="#1e40af" gutterBottom>
-                          🚀 חסוך זמן
+                          🚀 Save Time
                         </Typography>
                         <Typography variant="caption" color="#1e40af">
-                       גרור ושחרר קובץ להעלאה 
+                          Drag and drop files for quick upload
                         </Typography>
                       </Paper>
                       <Paper sx={{ p: 2, bgcolor: "#fef3c7", border: "1px solid #fde68a" }}>
                         <Typography variant="body2" fontWeight={600} color="#92400e" gutterBottom>
-                          🤖 AI חכם
+                          🤖 Smart AI
                         </Typography>
                         <Typography variant="caption" color="#92400e">
-                          סיכומי ה-AI מתחשבים בהקשר ובתוכן הספציפי של הקובץ
+                          AI summaries consider context and specific content of the file
                         </Typography>
                       </Paper>
                     </Stack>

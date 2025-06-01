@@ -41,7 +41,7 @@ namespace MeetSummarizer.API.Controllers
                 var senderPassword = _configuration["EmailSettings:SenderPassword"];
 
                 var senderName = _configuration["EmailSettings:SenderName"];
-
+                Console.WriteLine("smtpHost "+ smtpHost + " smtpPort "+ smtpPort+ "senderEmail "+ senderEmail+ " senderPassword"+ senderPassword+ " senderName"+ senderName);
                 using var client = new SmtpClient(smtpHost, smtpPort)
                 {
                     EnableSsl = true,
