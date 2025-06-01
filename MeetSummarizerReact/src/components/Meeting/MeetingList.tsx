@@ -66,6 +66,7 @@ export default function MeetingList({ meetings: meetingsFromProps }: MeetingList
   const dispatch = useDispatch<AppDispatch>()
   const user = useSelector((state: RootState) => state.auth.user)
 
+  //TODO NOW!!!!
   useEffect(() => {
     if (!meetingsFromProps) {
       const getMeetings = async () => {

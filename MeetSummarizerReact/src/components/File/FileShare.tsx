@@ -231,6 +231,7 @@ const FileShare = ({ fileUrl, fileName }: FileShareProps) => {
       const response = await axios.post(
         `${apiUrl}/Email/send-to-user/${selectedUser.email}`,
         {
+          email: selectedUser.email,
           Subject: subject, // חשוב! עם S גדולה
           Body: emailBody, // חשוב! עם B גדולה
         },
@@ -241,6 +242,7 @@ const FileShare = ({ fileUrl, fileName }: FileShareProps) => {
           },
         },
       )
+      
 
       console.log("✅ Email sent successfully:", response.data)
       setMessage({
