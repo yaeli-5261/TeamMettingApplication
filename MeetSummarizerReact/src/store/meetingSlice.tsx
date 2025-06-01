@@ -7,7 +7,6 @@ const apiUrl = import.meta.env.VITE_API_URL;
 
 const API_URL = `${apiUrl}/Meeting`
 
-// Async thunk for updating the meeting file link
 export const updateMeetingFile = createAsyncThunk(
   "meetings/updateMeetingFile",
   async (

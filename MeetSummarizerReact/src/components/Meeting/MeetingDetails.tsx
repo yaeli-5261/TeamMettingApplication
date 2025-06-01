@@ -30,9 +30,7 @@ import {
   Description as DescriptionIcon,
   Close as CloseIcon,
 } from "@mui/icons-material"
-import { motion } from "framer-motion"
 import UpdateMeetingDialog from "./UpdateMeetingDialog"
-// import axios from "axios"
 import type { MeetingDTO } from "../../models/meetingTypes"
 import { fetchMeetingById } from "../../services/meetingService"
 import FileUploader from "../File/FileUploader"
@@ -71,23 +69,6 @@ export default function MeetingDetails() {
     setMeeting(updatedMeeting)
   }
 
-  // const fetchFileContent = async (fileUrl: string) => {
-  //   try {
-  //     const response = await axios.get(`${apiUrl}/upload/download-url`, {
-  //       params: { fileName: fileUrl },
-  //       headers: { Authorization: `Bearer ${getCookie("auth_token")}` },
-  //     })
-
-  //     const downloadUrl = response.data.downloadUrl
-  //     const fileResponse = await axios.get(downloadUrl, { responseType: "text" })
-  //     setFileContent(fileResponse.data)
-  //     setIsFileDialogOpen(true)
-  //   } catch (error) {
-  //     console.error("❌ שגיאה בטעינת תוכן הקובץ:", error)
-  //     setFileContent("⚠️ שגיאה בטעינת הקובץ")
-  //     setIsFileDialogOpen(true)
-  //   }
-  // }
 
   const formatDate = (dateString: string) => {
     try {
@@ -241,13 +222,6 @@ export default function MeetingDetails() {
             </Box>
           </Paper>
         </Box>
-
-        {/* Main Content */}
-        {/* TODO nowww */}
-        {/* <Grid container spacing={3} sx={{ width: "80vw" }}> */}
-          {/* Meeting Details */}
-          {/* <Grid item xs={12} lg={8} sx={{ width: "80vw" }}> */}
-{/* למחוק עכשיו אם לא טוב!! */}
             <Card
               sx={{
                 borderRadius: 3,
@@ -260,46 +234,6 @@ export default function MeetingDetails() {
                 alignItems: "center",
               }}
             >
-              {/* <CardContent sx={{ width:"75vw",position:"center",justifyContent: "center", alignItems: "center"}}>
-                <Typography variant="h6" fontWeight={600} gutterBottom>
-                  פרטי הפגישה
-                </Typography>
-                <Divider sx={{ mb: 2 }} />
-
-                <Grid container spacing={2}  sx={{width:"50vw",  justifyContent: "center", alignItems: "center",}}>
-                  <Grid item xs={12} md={6}  sx={{width:"50vw",  justifyContent: "center",alignItems: "center",}}>
-                    <Box sx={{ mb: 2 ,width:"10vw"}}>
-                      <Typography variant="body2" color="text.secondary" gutterBottom fontWeight={600}>
-                        תאריך ושעה
-                      </Typography>
-                      <Box sx={{ display: "flex", alignItems: "center" }}>
-                        <CalendarTodayIcon sx={{ mr: 1, color: "#10a37f", fontSize: 18 }} />
-                        <Typography variant="body1" fontWeight={500}>
-                          {formatDate(meeting.date)}
-                        </Typography>
-                      </Box>
-                    </Box>
-                  </Grid>
-
-                  {meeting.linkOrinignFile && (
-                    <Grid item xs={12}  sx={{width:"30vw"}}>
-                      <Box sx={{ mb: 2 ,width:"10vw"}}>
-                        <Typography variant="body2" color="text.secondary" gutterBottom fontWeight={600}>
-                          קובץ מקור
-                        </Typography>
-                        <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
-                          <DescriptionIcon sx={{ mr: 1, color: "#10a37f", fontSize: 18 }} />
-                          <Typography variant="body1" fontWeight={500}>
-                            {getFileName(meeting.linkOrinignFile)}
-                          </Typography>
-                        </Box>
-                        <FileViewer
-                          filePath={meeting.linkOrinignFile}
-                          fileName={getFileName(meeting.linkOrinignFile)}
-                        />
-                      </Box>
-                    </Grid>
-                  )} */}
                   <CardContent sx={{ width: "100%", display: "flex", justifyContent: "center" }}>
   <Box sx={{ width: "75%", maxWidth: 1000 }}>
     <Typography variant="h6" fontWeight={600} gutterBottom>
@@ -383,20 +317,9 @@ export default function MeetingDetails() {
                       </Box>
                     </Grid>
                   )}
-                  {/* להוסיףף */}
-                {/* </Grid>
-              </CardContent> */}
+           
             </Card>
-{/* TODO */}
-            {/* File Upload Section */}
-            {/* <Card
-              sx={{
-                borderRadius: 2,
-                background: "rgba(255, 255, 255, 0.9)",
-                border: "1px solid rgba(255, 255, 255, 0.2)",
-                boxShadow: "0 4px 16px rgba(0, 0, 0, 0.08)",
-              }}
-            > */}
+
               <CardContent sx={{ p: 3 ,width:"50vw" }}>
                 <Typography variant="h6" fontWeight={600} gutterBottom>
                   העלאת קבצים
@@ -404,10 +327,9 @@ export default function MeetingDetails() {
                 <Divider sx={{ mb: 2 }} />
                 <FileUploader />
               </CardContent>
-            {/* </Card> */}
-          {/* </Grid> */}
+          
 
-          {/* Sidebar - Additional Info */}
+     
           <Grid item xs={12} lg={4}>
             <Card
               sx={{
@@ -420,10 +342,7 @@ export default function MeetingDetails() {
               
             </Card>
           </Grid>
-        {/* </Grid> */}
-      {/* </motion.div> */}
-
-      {/* File Content Dialog */}
+      
       <Dialog
         fullScreen={isMobile}
         maxWidth="md"

@@ -108,28 +108,7 @@ export function AppFooter() {
                 gap: 3,
               }}
             >
-              {/* <Box sx={{ display: "flex", gap: 2 }}>
-                <IconButton
-                  size="medium"
-                  aria-label="GitHub"
-                  component="a"
-                  href="https://github.com/yaeli-5261"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  sx={{
-                    color: "rgba(255,255,255,0.8)",
-                    transition: "all 0.3s ease",
-                    "&:hover": {
-                      color: "#10a37f",
-                      transform: "translateY(-3px)",
-                      backgroundColor: "rgba(16, 163, 127, 0.1)",
-                    },
-                  }}
-                >
-                  <GitHubIcon />
-                </IconButton>
-              </Box> */}
-
+           
               <Box
                 sx={{
                   display: "flex",

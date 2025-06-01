@@ -38,7 +38,7 @@ interface SharedUser {
   email: string
   firstName?: string
   lastName?: string
-  role?: UserRole | string // Can be either object or string
+  role?: UserRole | string 
 }
 
 const FileShare = ({ fileUrl, fileName }: FileShareProps) => {
