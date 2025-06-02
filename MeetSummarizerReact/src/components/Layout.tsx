@@ -34,10 +34,8 @@ export default function Layout({ children }: LayoutProps) {
           component="main"
           sx={{
             flexGrow: 1,
-            // width: "calc(100% - 280px)", // גודל המסך מלבד התפריט צד
             width: "100vw",
             pl: { xs: 0, md: "280px" },
-            // pr: { xs: 0, md: "10px" },
 
             display: "flex",
             flexDirection: "column",

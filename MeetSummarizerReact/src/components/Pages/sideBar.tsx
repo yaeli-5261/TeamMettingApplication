@@ -70,7 +70,6 @@ export function AppSidebar() {
         display: "flex",
         flexDirection: "column",
         height: "100%",
-        // width: 250,
         bgcolor: "background.paper",
       }}
     >

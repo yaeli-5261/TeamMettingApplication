@@ -69,17 +69,17 @@ import { AuthService } from "../../Service/auth.service"
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup
-  forgotPasswordForm: FormGroup
+  // forgotPasswordForm: FormGroup
   isLoading = false
   errorMessage = ""
   currentYear = new Date().getFullYear()
-  rememberMe = false
+  // rememberMe = false
 
   // Forgot password modal
-  showForgotPasswordModal = false
-  forgotPasswordLoading = false
-  forgotPasswordError = ""
-  forgotPasswordSuccess = ""
+  // showForgotPasswordModal = false
+  // forgotPasswordLoading = false
+  // forgotPasswordError = ""
+  // forgotPasswordSuccess = ""
 
   constructor(
     private fb: FormBuilder,
@@ -91,9 +91,9 @@ export class LoginComponent implements OnInit {
       password: ["", [Validators.required]],
     })
 
-    this.forgotPasswordForm = this.fb.group({
-      email: ["", [Validators.required, Validators.email]],
-    })
+    // this.forgotPasswordForm = this.fb.group({
+    //   email: ["", [Validators.required, Validators.email]],
+    // })
   }
 
   ngOnInit(): void {
@@ -104,31 +104,31 @@ export class LoginComponent implements OnInit {
     }
 
     // Check if we have saved credentials
-    this.loadSavedCredentials()
+    // this.loadSavedCredentials()
   }
 
-  loadSavedCredentials(): void {
-    const savedEmail = localStorage.getItem("rememberedEmail")
-    const savedPassword = localStorage.getItem("rememberedPassword")
+  // loadSavedCredentials(): void {
+  //   const savedEmail = localStorage.getItem("rememberedEmail")
+  //   const savedPassword = localStorage.getItem("rememberedPassword")
 
-    if (savedEmail && savedPassword) {
-      this.loginForm.patchValue({
-        email: savedEmail,
-        password: savedPassword,
-      })
-      this.rememberMe = true
-    }
-  }
+  //   if (savedEmail && savedPassword) {
+  //     this.loginForm.patchValue({
+  //       email: savedEmail,
+  //       password: savedPassword,
+  //     })
+  //     this.rememberMe = true
+  //   }
+  // }
 
-  saveCredentials(email: string, password: string): void {
-    localStorage.setItem("rememberedEmail", email)
-    localStorage.setItem("rememberedPassword", password)
-  }
+  // saveCredentials(email: string, password: string): void {
+  //   localStorage.setItem("rememberedEmail", email)
+  //   localStorage.setItem("rememberedPassword", password)
+  // }
 
-  clearSavedCredentials(): void {
-    localStorage.removeItem("rememberedEmail")
-    localStorage.removeItem("rememberedPassword")
-  }
+  // clearSavedCredentials(): void {
+  //   localStorage.removeItem("rememberedEmail")
+  //   localStorage.removeItem("rememberedPassword")
+  // }
 
   onSubmit(): void {
     if (this.loginForm.invalid) return
@@ -143,11 +143,11 @@ export class LoginComponent implements OnInit {
 
         if (roleName === "Admin") {
           // Save credentials if remember me is checked
-          if (this.rememberMe) {
-            this.saveCredentials(email, password)
-          } else {
-            this.clearSavedCredentials()
-          }
+          // if (this.rememberMe) {
+          //   this.saveCredentials(email, password)
+          // } else {
+          //   this.clearSavedCredentials()
+          // }
 
           this.authService.saveToken(res.token)
           this.authService.saveUser(res.user)
@@ -166,45 +166,45 @@ export class LoginComponent implements OnInit {
   }
 
   // Forgot password methods
-  openForgotPasswordModal(): void {
-    this.showForgotPasswordModal = true
-    this.forgotPasswordError = ""
-    this.forgotPasswordSuccess = ""
+  // openForgotPasswordModal(): void {
+  //   this.showForgotPasswordModal = true
+  //   this.forgotPasswordError = ""
+  //   this.forgotPasswordSuccess = ""
 
-    // Pre-fill email from login form if available
-    const loginEmail = this.loginForm.get("email")?.value
-    if (loginEmail) {
-      this.forgotPasswordForm.patchValue({ email: loginEmail })
-    }
-  }
+  //   // Pre-fill email from login form if available
+  //   const loginEmail = this.loginForm.get("email")?.value
+  //   if (loginEmail) {
+  //     this.forgotPasswordForm.patchValue({ email: loginEmail })
+  //   }
+  // }
 
-  closeForgotPasswordModal(): void {
-    this.showForgotPasswordModal = false
-  }
+  // closeForgotPasswordModal(): void {
+  //   this.showForgotPasswordModal = false
+  // }
 
-  resetPassword(): void {
-    if (this.forgotPasswordForm.invalid) return
+//   resetPassword(): void {
+//     if (this.forgotPasswordForm.invalid) return
 
-    this.forgotPasswordLoading = true
-    this.forgotPasswordError = ""
-    this.forgotPasswordSuccess = ""
+//     this.forgotPasswordLoading = true
+//     this.forgotPasswordError = ""
+//     this.forgotPasswordSuccess = ""
 
-    const email = this.forgotPasswordForm.get("email")?.value
+//     const email = this.forgotPasswordForm.get("email")?.value
 
-    this.authService.resetPassword(email).subscribe({
-      next: (res) => {
-        this.forgotPasswordLoading = false
-        this.forgotPasswordSuccess = "Password has been sent to your email"
+//     this.authService.resetPassword(email).subscribe({
+//       next: (res) => {
+//         this.forgotPasswordLoading = false
+//         this.forgotPasswordSuccess = "Password has been sent to your email"
 
-        // Close modal after a delay
-        setTimeout(() => {
-          this.closeForgotPasswordModal()
-        }, 3000)
-      },
-      error: (err:any) => {
-        this.forgotPasswordLoading = false
-        this.forgotPasswordError = "Failed to reset password. Please try again."
-      },
-    })
-  }
+//         // Close modal after a delay
+//         setTimeout(() => {
+//           this.closeForgotPasswordModal()
+//         }, 3000)
+//       },
+//       error: (err:any) => {
+//         this.forgotPasswordLoading = false
+//         this.forgotPasswordError = "Failed to reset password. Please try again."
+//       },
+//     })
+//   }
 }

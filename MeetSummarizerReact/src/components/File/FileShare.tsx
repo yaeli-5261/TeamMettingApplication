@@ -142,14 +142,14 @@ const FileShare = ({ fileUrl, fileName }: FileShareProps) => {
 
       if (usersWithEmail.length === 0) {
         setMessage({
-          text: "לא נמצאו משתמשים עם כתובות אימייל במערכת",
+          text: "No users with email addresses found in the system",
           type: "error",
         })
       }
     } catch (error: any) {
       console.error("❌ Error loading users:", error)
       setMessage({
-        text: `שגיאה בטעינת רשימת המשתמשים: ${error.response?.data?.message || error.message}`,
+        text: `Error loading user list: ${error.response?.data?.message || error.message}`,
         type: "error",
       })
       // Set empty arrays to prevent further errors
@@ -163,7 +163,7 @@ const FileShare = ({ fileUrl, fileName }: FileShareProps) => {
   const handleSendEmail = async () => {
     if (!selectedUser) {
       setMessage({
-        text: "נא לבחור משתמש מהרשימה",
+        text: "Please select a user from the list",
         type: "error",
       })
       return
@@ -171,7 +171,7 @@ const FileShare = ({ fileUrl, fileName }: FileShareProps) => {
 
     if (!selectedUser.email) {
       setMessage({
-        text: "למשתמש הנבחר אין כתובת אימייל",
+        text: "The selected user does not have an email address",
         type: "error",
       })
       return
@@ -183,7 +183,7 @@ const FileShare = ({ fileUrl, fileName }: FileShareProps) => {
     try {
       const token = getCookie("auth_token")
 
-      const subject = customSubject || `שיתוף קובץ: ${fileName}`
+      const subject = customSubject || `File sharing: ${fileName}`
 
       const emailBody = `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
@@ -209,7 +209,7 @@ const FileShare = ({ fileUrl, fileName }: FileShareProps) => {
             
             <div style="background: #e3f2fd; padding: 15px; border-radius: 8px; margin: 15px 0;">
               <p style="margin: 0; color: #1976d2; font-size: 14px;">
-                💡 <strong>טיפ:</strong> לחץ על הקישור כדי להוריד את הקובץ ישירות למחשב שלך
+                💡 <strong>טיפ:</strong> Click the link to download the file directly to your computer.
               </p>
             </div>
           </div>
@@ -234,8 +234,8 @@ const FileShare = ({ fileUrl, fileName }: FileShareProps) => {
         `${apiUrl}/Email/send-to-user/${selectedUser.id}`,
         {
           email: selectedUser.email,
-          Subject: subject, // חשוב! עם S גדולה
-          Body: emailBody, // חשוב! עם B גדולה
+          Subject: subject, 
+          Body: emailBody, 
         },
         {
           headers: {
@@ -248,7 +248,7 @@ const FileShare = ({ fileUrl, fileName }: FileShareProps) => {
 
       console.log("✅ Email sent successfully:", response.data)
       setMessage({
-        text: `הקובץ נשלח בהצלחה ל-${selectedUser.firstName || selectedUser.userName} (${selectedUser.email})!`,
+        text: `The file was successfully sent to${selectedUser.firstName || selectedUser.userName} (${selectedUser.email})!`,
         type: "success",
       })
 
@@ -267,14 +267,14 @@ const FileShare = ({ fileUrl, fileName }: FileShareProps) => {
         errorDetails = error.response.data?.message || error.response.data?.error || `שגיאה ${error.response.status}`
       } else if (error.request) {
         console.error("❌ No response received:", error.request)
-        errorDetails = "לא התקבלה תשובה מהשרת"
+        errorDetails = "No response received from the server"
       } else {
         console.error("❌ Error message:", error.message)
         errorDetails = error.message
       }
 
       setMessage({
-        text: `שגיאה בשליחת האימייל: ${errorDetails}`,
+        text: `Error sending email: ${errorDetails}`,
         type: "error",
       })
     } finally {
@@ -284,12 +284,12 @@ const FileShare = ({ fileUrl, fileName }: FileShareProps) => {
 
   const getUserDisplayName = (user: SharedUser): string => {
     try {
-      const name = user.firstName || user.userName || "משתמש"
+      const name = user.firstName || user.userName || "user"
       const email = user.email || ""
       return `${name} (${email})`
     } catch (error) {
       console.error("Error in getUserDisplayName:", error)
-      return "משתמש לא ידוע"
+      return "Unknown user"
     }
   }
 
@@ -323,10 +323,10 @@ const FileShare = ({ fileUrl, fileName }: FileShareProps) => {
           </Box>
           <Box>
             <Typography variant="h6" fontWeight={600} color="text.primary" gutterBottom>
-              שיתוף באמצעות אימייל
+            Share via email
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              שלח את הקובץ ישירות למשתמש רשום במערכת
+            Send the file directly to a registered user in the system
             </Typography>
           </Box>
         </Box>
@@ -336,7 +336,7 @@ const FileShare = ({ fileUrl, fileName }: FileShareProps) => {
           <Box sx={{ mb: 2, display: "flex", alignItems: "center", gap: 1 }}>
             <Users size={16} color="#10a37f" />
             <Typography variant="caption" color="text.secondary">
-              {allUsers.length} משתמשים זמינים במערכת
+              {allUsers.length} Users available in the system
             </Typography>
           </Box>
         )}
@@ -349,7 +349,7 @@ const FileShare = ({ fileUrl, fileName }: FileShareProps) => {
                 return getUserDisplayName(option)
               } catch (error) {
                 console.error("Error in getOptionLabel:", error)
-                return "שגיאה בטעינת משתמש"
+                return "Error loading user"
               }
             }}
             value={selectedUser}
@@ -373,7 +373,7 @@ const FileShare = ({ fileUrl, fileName }: FileShareProps) => {
               <TextField
                 {...params}
                 placeholder={
-                  loadingUsers ? "טוען משתמשים..." : allUsers.length === 0 ? "לא נמצאו משתמשים" : "חפש משתמש לשיתוף..."
+                  loadingUsers ? "Loading users..." : allUsers.length === 0 ? "No users found" : "Find a user to share with..."
                 }
                 variant="outlined"
                 fullWidth
@@ -432,20 +432,20 @@ const FileShare = ({ fileUrl, fileName }: FileShareProps) => {
                 return (
                   <Box component="li" {...props} sx={{ direction: "rtl" }}>
                     <Typography variant="body2" color="error">
-                      שגיאה בטעינת משתמש
+                    Error loading user
                     </Typography>
                   </Box>
                 )
               }
             }}
-            noOptionsText={searchTerm ? "לא נמצאו משתמשים התואמים לחיפוש" : "לא נמצאו משתמשים"}
+            noOptionsText={searchTerm ? "No users matching the search were found." : "No users found"}
             loadingText="טוען משתמשים..."
           />
         </Box>
 
         <Box sx={{ mb: 3 }}>
           <TextField
-            placeholder="נושא האימייל (אופציונלי)"
+            placeholder="Email subject (optional)"
             value={customSubject}
             onChange={(e) => setCustomSubject(e.target.value)}
             fullWidth
@@ -494,7 +494,7 @@ const FileShare = ({ fileUrl, fileName }: FileShareProps) => {
             transition: "all 0.3s ease",
           }}
         >
-          {loading ? "שולח..." : "שלח אימייל"}
+          {loading ? "sender..." : "Send an email"}
         </Button>
 
         {message && (

@@ -81,7 +81,7 @@ const InlineFileViewer = ({
       await loadFileContent(response.data.downloadUrl)
     } catch (error) {
       console.error("❌ Error getting download link:", error)
-      setError("שגיאה בטעינת הקובץ")
+      setError("Error loading file")
       setIsLoading(false)
     }
   }
@@ -105,7 +105,7 @@ const InlineFileViewer = ({
           console.log("✅ DOCX converted to HTML")
         } catch (err) {
           console.error("❌ Error converting DOCX:", err)
-          setError("שגיאה בהמרת קובץ DOCX")
+          setError("Error converting DOCX file")
         }
       }
 
@@ -119,7 +119,7 @@ const InlineFileViewer = ({
       console.log("✅ Blob URL created:", blobUrl)
     } catch (error) {
       console.error("❌ Error loading file content:", error)
-      setError("שגיאה בטעינת תוכן הקובץ")
+      setError("Error loading file contents")
     } finally {
       setIsLoading(false)
     }
@@ -155,7 +155,7 @@ const InlineFileViewer = ({
         >
           <CircularProgress size={40} sx={{ mb: 2, color: "#10a37f" }} />
           <Typography variant="body2" color="text.secondary">
-            טוען קובץ...
+          Loading file...
           </Typography>
         </Box>
       )
@@ -206,7 +206,7 @@ const InlineFileViewer = ({
             <FileText size={30} color="#10a37f" />
           </Box>
           <Typography variant="body2" color="text.secondary">
-            לא ניתן להציג תצוגה מקדימה
+          Unable to preview
           </Typography>
         </Box>
       )
@@ -319,7 +319,7 @@ const InlineFileViewer = ({
             {fileName}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            לחץ "צפה בקובץ" לפתיחה
+          Click "View File" to open.
           </Typography>
         </Box>
       )
@@ -352,7 +352,7 @@ const InlineFileViewer = ({
         >
           <FileText size={18} style={{ marginLeft: "8px" }} color="#10a37f" />
           <Typography variant="subtitle2" fontWeight={600}>
-            תצוגה מקדימה: {fileName}
+          Preview:{fileName}
           </Typography>
         </Box>
         <Box sx={{ height: maxHeight, p: 1 }}>{renderFileContent()}</Box>

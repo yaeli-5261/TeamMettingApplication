@@ -160,11 +160,11 @@ const FileViewer = ({ filePath, fileName, isAiGenerated = false, getDownloadUrl 
       window.URL.revokeObjectURL(blobUrl)
 
       console.log("✅ FileViewer - File downloaded successfully")
-      setError("✅ הקובץ הורד בהצלחה")
+      setError("✅ The file was downloaded successfully.")
       setTimeout(() => setError(null), 3000)
     } catch (error) {
       console.error("❌ FileViewer - Error downloading the file:", error)
-      setError("שגיאה בהורדת הקובץ")
+      setError("Error downloading file")
     } finally {
       setIsLoading(false)
     }
@@ -257,7 +257,7 @@ const FileViewer = ({ filePath, fileName, isAiGenerated = false, getDownloadUrl 
               px: 4,
             }}
           >
-            הורד לצפייה
+          Download to watch
           </Button>
         </Box>
       )
@@ -295,7 +295,7 @@ const FileViewer = ({ filePath, fileName, isAiGenerated = false, getDownloadUrl 
             fontSize: { xs: "0.875rem", sm: "1rem" },
           }}
         >
-          {isLoading ? "טוען..." : "צפה בקובץ"}
+          {isLoading ? "loading..." : "View file"}
         </Button>
         <Button
           onClick={downloadFile}
@@ -315,7 +315,7 @@ const FileViewer = ({ filePath, fileName, isAiGenerated = false, getDownloadUrl 
             fontSize: { xs: "0.875rem", sm: "1rem" },
           }}
         >
-          {isLoading ? "טוען..." : "הורד קובץ"}
+          {isLoading ? "loadng..." : "Download file"}
         </Button>
       </Box>
 
@@ -376,7 +376,7 @@ const FileViewer = ({ filePath, fileName, isAiGenerated = false, getDownloadUrl 
               textTransform: "none",
             }}
           >
-            סגור
+            close
           </Button>
         </Box>
         <Box sx={{ flex: 1, overflow: "auto", p: 0 }}>{renderFilePreview()}</Box>

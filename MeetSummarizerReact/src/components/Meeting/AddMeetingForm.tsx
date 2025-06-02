@@ -38,7 +38,7 @@ import { alpha } from "@mui/material/styles"
 import axios from "axios"
 import { Sparkles } from "lucide-react"
 
-const steps = ["פרטי פגישה", "העלאת קובץ", "עיבוד AI", "פגישה מוכנה"]
+const steps = ["Meeting details", "File Upload", "AI Processing", "Meeting Ready"]
 
 export default function AddMeetingForm() {
   const dispatch = useDispatch<AppDispatch>()
@@ -153,13 +153,13 @@ export default function AddMeetingForm() {
 
       if (addedMeeting) {
         setCreatedMeetingId(addedMeeting.id || null)
-        setSuccess("✅ הפגישה נוצרה בהצלחה!")
+        setSuccess("✅ The meeting was created successfully!")
         return true
       }
       return false
     } catch (error) {
       console.error("❌ Error adding meeting:", error)
-      setError("❌ הוספת הפגישה נכשלה. אנא נסה שוב.")
+      setError("❌Failed to add meeting. Please try again.")
       return false
     } finally {
       setIsSubmitting(false)
@@ -169,7 +169,7 @@ export default function AddMeetingForm() {
   // פונקציה להעלאת קובץ - מבוססת על FileUploader המקורי
   const handleFileUpload = async () => {
     if (!file || !createdMeetingId) {
-      setError("יש לבחור קובץ ולהיות בתוך פגישה.")
+      setError("You must select a file and be in a meeting.")
       return false
     }
 
@@ -217,8 +217,8 @@ export default function AddMeetingForm() {
       setError(null)
       return downloadResponse.data.downloadUrl
     } catch (error: any) {
-      setError(`שגיאה בהעלאה: ${error.response?.data || error.message}`)
-      console.error("שגיאה בהעלאה:", error.response?.data || error.message)
+      setError(`Upload error: ${error.response?.data || error.message}`)
+      console.error("Upload error:", error.response?.data || error.message)
       return false
     } finally {
       setIsUploading(false)
@@ -299,7 +299,7 @@ export default function AddMeetingForm() {
     if (activeStep === 0) {
       // בדיקת שלב 1
       if (!meetingData.name || !meetingData.date) {
-        setError("אנא מלא את כל השדות הנדרשים")
+        setError("Please fill in all required fields")
         return
       }
 
@@ -311,7 +311,7 @@ export default function AddMeetingForm() {
     } else if (activeStep === 1) {
       // העלאת קובץ
       if (!file) {
-        setError("אנא בחר קובץ להעלאה")
+        setError("Please select a file to upload")
         return
       }
 
@@ -361,10 +361,10 @@ export default function AddMeetingForm() {
               >
                 <EventNoteIcon sx={{ fontSize: 32, mb: 1 }} />
                 <Typography variant="h6" fontWeight={600} gutterBottom>
-                  פרטי הפגישה
+                Meeting details
                 </Typography>
                 <Typography variant="body2" sx={{ opacity: 0.9 }}>
-                  הזן את הפרטים הבסיסיים של הפגישה
+                Enter the basic meeting details.
                 </Typography>
               </Box>
 
@@ -396,7 +396,7 @@ export default function AddMeetingForm() {
 
                   <Grid item xs={12}>
                     <TextField
-                      label="תאריך ושעת הפגישה"
+                      label="Date and time of the meeting"
                       name="date"
                       type="datetime-local"
                       value={meetingData.date}
@@ -447,10 +447,10 @@ export default function AddMeetingForm() {
               >
                 <CloudUpload sx={{ fontSize: 32, mb: 1 }} />
                 <Typography variant="h6" fontWeight={600} gutterBottom>
-                  העלאת קובץ
+                Upload a file
                 </Typography>
                 <Typography variant="body2" sx={{ opacity: 0.9 }}>
-                  בחר קובץ מהמחשב להעלאה ל-AWS
+                Select a file from your computer to upload to AWS
                 </Typography>
               </Box>
 
@@ -519,7 +519,7 @@ export default function AddMeetingForm() {
                         {file ? file.name : "גרור ושחרר או לחץ לבחירת קובץ"}
                       </Typography>
                       <Typography variant="body2" color="text.secondary" sx={{ maxWidth: "400px", mx: "auto" }}>
-                        פורמטים נתמכים: PDF, DOCX, TXT
+                      Supported formats: PDF, DOCX, TXT
                       </Typography>
                     </label>
                   </Box>
@@ -540,7 +540,7 @@ export default function AddMeetingForm() {
                         }}
                       />
                       <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-                        מעלה... {uploadProgress}%
+                      up... {uploadProgress}%
                       </Typography>
                     </Box>
                   )}
@@ -572,20 +572,20 @@ export default function AddMeetingForm() {
               >
                 <Sparkles style ={{ fontSize: 32}} />
                 <Typography variant="h6" fontWeight={600} gutterBottom>
-                  עיבוד AI
+                AI processing
                 </Typography>
                 <Typography variant="body2" sx={{ opacity: 0.9 }}>
-                  הבינה המלאכותית מעבדת את הקובץ ויוצרת תמלול
+                Artificial intelligence processes the file and creates a transcript
                 </Typography>
               </Box>
 
               <CardContent sx={{ p: 4, textAlign: "center" }}>
                 <Box sx={{ mb: 3 }}>
                   <Typography variant="body1" gutterBottom>
-                    מעבד את הקובץ ויוצר תמלול אוטומטי...
+                  Processes the file and creates an automatic transcription...
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                    התהליך עשוי לקחת מספר דקות
+                  The process may take several minutes.
                   </Typography>
                 </Box>
 
@@ -605,7 +605,7 @@ export default function AddMeetingForm() {
                   />
                 </Box>
                 <Typography variant="body2" color="text.secondary">
-                  {aiProgress}% הושלם
+                  {aiProgress}% complete
                 </Typography>
 
                 {isProcessing && (
@@ -644,10 +644,10 @@ export default function AddMeetingForm() {
               >
                 <CheckCircle sx={{ fontSize: 48, mb: 2 }} />
                 <Typography variant="h6" fontWeight={600} gutterBottom>
-                  הפגישה נוצרה בהצלחה!
+                The meeting was created successfully!
                 </Typography>
                 <Typography variant="body2" sx={{ opacity: 0.9 }}>
-                  הפגישה שלך מוכנה לצפייה עם תמלול AI
+                Your meeting is ready to watch with AI transcription
                 </Typography>
               </Box>
 
@@ -657,7 +657,7 @@ export default function AddMeetingForm() {
                     הפגישה נוצרה בהצלחה והקובץ עובד על ידי AI
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                    ניתן כעת לצפות בפרטי הפגישה ובתמלול שנוצר
+                  You can now view the meeting details and the generated transcript.
                   </Typography>
                 </Box>
 
@@ -678,7 +678,7 @@ export default function AddMeetingForm() {
                       },
                     }}
                   >
-                    צפה בפגישה
+                  Watch the meeting
                   </Button>
 
                   <Button
@@ -698,7 +698,7 @@ export default function AddMeetingForm() {
                       },
                     }}
                   >
-                    רשימת פגישות
+                    Meeting list
                   </Button>
                 </Box>
               </CardContent>
@@ -738,14 +738,14 @@ export default function AddMeetingForm() {
                 },
               }}
             >
-              חזרה לרשימת הפגישות
+Back to the meeting list
             </Button>
 
             <Typography variant="h4" fontWeight={700} color="text.primary" gutterBottom>
-              הוספת פגישה חדשה
+            Add a new meeting
             </Typography>
             <Typography variant="body1" color="text.secondary">
-              עקוב אחר השלבים הבאים כדי ליצור ולהגדיר את הפגישה שלך
+            Follow these steps to create and set up your meeting
             </Typography>
           </Box>
 
@@ -787,11 +787,11 @@ export default function AddMeetingForm() {
           {/* Team ID Alert */}
           {teamId ? (
             <Alert severity="info" sx={{ mb: 3, borderRadius: 2 }}>
-              מזהה צוות: {teamId}
+              Team ID: {teamId}
             </Alert>
           ) : (
             <Alert severity="warning" sx={{ mb: 3, borderRadius: 2 }}>
-              לא זוהה מזהה צוות. אנא התחבר מחדש למערכת.
+No team ID was detected. Please log in again.
             </Alert>
           )}
 
@@ -828,7 +828,7 @@ export default function AddMeetingForm() {
                   },
                 }}
               >
-                חזרה
+Back
               </Button>
 
               {activeStep < 3 && (
@@ -869,15 +869,15 @@ export default function AddMeetingForm() {
                 >
                   {activeStep === 0
                     ? isSubmitting
-                      ? "יוצר פגישה..."
-                      : "צור פגישה"
+                      ? "Creates a meeting..."
+                      : "Create a meeting"
                     : activeStep === 1
                       ? isUploading
-                        ? "מעלה קובץ..."
-                        : "העלה קובץ"
+                        ? "Uploading file..."
+                        : "Upload a file"
                       : isProcessing
-                        ? "מעבד..."
-                        : "המשך"}
+                        ? "Processor..."
+                        : "continuation"}
                 </Button>
               )}
             </Box>

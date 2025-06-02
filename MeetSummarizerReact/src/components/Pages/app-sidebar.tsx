@@ -257,9 +257,6 @@ export function AppSidebar({ mobileOpen, handleDrawerToggle }: AppSidebarProps) 
               <Typography variant="h6" fontWeight={700}>
                 MeetingFiles
               </Typography>
-              <Typography variant="caption" sx={{ opacity: 0.8 }}>
-                v2.0
-              </Typography>
             </Box>
           </Box>
           {isMobile && (

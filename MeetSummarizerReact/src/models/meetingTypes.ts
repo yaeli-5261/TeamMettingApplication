@@ -18,7 +18,7 @@ export  const initialState: MeetingState = {
     linkTranscriptFile?: string
     linkOrinignFile?: string
     teamId: number
-    deletedAt?: string // Added for trash functionality
+    deletedAt?: string
   }
   
   export interface MeetingPostDTO {

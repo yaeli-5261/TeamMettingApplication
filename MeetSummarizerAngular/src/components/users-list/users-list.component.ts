@@ -304,6 +304,7 @@ export class UsersListComponent implements OnInit {
       },
     })
   }
+  
 
   openDeleteModal(user: User): void {
     this.selectedUser = user

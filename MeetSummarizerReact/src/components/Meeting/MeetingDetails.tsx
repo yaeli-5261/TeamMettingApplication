@@ -61,7 +61,7 @@ export default function MeetingDetails() {
         console.log("📋 Meeting data loaded:", data)
       } catch (err) {
         console.error("Error fetching meeting:", err)
-        setError("שגיאה בטעינת פרטי הפגישה")
+        setError("Error loading meeting details")
       } finally {
         setLoading(false)
       }
@@ -90,7 +90,7 @@ export default function MeetingDetails() {
 
   const getFileName = (filePath: string) => {
     if (!filePath) return ""
-    return filePath.split("/").pop() || "קובץ"
+    return filePath.split("/").pop() || "file"
   }
 
   const getTranscriptDownloadUrl = async (s3Key: string): Promise<string> => {
@@ -114,7 +114,7 @@ export default function MeetingDetails() {
     } catch (error) {
       console.error("❌ Error getting transcript download URL:", error)
 
-      // נסה את ה-endpoint החלופי
+     
       try {
         console.log("🔄 Trying alternative endpoint...")
         const token = getCookie("auth_token")
@@ -178,7 +178,7 @@ export default function MeetingDetails() {
     return (
       <Box sx={{ width: "70vw", p: 3, display: "flex", justifyContent: "center" }}>
         <Alert severity="warning" sx={{ borderRadius: 2 }}>
-          לא נמצאה פגישה עם המזהה המבוקש
+        No meeting with the requested ID was found.
         </Alert>
       </Box>
     )
@@ -202,7 +202,7 @@ export default function MeetingDetails() {
             },
           }}
         >
-          חזרה לרשימת הפגישות
+          Back to the meeting list
         </Button>
 
         {/* Meeting Header Card */}
@@ -245,11 +245,11 @@ export default function MeetingDetails() {
                     {meeting.name}
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                    פרטי פגישה מפורטים
+                  Meeting details Access
                   </Typography>
                 </Box>
               </Box>
-              <Tooltip title="ערוך פגישה">
+              <Tooltip title="Edit Meeting" >
                 <IconButton
                   color="primary"
                   onClick={() => setSelectedMeeting(meeting)}
@@ -280,7 +280,7 @@ export default function MeetingDetails() {
       >
         <CardContent sx={{ p: 4 }}>
           <Typography variant="h6" fontWeight={600} gutterBottom>
-            פרטי הפגישה
+          Meeting details
           </Typography>
           <Divider sx={{ mb: 3 }} />
 
@@ -289,7 +289,7 @@ export default function MeetingDetails() {
             <Grid item xs={12} md={6}>
               <Box sx={{ mb: 3 }}>
                 <Typography variant="body2" color="text.secondary" gutterBottom fontWeight={600}>
-                  תאריך ושעה
+                Date and time
                 </Typography>
                 <Box sx={{ display: "flex", alignItems: "center" }}>
                   <CalendarTodayIcon sx={{ mr: 1, color: "#10a37f", fontSize: 18 }} />
@@ -305,7 +305,7 @@ export default function MeetingDetails() {
               <Grid item xs={12}>
                 <Box sx={{ mb: 3 }}>
                   <Typography variant="body2" color="text.secondary" gutterBottom fontWeight={600}>
-                    קובץ מקור
+                  Original File
                   </Typography>
                   <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
                     <DescriptionIcon sx={{ mr: 1, color: "#10a37f", fontSize: 18 }} />
@@ -341,7 +341,7 @@ export default function MeetingDetails() {
               <Grid item xs={12}>
                 <Box sx={{ mb: 3 }}>
                   <Typography variant="body2" color="text.secondary" gutterBottom fontWeight={600}>
-                    קובץ תמלול AI
+                  Transcript File AI
                   </Typography>
                   <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
                     <LinkIcon sx={{ mr: 1, color: "#0ea5e9", fontSize: 18 }} />
@@ -386,10 +386,10 @@ export default function MeetingDetails() {
               <Grid item xs={12}>
                 <Box sx={{ mb: 3 }}>
                   <Typography variant="body2" color="text.secondary" gutterBottom fontWeight={600}>
-                    קובץ תמלול
+                  Transcript File
                   </Typography>
                   <Chip
-                    label="אין קובץ תמלול"
+                    label="No transcript file"
                     size="small"
                     sx={{
                       bgcolor: "warning.lighter",
@@ -440,7 +440,7 @@ export default function MeetingDetails() {
         <DialogContent sx={{ p: 3 }}>
           <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", mb: 2 }}>
             <Typography variant="h6" fontWeight={600}>
-              תוכן הקובץ
+              Viewing File
             </Typography>
             <IconButton edge="end" color="inherit" onClick={() => setIsFileDialogOpen(false)} aria-label="close">
               <CloseIcon />

@@ -406,9 +406,9 @@ export class AuthService {
     return this.http.put<any>(`${this.baseApiUrl}/User/${userId}`, userCreateDTO, { headers })
   }
 
-  resetPassword(email: string): Observable<any> {
-    return of({ success: true, message: "Password reset email sent" }).pipe(delay(1500))
-  }
+  // resetPassword(email: string): Observable<any> {
+  //   return of({ success: true, message: "Password reset email sent" }).pipe(delay(1500))
+  // }
 
   isAdmin(): boolean {
     const user = this.getUser()

@@ -277,7 +277,7 @@
                 id="password" 
                 [type]="isPasswordVisible ? 'text' : 'password'" 
                 formControlName="password" 
-                placeholder="Enter password"
+                placeholder="Enter password at least 6 characters"
                 [class.error]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
               >
               <button 

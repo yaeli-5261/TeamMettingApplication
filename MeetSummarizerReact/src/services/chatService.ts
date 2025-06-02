@@ -24,7 +24,6 @@ export interface ChatStats {
 class ChatService {
   async getMessages(teamId: number): Promise<ChatMessage[]> {
     try {
-      // Fixed: Remove duplicate /api
       const response = await axios.get(`${API_URL}/chat/messages/${teamId}`)
       return response.data
     } catch (error) {
@@ -35,7 +34,6 @@ class ChatService {
 
   async sendMessage(messageData: SendMessageDto): Promise<ChatMessage> {
     try {
-      // Fixed: Remove duplicate /api
       const response = await axios.post(`${API_URL}/chat/send`, messageData)
       return response.data
     } catch (error) {
@@ -46,7 +44,6 @@ class ChatService {
 
   async clearChat(teamId: number): Promise<void> {
     try {
-      // Fixed: Remove duplicate /api
       await axios.delete(`${API_URL}/chat/clear/${teamId}`)
     } catch (error) {
       console.error("Error clearing chat:", error)
@@ -56,7 +53,6 @@ class ChatService {
 
   async getChatStats(teamId: number): Promise<ChatStats> {
     try {
-      // Fixed: Remove duplicate /api
       const response = await axios.get(`${API_URL}/chat/stats/${teamId}`)
       return response.data
     } catch (error) {
