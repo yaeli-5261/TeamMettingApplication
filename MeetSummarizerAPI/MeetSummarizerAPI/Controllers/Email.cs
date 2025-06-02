@@ -4,6 +4,7 @@ using System.Net.Mail;
 using System.Net;
 using MeetSummarizer.Core.DTOs;
 using MeetSummarizer.Core.Interfaces;
+using AutoMapper;
 
 namespace MeetSummarizer.API.Controllers
 {
@@ -12,7 +13,16 @@ namespace MeetSummarizer.API.Controllers
     public class EmailController : ControllerBase
     {
         private readonly IConfiguration _configuration;
+
         private readonly IUserService _userService;
+        private readonly IMapper _mapper;
+
+        public EmailController(IUserService userService, IMapper mapper, IConfiguration configuration)
+        {
+            _userService = userService;
+            _mapper = mapper;
+            _configuration = configuration;
+        }
 
         public EmailController(IConfiguration configuration, IUserService userService)
         {
@@ -23,14 +33,16 @@ namespace MeetSummarizer.API.Controllers
         [HttpPost("send-to-user/{userId}")]
         public async Task<ActionResult> SendEmailToUser(int userId, [FromBody] EmailRequestDTO emailRequest)
         {
+           
+          
             try
             {
                 var user = await _userService.GetUserById(userId);
+                
                 if (user == null)
                     return NotFound(new { message = "User not found" });
 
                 if (string.IsNullOrWhiteSpace(user.Email))
-
                     return BadRequest(new { message = "User email is missing or empty" });
 
                 Console.WriteLine($"📧 Will send email to: {user.Email}");
@@ -41,7 +53,6 @@ namespace MeetSummarizer.API.Controllers
                 var senderPassword = _configuration["EmailSettings:SenderPassword"];
 
                 var senderName = _configuration["EmailSettings:SenderName"];
-                Console.WriteLine("smtpHost "+ smtpHost + " smtpPort "+ smtpPort+ "senderEmail "+ senderEmail+ " senderPassword"+ senderPassword+ " senderName"+ senderName);
                 using var client = new SmtpClient(smtpHost, smtpPort)
                 {
                     EnableSsl = true,
@@ -54,7 +65,6 @@ namespace MeetSummarizer.API.Controllers
                     Body = emailRequest.Body,
                     IsBodyHtml = true
                 };
-                Console.WriteLine("nhbgvfcd");
 
                 Console.WriteLine(mailMessage + "mailMessage");
                 //uvi

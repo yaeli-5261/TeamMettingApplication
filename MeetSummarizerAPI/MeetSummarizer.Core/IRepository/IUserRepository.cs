@@ -10,7 +10,7 @@ namespace MeetSummarizer.Core.IRepository
     public interface IUserRepository
     {
         Task<List<User>> GetAllUsersAsync();
-        Task<User> GetUserByIdAsync(int id);
+        Task<User?> GetUserByIdAsync(int id);
         Task<User> GetUserByNameAndPasswordAsync(string password,string email);
         Task<User> AddUserAsync(User user);
         Task UpdateUserAsync(int id, User user);

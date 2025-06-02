@@ -182,7 +182,6 @@ const scrollToLastMessage = () => {
     if (!window.confirm("Are you sure you want to clear all messages?")) return
 
     try {
-      console.log(`Clearing chat: ${apiUrl}/chat/clear/${teamId}`)
       await axios.delete(`${apiUrl}/chat/clear/${teamId}`)
       setMessages([])
       setStats({ messageCount: 0, activeUsers: 0 })
@@ -400,13 +399,6 @@ const scrollToLastMessage = () => {
           </Box>
         </Box>
       </Paper>
-
-      {/* Debug Info */}
-      {process.env.NODE_ENV === "development" && (
-        <Alert severity="info" sx={{ m: 2, borderRadius: "8px" }}>
-          API: {apiUrl} | Team: {teamId} | User: {userName}
-        </Alert>
-      )}
 
       {/* Messages Area */}
       <Box

@@ -17,11 +17,7 @@ namespace MeetSummarizer.Data.Repositories
         {
             _context = context;
         }
-        //TODO:UNDIFEND TEAM ROLE
-        //public async Task<List<User>> GetAllUsersAsync()
-        //{
-        //    return await _context.Users.ToListAsync();
-        //}
+       
         public async Task<List<User>> GetAllUsersAsync()
         {
             return await _context.Users
@@ -29,8 +25,8 @@ namespace MeetSummarizer.Data.Repositories
                 .Include(u => u.Team)
                 .ToListAsync();
         }
-        //TODO I ADD TEAM
-        public async Task<User> GetUserByIdAsync(int id)
+        
+        public async Task<User?> GetUserByIdAsync(int id)
         {
             return await _context.Users.Include(u=>u.Role).Include(T=>T.Team).FirstOrDefaultAsync(u => u.Id == id);
         }
@@ -39,31 +35,13 @@ namespace MeetSummarizer.Data.Repositories
         {
             return await _context.Users.Include(u=>u.Role).FirstOrDefaultAsync(u => u.Password == password && u.Email == email);
         }
-        //המקורי 
+        
         public async Task<User> AddUserAsync(User user)
         {
             await _context.Users.AddAsync(user);
          
             return user;
         }
-        //public void AttachEntity(Role role)
-        //{
-        //    _context.Attach(role);
-        //}
-        //public void AttachEntity(Role role)
-        //{
-        //    throw new NotImplementedException();
-        //}
-        //public async Task<User> AddUserAsync(User user)
-        //{
-        //    //_context.Users.Attach(user); // לוודא שה-User במעקב
-        //    //_context.Roles.Attach(user.Role); // לוודא שה-Role נשמר
-
-        //    await _context.Users.AddAsync(user);
-        //    return user;
-        //}
-
-
         public async Task UpdateUserAsync(int id, User user)
         {
             var userToUpdate = await GetUserByIdAsync(id);
@@ -85,8 +63,5 @@ namespace MeetSummarizer.Data.Repositories
             if (user != null)
                 _context.Users.Remove(user);
         }
-
-       
     }
-
 }

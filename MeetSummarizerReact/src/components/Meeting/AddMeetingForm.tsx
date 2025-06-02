@@ -38,7 +38,7 @@ import { alpha } from "@mui/material/styles"
 import axios from "axios"
 import { Sparkles } from "lucide-react"
 
-const steps = ["Meeting details", "File Upload", "AI Processing", "Meeting Ready"]
+const steps = ["Meeting Details", "File Upload", "AI Processing", "Meeting Ready"]
 
 export default function AddMeetingForm() {
   const dispatch = useDispatch<AppDispatch>()
@@ -47,7 +47,6 @@ export default function AddMeetingForm() {
   const apiUrl = import.meta.env.VITE_API_URL
   const apiUrlAI = import.meta.env.VITE_API_URL_AI
 
-  // שמירה על הלוגיקה המקורית של teamId - בדיוק כמו בקומפוננטה המקורית
   const [teamId, setTeamId] = useState<number | null>(null)
   const [activeStep, setActiveStep] = useState(0)
   const [meetingData, setMeetingData] = useState({
@@ -74,7 +73,6 @@ export default function AddMeetingForm() {
   const [aiDownloadUrl, setAiDownloadUrl] = useState<string | null>(null)
   const [aiProcessingStatus, setAiProcessingStatus] = useState<"idle" | "processing" | "success" | "error">("idle")
 
-  // הלוגיקה המקורית של teamId - ללא שינוי!
   useEffect(() => {
     if (user?.teamId) {
       setTeamId(user.teamId)
@@ -111,7 +109,7 @@ export default function AddMeetingForm() {
     }
 
     if (!teamId) {
-      setError("❌ לא ניתן לזהות את מזהה הצוות. אנא התחבר מחדש למערכת.")
+      setError("❌ The team ID cannot be recognized. Please reconnect to the system.")
     }
   }, [user])
 
@@ -127,10 +125,9 @@ export default function AddMeetingForm() {
     }
   }
 
-  // פונקציה ליצירת פגישה - הלוגיקה המקורית
   const handleCreateMeeting = async () => {
     if (!meetingData.teamId && !teamId) {
-      setError("❌ מזהה צוות חסר. אנא התחבר מחדש למערכת.")
+      setError("❌ Missing team ID. Please reconnect to the system.")
       return false
     }
 
@@ -153,13 +150,13 @@ export default function AddMeetingForm() {
 
       if (addedMeeting) {
         setCreatedMeetingId(addedMeeting.id || null)
-        setSuccess("✅ The meeting was created successfully!")
+        setSuccess("✅  The meeting was created successfully!")
         return true
       }
       return false
     } catch (error) {
       console.error("❌ Error adding meeting:", error)
-      setError("❌Failed to add meeting. Please try again.")
+      setError("❌ Adding the meeting failed. Please try again.")
       return false
     } finally {
       setIsSubmitting(false)
@@ -169,7 +166,7 @@ export default function AddMeetingForm() {
   // פונקציה להעלאת קובץ - מבוססת על FileUploader המקורי
   const handleFileUpload = async () => {
     if (!file || !createdMeetingId) {
-      setError("You must select a file and be in a meeting.")
+      setError("Choose a file and be in a meeting.")
       return false
     }
 
@@ -279,7 +276,7 @@ export default function AddMeetingForm() {
       return true
     } catch (error: any) {
       console.error("Error processing file:", error)
-      setError(`שגיאה בעיבוד הקובץ: ${error.message || "Unknown error"}`)
+      setError(`Error processing file: ${error.message || "Unknown error"}`)
       setAiProcessingStatus("error")
       return false
     } finally {
@@ -361,8 +358,7 @@ export default function AddMeetingForm() {
               >
                 <EventNoteIcon sx={{ fontSize: 32, mb: 1 }} />
                 <Typography variant="h6" fontWeight={600} gutterBottom>
-                Meeting details
-                </Typography>
+                Meeting details                </Typography>
                 <Typography variant="body2" sx={{ opacity: 0.9 }}>
                 Enter the basic meeting details.
                 </Typography>
@@ -372,7 +368,7 @@ export default function AddMeetingForm() {
                 <Grid container spacing={3}>
                   <Grid item xs={12}>
                     <TextField
-                      label="שם הפגישה"
+                      label="Meeting Name"
                       name="name"
                       value={meetingData.name}
                       onChange={handleChange}
@@ -396,7 +392,7 @@ export default function AddMeetingForm() {
 
                   <Grid item xs={12}>
                     <TextField
-                      label="Date and time of the meeting"
+                      label="Meeting date and time"
                       name="date"
                       type="datetime-local"
                       value={meetingData.date}
@@ -516,7 +512,7 @@ export default function AddMeetingForm() {
                         <CloudUpload sx={{ fontSize: 36, color: "#0ea5e9" }} />
                       </Box>
                       <Typography variant="h6" fontWeight={600} sx={{ mb: 1 }}>
-                        {file ? file.name : "גרור ושחרר או לחץ לבחירת קובץ"}
+                        {file ? file.name : "Drag and drop or click to select a file"}
                       </Typography>
                       <Typography variant="body2" color="text.secondary" sx={{ maxWidth: "400px", mx: "auto" }}>
                       Supported formats: PDF, DOCX, TXT
@@ -540,7 +536,7 @@ export default function AddMeetingForm() {
                         }}
                       />
                       <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-                      up... {uploadProgress}%
+                        uping... {uploadProgress}%
                       </Typography>
                     </Box>
                   )}
@@ -572,10 +568,10 @@ export default function AddMeetingForm() {
               >
                 <Sparkles style ={{ fontSize: 32}} />
                 <Typography variant="h6" fontWeight={600} gutterBottom>
-                AI processing
+                 AI processing
                 </Typography>
                 <Typography variant="body2" sx={{ opacity: 0.9 }}>
-                Artificial intelligence processes the file and creates a transcript
+                 Artificial intelligence processes the file and creates a transcript
                 </Typography>
               </Box>
 
@@ -605,7 +601,7 @@ export default function AddMeetingForm() {
                   />
                 </Box>
                 <Typography variant="body2" color="text.secondary">
-                  {aiProgress}% complete
+                  {aiProgress}% Completed
                 </Typography>
 
                 {isProcessing && (
@@ -654,7 +650,7 @@ export default function AddMeetingForm() {
               <CardContent sx={{ p: 4, textAlign: "center" }}>
                 <Box sx={{ mb: 3 }}>
                   <Typography variant="body1" gutterBottom>
-                    הפגישה נוצרה בהצלחה והקובץ עובד על ידי AI
+                  The meeting was successfully created and the file is being processed by AI.
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
                   You can now view the meeting details and the generated transcript.
@@ -678,7 +674,7 @@ export default function AddMeetingForm() {
                       },
                     }}
                   >
-                  Watch the meeting
+                   Watch the meeting
                   </Button>
 
                   <Button
@@ -698,7 +694,7 @@ export default function AddMeetingForm() {
                       },
                     }}
                   >
-                    Meeting list
+                 Meeting list
                   </Button>
                 </Box>
               </CardContent>
@@ -738,7 +734,7 @@ export default function AddMeetingForm() {
                 },
               }}
             >
-Back to the meeting list
+            Back to the meeting list
             </Button>
 
             <Typography variant="h4" fontWeight={700} color="text.primary" gutterBottom>
@@ -784,17 +780,6 @@ Back to the meeting list
             </Alert>
           )}
 
-          {/* Team ID Alert */}
-          {teamId ? (
-            <Alert severity="info" sx={{ mb: 3, borderRadius: 2 }}>
-              Team ID: {teamId}
-            </Alert>
-          ) : (
-            <Alert severity="warning" sx={{ mb: 3, borderRadius: 2 }}>
-No team ID was detected. Please log in again.
-            </Alert>
-          )}
-
           {/* Step Content */}
           <Box sx={{ mb: 6 }}>
             <AnimatePresence mode="wait">{renderStepContent()}</AnimatePresence>
@@ -828,7 +813,7 @@ No team ID was detected. Please log in again.
                   },
                 }}
               >
-Back
+                Back
               </Button>
 
               {activeStep < 3 && (
@@ -869,15 +854,15 @@ Back
                 >
                   {activeStep === 0
                     ? isSubmitting
-                      ? "Creates a meeting..."
-                      : "Create a meeting"
+                     ? "Creating a meeting..."
+                    : "Create a meeting"
                     : activeStep === 1
                       ? isUploading
-                        ? "Uploading file..."
-                        : "Upload a file"
+                      ? "Uploading file..."
+                      : "Upload file"
                       : isProcessing
-                        ? "Processor..."
-                        : "continuation"}
+                      ? "Processing..."
+                      : "Continue"}
                 </Button>
               )}
             </Box>

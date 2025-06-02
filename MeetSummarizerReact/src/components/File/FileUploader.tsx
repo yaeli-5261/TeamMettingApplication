@@ -548,6 +548,7 @@ export const FileUploader = () => {
 
               {/* File Sharing */}
               {<FileShare fileUrl={downloadUrl || ""} fileName={fileName} />}
+              
             </Box>
           )}
         </CardContent>
