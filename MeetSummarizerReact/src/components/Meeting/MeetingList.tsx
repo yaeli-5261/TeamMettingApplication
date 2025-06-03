@@ -364,7 +364,7 @@ export default function MeetingList({ meetings: meetingsFromProps }: MeetingList
                       Total Meetings
                     </Typography>
                   </Box>
-                  <Group sx={{ fontSize: 32, opacity: 0.8 }} />
+                  <Group sx={{ fontSize: 31, opacity: 0.8 }} />
                 </Box>
               </Card>
             </Grid>
@@ -410,7 +410,8 @@ export default function MeetingList({ meetings: meetingsFromProps }: MeetingList
                       With AI Transcript
                     </Typography>
                   </Box>
-                  <Description sx={{ fontSize: 32, opacity: 0.8 }} />
+                  
+                  <Description sx={{ fontSize: 30, opacity: 0.8 }} />
                 </Box>
               </Card>
             </Grid>

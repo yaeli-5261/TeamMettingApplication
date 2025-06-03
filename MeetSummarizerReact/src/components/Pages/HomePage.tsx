@@ -32,10 +32,12 @@ import {
   ArrowForward as ArrowForwardIcon,
   Settings as SettingsIcon,
   Add as AddIcon,
+  Refresh as RefreshIcon,
 } from "@mui/icons-material"
 import { useSelector, useDispatch } from "react-redux"
 import type { RootState, AppDispatch } from "../../store/store"
 import { fetchMeetingsByTeam } from "../../store/meetingSlice"
+import { checkAuthState } from "../../store/authSlice"
 
 interface RecentFile {
   name: string
@@ -64,38 +66,117 @@ export default function HomePage() {
   const [upcomingMeetings, setUpcomingMeetings] = useState<any[]>([])
   const [recentFiles, setRecentFiles] = useState<RecentFile[]>([])
   const [teamActivities, setTeamActivities] = useState<TeamActivity[]>([])
+  const [isInitialized, setIsInitialized] = useState(false)
 
   const { user } = useSelector((state: RootState) => state.auth)
   const meetings = useSelector((state: RootState) => state.meeting.list)
 
-  useEffect(() => {
-    if (user?.teamId) {
-      setLoading(true)
-
-      if (meetings.length === 0) {
-        dispatch(fetchMeetingsByTeam({ teamId: user.teamId }))
-          .unwrap()
-          .then((fetchedMeetings) => {
-            processData(fetchedMeetings)
-          })
-          .catch((error) => {
-            console.error("Error fetching meetings:", error)
-          })
-          .finally(() => {
-            setLoading(false)
-          })
-      } else {
-        processData(meetings)
-        setLoading(false)
-      }
-    } else {
-      setLoading(false)
+  // פונקציה לשליפת מזהה הצוות מכל המקורות האפשריים
+  const getUserTeamId = (): number | null => {
+    // נסה לקחת מהמשתמש ב-Redux
+    if (user && user.teamId) {
+      return user.teamId
     }
-  }, [user, meetings, dispatch])
+
+    // נסה לקחת מ-sessionStorage
+    try {
+      const sessionUser = sessionStorage.getItem("user")
+      if (sessionUser) {
+        const userData = JSON.parse(sessionUser)
+        if (userData && userData.teamId) {
+          return userData.teamId
+        }
+      }
+    } catch (error) {
+      console.error("Error parsing user from sessionStorage:", error)
+    }
+
+    // נסה לקחת מ-localStorage
+    try {
+      const localUser = localStorage.getItem("user")
+      if (localUser) {
+        const userData = JSON.parse(localUser)
+        if (userData && userData.teamId) {
+          return userData.teamId
+        }
+      }
+    } catch (error) {
+      console.error("Error parsing user from localStorage:", error)
+    }
+
+    return null
+  }
+   // עדכון כשהמשתמש או הפגישות משתנים
+
+  useEffect(() => {
+    const initializeApp = async () => {
+      setLoading(true);
+  
+      try {
+        // Ensure user data is loaded
+        if (!user) {
+          const authResult = await dispatch(checkAuthState()).unwrap();
+          if (!authResult.teamId) {
+            throw new Error("User team ID not found");
+          }
+        }
+  
+        // Fetch meetings for the user's team
+        const userTeamId = user?.teamId || getUserTeamId();
+        if (userTeamId) {
+          const fetchedMeetings = await dispatch(fetchMeetingsByTeam({ teamId: userTeamId })).unwrap();
+          processData(fetchedMeetings);
+        }
+      } catch (error) {
+        console.error("Error initializing app:", error);
+      } finally {
+        setLoading(false);
+        setIsInitialized(true);
+      }
+    };
+  
+    initializeApp();
+  }, [dispatch, user]);
+
+
+
+  useEffect(() => {
+    // רק אם כבר אותחל ויש שינוי במשתמש או בפגישות
+    if (isInitialized && (user || meetings.length > 0)) {
+      const userTeamId = getUserTeamId()
+
+      if (userTeamId) {
+        processData(meetings)
+      }
+    }
+  }, [user, meetings, isInitialized])
+
+  // פונקציה לרענון ידני של הנתונים
+  const refreshData = async () => {
+    setLoading(true)
+    const userTeamId = getUserTeamId()
+
+    if (userTeamId) {
+      try {
+        const fetchedMeetings = await dispatch(fetchMeetingsByTeam({ teamId: userTeamId })).unwrap()
+        processData(fetchedMeetings)
+      } catch (error) {
+        console.error("Error refreshing data:", error)
+      }
+    }
+
+    setLoading(false)
+  }
 
   const processData = (meetingsData: any[]) => {
+    const userTeamId = getUserTeamId()
+
+    if (!userTeamId) {
+      return
+    }
+
     // סינון פגישות לפי teamId של המשתמש המחובר
-    const userTeamMeetings = meetingsData.filter((meeting) => meeting.teamId === user?.teamId)
+    const userTeamMeetings = meetingsData.filter((meeting) => meeting.teamId === userTeamId)
 
     const now = new Date()
     const upcoming = [...userTeamMeetings]
@@ -138,7 +219,7 @@ export default function HomePage() {
     })
 
     // סינון קבצים לפי teamId של המשתמש המחובר
-    const userTeamFiles = files.filter((file) => file.teamId === user?.teamId)
+    const userTeamFiles = files.filter((file) => file.teamId === userTeamId)
     const sortedFiles = userTeamFiles.sort((a, b) => b.date.getTime() - a.date.getTime()).slice(0, 4)
     setRecentFiles(sortedFiles)
 
@@ -182,7 +263,7 @@ export default function HomePage() {
     })
 
     // סינון פעילות לפי teamId של המשתמש המחובר
-    const userTeamActivities = activities.filter((activity) => activity.teamId === user?.teamId)
+    const userTeamActivities = activities.filter((activity) => activity.teamId === userTeamId)
     const sortedActivities = userTeamActivities.sort((a, b) => b.date.getTime() - a.date.getTime()).slice(0, 4)
     setTeamActivities(sortedActivities)
   }
@@ -244,9 +325,10 @@ export default function HomePage() {
   }
 
   // סינון פגישות לפי teamId של המשתמש המחובר לסטטיסטיקות
-  const userTeamMeetings = meetings.filter((meeting) => meeting.teamId === user?.teamId)
-  const userTeamFiles = recentFiles.filter((file) => file.teamId === user?.teamId)
-  const userTeamActivities = teamActivities.filter((activity) => activity.teamId === user?.teamId)
+  const userTeamId = getUserTeamId()
+  const userTeamMeetings = meetings.filter((meeting) => meeting.teamId === userTeamId)
+  const userTeamFiles = recentFiles.filter((file) => file.teamId === userTeamId)
+  const userTeamActivities = teamActivities.filter((activity) => activity.teamId === userTeamId)
 
   return (
     <Box sx={{ minHeight: "100vh", bgcolor: "#fafafa" }}>
@@ -264,13 +346,23 @@ export default function HomePage() {
                   mb: 1,
                 }}
               >
-                Welcome, {user?.userName || user?.userName || "User"}
+                Welcome, {user?.userName || "User"}
               </Typography>
               <Typography variant="body1" color="text.secondary">
                 Manage your meetings and files smartly and efficiently
               </Typography>
             </Box>
             <Stack direction="row" spacing={2}>
+              <IconButton
+                onClick={refreshData}
+                sx={{
+                  bgcolor: "white",
+                  boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
+                  "&:hover": { bgcolor: "#f9fafb" },
+                }}
+              >
+                <RefreshIcon />
+              </IconButton>
               <IconButton
                 onClick={() => navigate("/setting")}
                 sx={{
@@ -323,15 +415,8 @@ export default function HomePage() {
                 color: "#8b5cf6",
                 bgColor: "#f3e8ff",
               },
-              {
-                title: "Team Members",
-                value: "5",
-                icon: <TeamIcon />,
-                color: "#f59e0b",
-                bgColor: "#fef3c7",
-              },
             ].map((stat, index) => (
-              <Grid item xs={12} sm={6} lg={3} key={stat.title}>
+              <Grid item xs={12} sm={6} lg={4} key={stat.title}>
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -363,7 +448,7 @@ export default function HomePage() {
                         </Avatar>
                         <Box>
                           <Typography variant="h5" fontWeight={700} color="#111827">
-                            {stat.value}
+                            {loading ? <Skeleton width={30} /> : stat.value}
                           </Typography>
                           <Typography variant="body2" color="#6b7280">
                             {stat.title}
@@ -405,7 +490,11 @@ export default function HomePage() {
                           Upcoming Meetings
                         </Typography>
                       </Box>
-                      <Chip label={upcomingMeetings.length} size="small" sx={{ bgcolor: "#f3f4f6" }} />
+                      <Chip
+                        label={loading ? "..." : upcomingMeetings.length}
+                        size="small"
+                        sx={{ bgcolor: "#f3f4f6" }}
+                      />
                     </Box>
 
                     <Stack spacing={2} sx={{ mb: 3 }}>
@@ -497,7 +586,7 @@ export default function HomePage() {
                           Recent Files
                         </Typography>
                       </Box>
-                      <Chip label={recentFiles.length} size="small" sx={{ bgcolor: "#f3f4f6" }} />
+                      <Chip label={loading ? "..." : recentFiles.length} size="small" sx={{ bgcolor: "#f3f4f6" }} />
                     </Box>
 
                     <Stack spacing={2} sx={{ mb: 3 }}>
@@ -592,7 +681,7 @@ export default function HomePage() {
                           Team Activity
                         </Typography>
                       </Box>
-                      <Chip label={teamActivities.length} size="small" sx={{ bgcolor: "#f3f4f6" }} />
+                      <Chip label={loading ? "..." : teamActivities.length} size="small" sx={{ bgcolor: "#f3f4f6" }} />
                     </Box>
 
                     <Stack spacing={2} sx={{ mb: 3 }}>
