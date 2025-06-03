@@ -24,12 +24,6 @@ namespace MeetSummarizer.API.Controllers
             _configuration = configuration;
         }
 
-        public EmailController(IConfiguration configuration, IUserService userService)
-        {
-            _configuration = configuration;
-            _userService = userService;
-        }
-
         [HttpPost("send-to-user/{userId}")]
         public async Task<ActionResult> SendEmailToUser(int userId, [FromBody] EmailRequestDTO emailRequest)
         {
