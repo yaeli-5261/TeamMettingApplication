@@ -44,9 +44,9 @@ export const checkAuthState = createAsyncThunk("Auth/checkState", async (_, thun
       .split("; ")
       .find((row) => row.startsWith("auth_token="))
       ?.split("=")[1]
-    if (!token) {
-      return thunkAPI.rejectWithValue("No valid token found")
-    }
+    // if (!token) {
+    //   return thunkAPI.rejectWithValue("No valid token found")
+    // }
 
     const sessionUser = sessionStorage.getItem("user")
     if (sessionUser) {
