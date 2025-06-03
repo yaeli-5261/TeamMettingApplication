@@ -63,9 +63,6 @@ export class DashboardComponent implements OnInit {
     private router: Router
   ) {}
 
-  // ngOnInit(): void {
-  //   this.loadDashboardData()
-  // }
   ngOnInit(): void {
     if (!this.authService.usersCache || !this.authService.teamsCache) {
       this.loadDashboardData();

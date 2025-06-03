@@ -11,7 +11,7 @@ export interface Team {
 
 export interface TeamPostDTO {
   name: string
-  description?: string
+  description: string
 }
 
 @Injectable({

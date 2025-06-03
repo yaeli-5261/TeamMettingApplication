@@ -29,7 +29,7 @@ interface User {
   styleUrls: ["./list-users.component.css"],
 })
 export class ListUsersComponent implements OnInit {
-  //TODO CHECK HOW TO DEFIENIED IT 
+
   users: any[] = []
   filteredUsers: any[] = []
   isLoading = false
