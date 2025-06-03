@@ -43,6 +43,7 @@ interface RecentFile {
   meetingId: number
   fileType: string
   date: Date
+  teamId: number // הוספת teamId לסינון
 }
 
 interface TeamActivity {
@@ -52,6 +53,7 @@ interface TeamActivity {
   date: Date
   meetingId: number
   meetingName: string
+  teamId: number // הוספת teamId לסינון
 }
 
 export default function HomePage() {
@@ -92,8 +94,11 @@ export default function HomePage() {
   }, [user, meetings, dispatch])
 
   const processData = (meetingsData: any[]) => {
+    // סינון פגישות לפי teamId של המשתמש המחובר
+    const userTeamMeetings = meetingsData.filter((meeting) => meeting.teamId === user?.teamId)
+
     const now = new Date()
-    const upcoming = [...meetingsData]
+    const upcoming = [...userTeamMeetings]
       .filter((meeting) => new Date(meeting.date) >= now)
       .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
       .slice(0, 3)
@@ -102,7 +107,7 @@ export default function HomePage() {
 
     const files: RecentFile[] = []
 
-    meetingsData.forEach((meeting) => {
+    userTeamMeetings.forEach((meeting) => {
       if (meeting.linkOrinignFile) {
         const fileName = meeting.linkOrinignFile.split("/").pop() || "File"
         const fileType = getFileType(fileName)
@@ -113,6 +118,7 @@ export default function HomePage() {
           meetingId: meeting.id,
           fileType: fileType,
           date: new Date(meeting.date),
+          teamId: meeting.teamId, // הוספת teamId
         })
       }
 
@@ -126,16 +132,19 @@ export default function HomePage() {
           meetingId: meeting.id,
           fileType: fileType,
           date: new Date(meeting.date),
+          teamId: meeting.teamId, // הוספת teamId
         })
       }
     })
 
-    const sortedFiles = files.sort((a, b) => b.date.getTime() - a.date.getTime()).slice(0, 4)
+    // סינון קבצים לפי teamId של המשתמש המחובר
+    const userTeamFiles = files.filter((file) => file.teamId === user?.teamId)
+    const sortedFiles = userTeamFiles.sort((a, b) => b.date.getTime() - a.date.getTime()).slice(0, 4)
     setRecentFiles(sortedFiles)
 
     const activities: TeamActivity[] = []
 
-    meetingsData.forEach((meeting) => {
+    userTeamMeetings.forEach((meeting) => {
       activities.push({
         id: meeting.id * 100,
         type: "meeting_created",
@@ -143,6 +152,7 @@ export default function HomePage() {
         date: new Date(meeting.date),
         meetingId: meeting.id,
         meetingName: meeting.name,
+        teamId: meeting.teamId, // הוספת teamId
       })
 
       if (meeting.linkOrinignFile) {
@@ -154,6 +164,7 @@ export default function HomePage() {
           date: new Date(meeting.date),
           meetingId: meeting.id,
           meetingName: meeting.name,
+          teamId: meeting.teamId, // הוספת teamId
         })
       }
 
@@ -165,11 +176,14 @@ export default function HomePage() {
           date: new Date(meeting.date),
           meetingId: meeting.id,
           meetingName: meeting.name,
+          teamId: meeting.teamId, // הוספת teamId
         })
       }
     })
 
-    const sortedActivities = activities.sort((a, b) => b.date.getTime() - a.date.getTime()).slice(0, 4)
+    // סינון פעילות לפי teamId של המשתמש המחובר
+    const userTeamActivities = activities.filter((activity) => activity.teamId === user?.teamId)
+    const sortedActivities = userTeamActivities.sort((a, b) => b.date.getTime() - a.date.getTime()).slice(0, 4)
     setTeamActivities(sortedActivities)
   }
 
@@ -229,6 +243,11 @@ export default function HomePage() {
     }
   }
 
+  // סינון פגישות לפי teamId של המשתמש המחובר לסטטיסטיקות
+  const userTeamMeetings = meetings.filter((meeting) => meeting.teamId === user?.teamId)
+  const userTeamFiles = recentFiles.filter((file) => file.teamId === user?.teamId)
+  const userTeamActivities = teamActivities.filter((activity) => activity.teamId === user?.teamId)
+
   return (
     <Box sx={{ minHeight: "100vh", bgcolor: "#fafafa" }}>
       <Container maxWidth="xl" sx={{ py: 4 }}>
@@ -280,26 +299,26 @@ export default function HomePage() {
             </Stack>
           </Box>
 
-          {/* Stats Overview */}
+          {/* Stats Overview - מוצגים רק נתונים של הצוות */}
           <Grid container spacing={3} sx={{ mb: 4 }}>
             {[
               {
                 title: "Total Meetings",
-                value: meetings.length,
+                value: userTeamMeetings.length,
                 icon: <CalendarIcon />,
                 color: "#10a37f",
                 bgColor: "#ecfdf5",
               },
               {
                 title: "Files Processed",
-                value: recentFiles.length,
+                value: userTeamFiles.length,
                 icon: <DescriptionIcon />,
                 color: "#3b82f6",
                 bgColor: "#eff6ff",
               },
               {
                 title: "AI Summaries",
-                value: teamActivities.filter((a) => a.description.includes("AI summary")).length,
+                value: userTeamActivities.filter((a) => a.description.includes("AI summary")).length,
                 icon: <TrendingUpIcon />,
                 color: "#8b5cf6",
                 bgColor: "#f3e8ff",
