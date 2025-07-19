@@ -60,7 +60,7 @@ export const checkAuthState = createAsyncThunk("Auth/checkState", async (_, thun
       return userData
     }
 
-    return thunkAPI.rejectWithValue("No user data found")
+    // return thunkAPI.rejectWithValue("No user data found")
   } catch (err: any) {
     return thunkAPI.rejectWithValue(err.message || "Failed to check auth state")
   }
