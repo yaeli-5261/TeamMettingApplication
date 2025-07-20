@@ -50,6 +50,7 @@ namespace MeetSummarizer.API.Controllers
                 using var client = new SmtpClient(smtpHost, smtpPort)
                 {
                     EnableSsl = true,
+                    UseDefaultCredentials = false, // ✅ חשוב מאוד!
                     Credentials = new NetworkCredential(senderEmail, senderPassword)
                 };
                 var mailMessage = new MailMessage

@@ -43,16 +43,34 @@ namespace MeetSummarizerAPI.Controllers
             await _teamService.AddTeam(team);
             return CreatedAtAction(nameof(GetById), new { id = team.Id }, _mapper.Map<TeamDTO>(team));
         }
-
         [HttpPut("{id}")]
         public async Task<ActionResult> Put(int id, [FromBody] TeamPostDTO teamDto)
         {
+            // Create a proper team object with description
+            var team = new Team
+            {
+                Id = id,
+                Name = teamDto.Name,
+            };
+
             var updatedTeam = await _teamService.UpdateTeam(id, teamDto);
             if (updatedTeam == null)
                 return NotFound(new { message = "Team not found." });
 
             return Ok(updatedTeam);
         }
+        //[HttpPut("{id}")]
+        //public async Task<ActionResult> Put(int id, [FromBody] TeamPostDTO teamDto)
+        //{
+        //    var updatedTeam = await _teamService.UpdateTeam(id, teamDto);
+        //    if (updatedTeam == null)
+        //        return NotFound(new { message = "Team not found." });
+
+        //    return Ok(updatedTeam);
+        //}
+
+
+
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)

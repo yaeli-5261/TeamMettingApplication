@@ -7,8 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MeetSummarizer.Data
-{
 
 namespace MeetSummarizer.Data
     {
@@ -39,6 +37,4 @@ namespace MeetSummarizer.Data
             }
         }
     }
-
-}
 

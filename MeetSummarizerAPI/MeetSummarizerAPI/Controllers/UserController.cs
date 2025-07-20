@@ -59,17 +59,33 @@ namespace MeetSummarizer.API.Controllers
         }
 
 
+        //[HttpPut("{id}")]
+        //public async Task<ActionResult> Put(int id, [FromBody] UserUpdateDTO userDto)
+        //{
+
+        //    var current = await _userService.GetUserById(id);
+        //    if (current == null)
+        //        return NotFound(new { message = "User not found." });
+
+        //    User user = _mapper.Map<User>(userDto);
+        //    await _userService.UpdateUser(id, user);
+        //    return Ok(new { message = "User updated" });
+        //}
         [HttpPut("{id}")]
         public async Task<ActionResult> Put(int id, [FromBody] UserUpdateDTO userDto)
         {
-
             var current = await _userService.GetUserById(id);
             if (current == null)
                 return NotFound(new { message = "User not found." });
 
-            User user = _mapper.Map<User>(userDto);
-            await _userService.UpdateUser(id, user);
-            return Ok(new { message = "User updated" });
+            // Map the DTO to the user entity
+            current.UserName = userDto.UserName;
+            current.Email = userDto.Email;
+            current.RoleId = userDto.RoleId;
+            current.TeamId = userDto.TeamId;
+
+            await _userService.UpdateUser(id, current);
+            return Ok(new { message = "User updated successfully" });
         }
 
         [HttpDelete("{id}")]

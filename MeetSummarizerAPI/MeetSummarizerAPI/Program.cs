@@ -14,7 +14,7 @@ using Amazon.S3;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
 using Amazon.Runtime;
 using System.Text.Json.Serialization;
-using MeetSummarizer.Data.MeetSummarizer.Data;
+//using MeetSummarizer.Data.MeetSummarizer.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
