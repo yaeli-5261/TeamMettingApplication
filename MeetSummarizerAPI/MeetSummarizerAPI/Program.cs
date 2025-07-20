@@ -127,6 +127,16 @@ builder.Services.AddCors(options =>
                           .AllowAnyMethod()
                           .AllowAnyHeader());
 });
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigin",
+        policy =>
+        {
+            policy.WithOrigins("https://teammettingapplicationreact.onrender.com")
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        });
+});
 
 
 var app = builder.Build();
